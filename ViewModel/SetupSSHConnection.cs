@@ -9,8 +9,8 @@ namespace ViewModel // Source: https://mysqlconnector.net/tutorials/connect-ssh/
 		/// <summary>
 		/// Sets up a SSH connection to a remote SSH server. Needs: dotnet add package SSH.NET
 		/// </summary>
-		public static (SshClient SshClient, uint Port) ConnectSsh(string sshHostName, string sshUserName, string sshPassword = null,
-		string sshKeyFile = null, string sshPassPhrase = null, int sshPort = 22, string databaseServer = "localhost", int databasePort = 1433)
+		public static Tuple<SshClient, uint> ConnectSsh(string sshHostName, string sshUserName, string sshPassword = null,
+		string sshKeyFile = null, string sshPassPhrase = null, int sshPort = 22, string databaseServer = "localhost", int databasePort = 3306)
 		{
 			// Check arguments
 			if (string.IsNullOrEmpty(sshHostName))
@@ -22,8 +22,8 @@ namespace ViewModel // Source: https://mysqlconnector.net/tutorials/connect-ssh/
 			if (string.IsNullOrEmpty(databaseServer))
 				throw new ArgumentException($"{nameof(databaseServer)} must be specified.", nameof(databaseServer));
 
-			// Define the authentication methods to use (in order)
-			var authenticationMethods = new List<AuthenticationMethod>();
+            // Define the authentication methods to use (in order)
+            List<AuthenticationMethod> authenticationMethods = new List<AuthenticationMethod>();
 			if (!string.IsNullOrEmpty(sshKeyFile))
 			{
 				authenticationMethods.Add(new PrivateKeyAuthenticationMethod(sshUserName,
@@ -31,19 +31,19 @@ namespace ViewModel // Source: https://mysqlconnector.net/tutorials/connect-ssh/
 			}
 			if (!string.IsNullOrEmpty(sshPassword))
 			{
-				authenticationMethods.Add(new PasswordAuthenticationMethod(sshUserName, sshPassword).Dump());
-			}
+				authenticationMethods.Add(new PasswordAuthenticationMethod(sshUserName, sshPassword));
+            }
 
-			// Connect to the SSH server
-			var sshClient = new SshClient(new ConnectionInfo(sshHostName, sshPort, sshUserName, authenticationMethods.ToArray()));
+            // Connect to the SSH server
+            SshClient sshClient = new SshClient(new ConnectionInfo(sshHostName, sshPort, sshUserName, authenticationMethods.ToArray()));
 			sshClient.Connect();
 
-			// Forward a local port to the database server and port, using the SSH server
-			var forwardedPort = new ForwardedPortLocal("127.0.0.1", databaseServer, (uint)databasePort);
+            // Forward a local port to the database server and port, using the SSH server
+            ForwardedPortLocal forwardedPort = new ForwardedPortLocal("127.0.0.1", databaseServer, (uint)databasePort);
 			sshClient.AddForwardedPort(forwardedPort);
 			forwardedPort.Start();
 
-			return (sshClient, forwardedPort.BoundPort);
+			return Tuple.Create(sshClient, forwardedPort.BoundPort);
 		}
 	}
 }
