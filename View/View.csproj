@@ -6,4 +6,20 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="2048x1152.jpg" />
+    <None Remove="image %281%29.jpg" />
+    <None Remove="image %282%29.jpg" />
+    <None Remove="image %283%29.jpg" />
+    <None Remove="image %284%29.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="2048x1152.jpg" />
+    <Resource Include="image (1).jpg" />
+    <Resource Include="image (2).jpg" />
+    <Resource Include="image (3).jpg" />
+    <Resource Include="image (4).jpg" />
+  </ItemGroup>
+
 </Project>
