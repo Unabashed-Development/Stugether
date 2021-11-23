@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ViewModel // Source: https://mysqlconnector.net/tutorials/connect-ssh/
+namespace Gateway // Source: https://mysqlconnector.net/tutorials/connect-ssh/
 {
     public static class SetupSSHConnection
     {

@@ -1,5 +1,5 @@
 ﻿using System;
-using ViewModel;
+using Gateway;
 
 namespace ConsoleTest
 {
@@ -7,8 +7,9 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
-            SetupMySQLConnection connection = new SetupMySQLConnection();
+            SetupSQLConnection connection = new SetupSQLConnection();
             Console.WriteLine($"MySQL version : {connection.Connection.ServerVersion}");
+
         }
     }
 }
