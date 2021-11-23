@@ -13,11 +13,11 @@ using System.Windows.Shapes;
 namespace View.Authentication
 {
     /// <summary>
-    /// Interaction logic for Window1.xaml
+    /// Interaction logic for AuthenticationWindow.xaml
     /// </summary>
-    public partial class Window1 : Window
+    public partial class AuthenticationWindow : Window
     {
-        public Window1()
+        public AuthenticationWindow()
         {
             InitializeComponent();
         }
