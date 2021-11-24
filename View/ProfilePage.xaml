@@ -1,0 +1,91 @@
+﻿<Page x:Class="View.ProfilePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:View"
+      mc:Ignorable="d" 
+      d:DesignHeight="1920" d:DesignWidth="1080"
+      Title="Profile">
+
+    <Grid x:Name="AllGrids">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="35*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="5*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="80*"/>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="5*"/>
+        </Grid.ColumnDefinitions>
+        <Canvas x:Name="PhotoCarousel" Grid.Column="1" Grid.Row ="1" Grid.ColumnSpan="3" Grid.RowSpan="1" Background="#23000000"/>
+        <Grid x:Name="MainInfoGrid" Grid.Column="2" Grid.Row="2" Background="#220046FF">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="25*"/>
+                <ColumnDefinition Width="25*"/>
+                <ColumnDefinition Width="25*"/>
+                <ColumnDefinition Width="25*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60*"/>
+                <RowDefinition Height="40*"/>
+            </Grid.RowDefinitions>
+            <Label x:Name="NameLabel" HorizontalAlignment="Center" Content="PETER JANSEN" Grid.ColumnSpan="4" Grid.RowSpan="1" FontSize="48"/>
+            <Label x:Name="AgeLabel" Content="24 jaar" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Stretch" FontSize="20"/>
+            <Label x:Name="LocationLabel" Content="Zwolle" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="1" FontSize="20" VerticalAlignment="Stretch"/>
+            <Label x:Name="SchoolNameLabel" Content="Windesheim" Grid.Column="2" HorizontalAlignment="Center" Grid.Row="1" FontSize="20" VerticalAlignment="Stretch"/>
+            <Label x:Name="EducationLabel" Content="HBO-ICT" Grid.Column="3" HorizontalAlignment="Center" Grid.Row="1" FontSize="20" VerticalAlignment="Stretch"/>
+        </Grid>
+        <Grid x:Name="InterestsGrid" Grid.Column="2" Grid.Row="3" Background="#220046FF"/>
+        <Grid x:Name="InformationTextGrid" Grid.Column="2" Grid.Row="4" Background="#220046FF">
+            <TextBlock x:Name="DescriptionTextBox" TextWrapping="WrapWithOverflow" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" FontSize="18" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."/>
+        </Grid>
+        <Grid/>
+        <Grid x:Name="QAGrid" Grid.Column="2" Grid.Row="5" Background="#220046FF"/>
+        <Grid/>
+        <Grid x:Name="PriorityGrid" Grid.Column="2" Grid.Row="6" Background="#220046FF">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="8*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Label x:Name="PriorityLabelIntelligence" Grid.Column="0" Grid.Row="0" Content="Intelligentie" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontSize="18" Margin="10,0,0,0"/>
+            <ProgressBar x:Name="IntelligenceProgressBar" Grid.Column="1" Grid.Row="0" Background="#220046FF" Margin="10,10,10,10" Value="50" Foreground="#FF0615B0" MaxHeight="12" MinHeight="12"/>
+
+            <Label x:Name="FysicsLabel" Grid.Column="0" Grid.Row="1" Content="Fysieke Activiteiten" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontSize="18" Margin="10,0,0,0"/>
+            <ProgressBar x:Name="FysicsProgressBar" Grid.Column="1" Grid.Row="1" Background="#220046FF" Margin="10,10,10,10" Value="20" Foreground="#FF0615B0" MaxHeight="12" MinHeight="12"/>
+
+            <Label x:Name="ClubbingLabel" Grid.Column="0" Grid.Row="2" Content="Uitgaansleven" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontSize="18" Margin="10,0,0,0"/>
+            <ProgressBar x:Name="ClubbingProgressBar" Grid.Column="1" Grid.Row="2" Background="#220046FF" Margin="10,10,10,10" Value="90" Foreground="#FF0615B0" MaxHeight="12" MinHeight="12"/>
+
+            <Label x:Name="NatureLabel" Grid.Column="0" Grid.Row="3" Content="Natuur" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontSize="18" Margin="10,0,0,0"/>
+            <ProgressBar x:Name="NatureProgressBar" Grid.Column="1" Grid.Row="3" Background="#220046FF" Margin="10,10,10,10" Value="3" Foreground="#FF0615B0" MaxHeight="12" MinHeight="12"/>
+
+            <Label x:Name="PoliticsLabel" Grid.Column="0" Grid.Row="4" Content="Politiek" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontSize="18" Margin="10,0,0,0"/>
+            <ProgressBar x:Name="PoliticsProgressBar" Grid.Column="1" Grid.Row="4" Background="#220046FF" Margin="10,10,10,10" Value="65" Foreground="#FF0615B0" MaxHeight="12" MinHeight="12"/>
+
+            <Label x:Name="WorkLabel" Grid.Column="0" Grid.Row="5" Content="Werk prestaties" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontSize="18" Margin="10,0,0,0"/>
+            <ProgressBar x:Name="WorkProgressBar" Grid.Column="1" Grid.Row="5" Background="#220046FF" Margin="10,10,10,10" Value="45" Foreground="#FF0615B0" MaxHeight="12" MinHeight="12"/>
+
+            <Label x:Name="ClimateLabel" Grid.Column="0" Grid.Row="6" Content="Klimaat" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontSize="18" Margin="10,0,0,0"/>
+            <ProgressBar x:Name="ClimateProgressBar" Grid.Column="1" Grid.Row="6" Background="#220046FF" Margin="10,10,10,10" Value="10" Foreground="#FF0615B0" MaxHeight="12" MinHeight="12"/>
+        </Grid>
+
+    </Grid>
+</Page>
