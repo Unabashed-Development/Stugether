@@ -5,27 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:View"
         mc:Ignorable="d"
-        Title="Login" Height="250" Width="350">
+        Title="Login" Height="400" Width="800">
     <Grid>
-        <Border Background="#94D2E6" CornerRadius="10" Margin="10">
-            <StackPanel Margin="10">
-                <Label Content="E-mailadres van je schoolaccount" FontSize="14"/>
-                <TextBox Name="username" Margin="5 0" FontSize="14"/>
-                <Label Content="Je wachtwoord van StudentMatcher" FontSize="14"/>
-                <TextBox Name="password" Margin="5 0" FontSize="14"/>
-                <Button Name="loginSubmit" Content="Inloggen" Margin="100 10" Background="#F16F6F" Foreground="White" FontSize="14">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="10"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-                <Separator/>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Label Content="Nog geen account?" FontSize="14" HorizontalAlignment="Center" Margin="0,0,-5,0"/>
-                    <Label Content="Klik hier om te registreren!" FontSize="14" HorizontalAlignment="Center" FontWeight="Bold"/>
-                </StackPanel>
-            </StackPanel>
-        </Border>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="32,36,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+
     </Grid>
 </Window>

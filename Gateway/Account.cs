@@ -6,10 +6,14 @@ namespace Gateway
 {
     public class Account
     {
+        public string Email { get; set; }
+        public string Password { get; set; }
 
+        public string HashPassword(string unhashedPassword) => BCrypt.Net.BCrypt.HashPassword(unhashedPassword);
+        public bool VerifyPassword(string unhashedPassword, string hashedPassword) => BCrypt.Net.BCrypt.Verify(unhashedPassword, hashedPassword);
+        public void CreateUserAccount(string email, string unhashedPassword)
+        {
 
-        public string passwordHash => BCrypt.Net.BCrypt.HashPassword("Spidb1@!#");
-
-        public bool verified => BCrypt.Net.BCrypt.Verify("Spidb1@!#", passwordHash);
+        }
     }
 }

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -12,24 +10,24 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using View.Authentication;
 
-namespace View
+namespace View.Authentication
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for RegisterPage.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class RegisterPage : Page
     {
-        public MainWindow()
+        public event EventHandler LoginGotClicked;
+
+        public RegisterPage()
         {
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void LoginClick(object sender, MouseButtonEventArgs e)
         {
-            AuthenticationWindow authenticationWindow = new AuthenticationWindow();
-            authenticationWindow.Show();
+            LoginGotClicked?.Invoke(this, e);
         }
     }
 }
