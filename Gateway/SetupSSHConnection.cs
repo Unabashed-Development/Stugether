@@ -9,6 +9,17 @@ namespace Gateway // Source: https://mysqlconnector.net/tutorials/connect-ssh/
 		/// <summary>
 		/// Sets up a SSH connection to a remote SSH server. Needs: dotnet add package SSH.NET
 		/// </summary>
+		/// <param name="sshHostName">Hostname of the SSH server to connect to.</param>
+		/// <param name="sshUserName">Username of the SSH server to connect to.</param>
+		/// <param name="sshPassword">Password of the SSH user on the SSH server.</param>
+		/// <param name="sshKeyFile">Optional certificate file instead of a password.</param>
+		/// <param name="sshPassPhrase">Optional pass phrase instead of a password.</param>
+		/// <param name="sshPort">Optional change of the SSH port on the remote server.</param>
+		/// <param name="databaseServer">Optional change of the local database server address.</param>
+		/// <param name="databasePort">Optional change of the IP address of the remote SSH server.</param>
+		/// <returns>
+		/// A tuple of the SshClient and the randomized local port.
+		/// </returns>
 		public static Tuple<SshClient, uint> ConnectSsh(string sshHostName, string sshUserName, string sshPassword = null,
 		string sshKeyFile = null, string sshPassPhrase = null, int sshPort = 22, string databaseServer = "localhost", int databasePort = 3306)
 		{
