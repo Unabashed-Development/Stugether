@@ -17,6 +17,7 @@ namespace View
             // Example:
             //new MainMenuNavigationItemData("Test", new TestPage(), "TestData"),
             //new MainMenuNavigationItemData("Test2", new TestPage2(), null)
+            new MainMenuNavigationItemData("Profile", new ProfilePage(), null)
         };
 
         /// <summary>
