@@ -29,5 +29,10 @@ namespace View.Authentication
         {
             RegisterGotClicked?.Invoke(this, e);
         }
+
+        private void LoginSubmit_Click(object sender, RoutedEventArgs e)
+        {
+             
+        }
     }
 }

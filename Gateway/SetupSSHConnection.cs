@@ -2,10 +2,10 @@
 using System;
 using System.Collections.Generic;
 
-namespace Gateway // Source: https://mysqlconnector.net/tutorials/connect-ssh/
+namespace Gateway 
 {
-    public static class SetupSSHConnection
-    {
+    public static class SetupSSHConnection // Source: https://mysqlconnector.net/tutorials/connect-ssh/
+	{
 		/// <summary>
 		/// Sets up a SSH connection to a remote SSH server. Needs: dotnet add package SSH.NET
 		/// </summary>
@@ -33,8 +33,8 @@ namespace Gateway // Source: https://mysqlconnector.net/tutorials/connect-ssh/
 			if (string.IsNullOrEmpty(databaseServer))
 				throw new ArgumentException($"{nameof(databaseServer)} must be specified.", nameof(databaseServer));
 
-            // Define the authentication methods to use (in order)
-            List<AuthenticationMethod> authenticationMethods = new List<AuthenticationMethod>();
+			// Define the authentication methods to use (in order)
+			List<AuthenticationMethod> authenticationMethods = new List<AuthenticationMethod>();
 			if (!string.IsNullOrEmpty(sshKeyFile))
 			{
 				authenticationMethods.Add(new PrivateKeyAuthenticationMethod(sshUserName,
@@ -43,18 +43,18 @@ namespace Gateway // Source: https://mysqlconnector.net/tutorials/connect-ssh/
 			if (!string.IsNullOrEmpty(sshPassword))
 			{
 				authenticationMethods.Add(new PasswordAuthenticationMethod(sshUserName, sshPassword));
-            }
+			}
 
-            // Connect to the SSH server
-            SshClient sshClient = new SshClient(new ConnectionInfo(sshHostName, sshPort, sshUserName, authenticationMethods.ToArray()));
+			// Connect to the SSH server
+			SshClient sshClient = new SshClient(new ConnectionInfo(sshHostName, sshPort, sshUserName, authenticationMethods.ToArray()));
 			sshClient.Connect();
 
-            // Forward a local port to the database server and port, using the SSH server
-            ForwardedPortLocal forwardedPort = new ForwardedPortLocal("127.0.0.1", databaseServer, (uint)databasePort);
+			// Forward a local port to the database server and port, using the SSH server
+			ForwardedPortLocal forwardedPort = new ForwardedPortLocal("127.0.0.1", databaseServer, (uint)databasePort);
 			sshClient.AddForwardedPort(forwardedPort);
 			forwardedPort.Start();
 
 			return Tuple.Create(sshClient, forwardedPort.BoundPort);
 		}
-	}
+    }
 }

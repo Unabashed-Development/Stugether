@@ -9,6 +9,9 @@ namespace Gateway
     {
         public SqlConnection Connection { get; set; }
 
+        /// <summary>
+        /// Gets the database info, such as sensitive password data, from the remote file.
+        /// </summary>
         private readonly string[] databaseInfo = File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"NoPush\DatabaseInfo.txt"));
 
         /// <summary>
@@ -29,8 +32,17 @@ namespace Gateway
                 };
 
                 Connection = new SqlConnection(csb.ConnectionString);
-                Connection.Open();
             }
         }
+
+        /// <summary>
+        /// Opens the SQL connection.
+        /// </summary>
+        public void OpenSQLConnection() => Connection.Open();
+
+        /// <summary>
+        /// Close the SQL connection.
+        /// </summary>
+        public void CloseSQLConnection() => Connection.Close();
     }
 }
