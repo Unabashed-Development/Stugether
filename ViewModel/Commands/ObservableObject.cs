@@ -13,19 +13,12 @@ namespace ViewModel.Commands
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            var handler = this.PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
-        }
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) => PropertyChanged?.Invoke(this, e);
 
         protected void RaisePropertyChanged<T>(Expression<Func<T>> propertyExpresssion)
         {
-            var propertyName = PropertySupport.ExtractPropertyName(propertyExpresssion);
-            this.RaisePropertyChanged(propertyName);
+            string propertyName = PropertySupport.ExtractPropertyName(propertyExpresssion);
+            RaisePropertyChanged(propertyName);
         }
 
         protected void RaisePropertyChanged(String propertyName)

@@ -49,6 +49,7 @@ namespace ViewModel
         #region Commands
         private void VerifyWithDatabase()
         {
+
             DataAccess.CreateAccount(Account);
         }
 
