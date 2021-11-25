@@ -19,30 +19,22 @@ namespace Gateway
         /// </summary>
         public SetupSQLConnection()
         {
-            Tuple<SshClient, uint> sshConnection = SetupSSHConnection.ConnectSsh(databaseInfo[0], databaseInfo[1], databaseInfo[2], databasePort: Int32.Parse(databaseInfo[3]));
+            Tuple<SshClient, uint> sshConnection = SetupSSHConnection.ConnectSsh(databaseInfo[0], databaseInfo[1], databaseInfo[2]);
 
-            using (sshConnection.Item1)
-            {
-                SqlConnectionStringBuilder csb = new SqlConnectionStringBuilder()
-                {
-                    DataSource = $"127.0.0.1,{sshConnection.Item2}",
-                    UserID = databaseInfo[4],
-                    Password = databaseInfo[5],
-                    InitialCatalog = databaseInfo[6]
-                };
+            //using (sshConnection.Item1)
+            //{
+            //    SqlConnectionStringBuilder csb = new SqlConnectionStringBuilder()
+            //    {
+            //        DataSource = $"127.0.0.1,{sshConnection.Item2}",
+            //        UserID = databaseInfo[4],
+            //        Password = databaseInfo[5],
+            //        InitialCatalog = databaseInfo[6]
+            //    };
 
-                Connection = new SqlConnection(csb.ConnectionString);
-            }
+            //    Connection = new SqlConnection(csb.ConnectionString);
+
+            //    OpenSQLConnection();
+            //}
         }
-
-        /// <summary>
-        /// Opens the SQL connection.
-        /// </summary>
-        public void OpenSQLConnection() => Connection.Open();
-
-        /// <summary>
-        /// Close the SQL connection.
-        /// </summary>
-        public void CloseSQLConnection() => Connection.Close();
     }
 }

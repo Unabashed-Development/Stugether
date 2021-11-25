@@ -1,27 +1,45 @@
 ﻿using Renci.SshNet;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
-namespace Gateway 
+namespace Gateway
 {
-    public static class SetupSSHConnection // Source: https://mysqlconnector.net/tutorials/connect-ssh/
+	public static class SetupSSHConnection // Source: https://mysqlconnector.net/tutorials/connect-ssh/
 	{
-		/// <summary>
-		/// Sets up a SSH connection to a remote SSH server. Needs: dotnet add package SSH.NET
-		/// </summary>
-		/// <param name="sshHostName">Hostname of the SSH server to connect to.</param>
-		/// <param name="sshUserName">Username of the SSH server to connect to.</param>
-		/// <param name="sshPassword">Password of the SSH user on the SSH server.</param>
-		/// <param name="sshKeyFile">Optional certificate file instead of a password.</param>
-		/// <param name="sshPassPhrase">Optional pass phrase instead of a password.</param>
-		/// <param name="sshPort">Optional change of the SSH port on the remote server.</param>
-		/// <param name="databaseServer">Optional change of the local database server address.</param>
-		/// <param name="databasePort">Optional change of the IP address of the remote SSH server.</param>
-		/// <returns>
-		/// A tuple of the SshClient and the randomized local port.
-		/// </returns>
-		public static Tuple<SshClient, uint> ConnectSsh(string sshHostName, string sshUserName, string sshPassword = null,
-		string sshKeyFile = null, string sshPassPhrase = null, int sshPort = 22, string databaseServer = "localhost", int databasePort = 3306)
+        #region Fields
+        private static SshClient _sshConnection;
+		private static uint _sshPort;
+        #endregion
+
+        #region Properties
+        public static SshClient SshConnection
+        {
+            get { return _sshConnection; }
+        }
+		public static uint SshPort
+		{
+			get { return _sshPort; }
+		}
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Sets up a SSH connection to a remote SSH server. Needs: dotnet add package SSH.NET
+        /// </summary>
+        /// <param name="sshHostName">Hostname of the SSH server to connect to.</param>
+        /// <param name="sshUserName">Username of the SSH server to connect to.</param>
+        /// <param name="sshPassword">Password of the SSH user on the SSH server.</param>
+        /// <param name="sshKeyFile">Optional certificate file instead of a password.</param>
+        /// <param name="sshPassPhrase">Optional pass phrase instead of a password.</param>
+        /// <param name="sshPort">Optional change of the SSH port on the remote server.</param>
+        /// <param name="databaseServer">Optional change of the local database server address.</param>
+        /// <param name="databasePort">Optional change of the IP address of the remote SSH server.</param>
+        /// <returns>
+        /// A tuple of the SshClient and the randomized local port.
+        /// </returns>
+        public static Tuple<SshClient, uint> ConnectSsh(string sshHostName, string sshUserName, string sshPassword = null,
+		string sshKeyFile = null, string sshPassPhrase = null, int sshPort = 22, string databaseServer = "localhost", int databasePort = 1433)
 		{
 			// Check arguments
 			if (string.IsNullOrEmpty(sshHostName))
@@ -50,11 +68,24 @@ namespace Gateway
 			sshClient.Connect();
 
 			// Forward a local port to the database server and port, using the SSH server
-			ForwardedPortLocal forwardedPort = new ForwardedPortLocal("127.0.0.1", databaseServer, (uint)databasePort);
+			//ForwardedPortLocal forwardedPort = new ForwardedPortLocal("127.0.0.1", databaseServer, (uint)databasePort); // Uses a random port
+			ForwardedPortLocal forwardedPort = new ForwardedPortLocal("127.0.0.1", (uint)databasePort, databaseServer, (uint)databasePort); // Makes port same as database port
 			sshClient.AddForwardedPort(forwardedPort);
 			forwardedPort.Start();
 
 			return Tuple.Create(sshClient, forwardedPort.BoundPort);
 		}
+
+		/// <summary>
+		/// Sets up an SSL connection and binds the SshClient and SshPort to properties.
+		/// </summary>
+		public static void InitializeSsh()
+		{
+			string[] databaseInfo = File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"NoPush\DatabaseInfo.txt"));
+			Tuple<SshClient, uint> sshConnection = SetupSSHConnection.ConnectSsh(databaseInfo[0], databaseInfo[1], databaseInfo[2]);
+			_sshConnection = sshConnection.Item1;
+			_sshPort = sshConnection.Item2;
+		}
+        #endregion
     }
 }

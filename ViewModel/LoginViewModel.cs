@@ -1,7 +1,5 @@
-﻿using Model;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Gateway;
+using Model;
 using System.Windows.Input;
 using ViewModel.Commands;
 
@@ -49,10 +47,9 @@ namespace ViewModel
         #endregion
 
         #region Commands
-        private void UpdateArtistNameExecute()
+        private void VerifyWithDatabase()
         {
-            //++_count;
-            //ArtistName = string.Format("Elvis ({0})", _count);
+            DataAccess.CreateAccount(Account);
         }
 
         private bool CanLogin()
@@ -60,7 +57,7 @@ namespace ViewModel
             return true;
         }
 
-        public ICommand LoginCommand => new RelayCommand(UpdateArtistNameExecute, CanLogin);
+        public ICommand LoginCommand => new RelayCommand(VerifyWithDatabase, CanLogin);
         #endregion
     }
 }

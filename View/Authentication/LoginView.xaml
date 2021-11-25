@@ -22,7 +22,7 @@
                 <components:BindablePasswordBox Margin="5 0" FontSize="14"
                     Password="{Binding Password}"/>
 
-                <Button x:Name="Login" Content="Inloggen" Margin="100 10" Background="#F16F6F" Foreground="White" FontSize="14" Command="{Binding LoginCommand, Mode=OneWay}">
+                <Button Content="Inloggen" Margin="100 10" Background="#F16F6F" Foreground="White" FontSize="14" Command="{Binding LoginCommand, Mode=OneWay}">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="10"/>
