@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Input;
 using ViewModel.Commands;
 
 namespace ViewModel
@@ -50,16 +51,16 @@ namespace ViewModel
         #region Commands
         private void UpdateArtistNameExecute()
         {
-            ++_count;
-            ArtistName = string.Format("Elvis ({0})", _count);
+            //++_count;
+            //ArtistName = string.Format("Elvis ({0})", _count);
         }
 
-        private bool CanUpdateArtistNameExecute()
+        private bool CanLogin()
         {
             return true;
         }
 
-        public ICommand UpdateArtistName { get { return new RelayCommand(UpdateArtistNameExecute, CanUpdateArtistNameExecute); } }
+        public ICommand LoginCommand => new RelayCommand(UpdateArtistNameExecute, CanLogin);
         #endregion
     }
 }

@@ -19,7 +19,7 @@ namespace Model.Services
                 {
                     Email = email,
                     Password = BCrypt.Net.BCrypt.HashPassword(password),
-                    DatePasswordChanged = DateTime.Now
+                    //DatePasswordChanged = DateTime.Now
                 };
                 return true;
             }

@@ -14,13 +14,13 @@ using System.Windows.Shapes;
 namespace View.Authentication
 {
     /// <summary>
-    /// Interaction logic for LoginPage.xaml
+    /// Interaction logic for LoginView.xaml
     /// </summary>
-    public partial class LoginPage : Page
+    public partial class LoginView : Page
     {
         public event EventHandler RegisterGotClicked;
 
-        public LoginPage()
+        public LoginView()
         {
             InitializeComponent();
         }
@@ -28,11 +28,6 @@ namespace View.Authentication
         private void RegisterClick(object sender, MouseButtonEventArgs e)
         {
             RegisterGotClicked?.Invoke(this, e);
-        }
-
-        private void LoginSubmit_Click(object sender, RoutedEventArgs e)
-        {
-             
         }
     }
 }

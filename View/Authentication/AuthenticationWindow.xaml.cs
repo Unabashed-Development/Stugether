@@ -20,15 +20,15 @@ namespace View.Authentication
         public AuthenticationWindow()
         {
             InitializeComponent();
-            InitializeLoginPage();
+            InitializeLoginView();
         }
         
         /// <summary>
         /// Creates a new LoginPage, shows the content to the frame and subscribes to the click event.
         /// </summary>
-        private void InitializeLoginPage()
+        private void InitializeLoginView()
         {
-            LoginPage loginPage = new LoginPage();
+            LoginView loginPage = new LoginView();
             Authentication.Content = loginPage;
             loginPage.RegisterGotClicked += OnRegisterGotClicked;
         }
@@ -36,7 +36,7 @@ namespace View.Authentication
         /// <summary>
         /// Creates a new RegisterPage, shows the content to the frame and subscribes to the click event.
         /// </summary>
-        private void InitializeRegisterPage()
+        private void InitializeRegisterView()
         {
             RegisterPage registerPage = new RegisterPage();
             Authentication.Content = registerPage;
@@ -46,11 +46,11 @@ namespace View.Authentication
         /// <summary>
         /// When the button for Register got clicked, initialize the RegisterPage.
         /// </summary>
-        public void OnRegisterGotClicked(object sender, EventArgs e) => InitializeRegisterPage();
+        public void OnRegisterGotClicked(object sender, EventArgs e) => InitializeRegisterView();
 
         /// <summary>
         /// When the button for Register got clicked, initialize the LoginPage.
         /// </summary>
-        public void OnLoginGotClicked(object sender, EventArgs e) => InitializeLoginPage();
+        public void OnLoginGotClicked(object sender, EventArgs e) => InitializeLoginView();
     }
 }
