@@ -7,6 +7,9 @@ namespace Gateway
 {
     public static class DataAccess
     {
+        #region Methods
+        // These methods might be able to turn into generic methods, but that might be a bit too difficult or not useful enough.
+
         /// <summary>
         /// Searches the database for an account.
         /// </summary>
@@ -53,5 +56,26 @@ namespace Gateway
                 connection.Execute($"INSERT INTO Account(Email, Password, VerificationCode) VALUES (@Email, @Password, {verificationCode})", account); // Better is to use a StoredProcedure later on
             }
         }
+
+        /// <summary>
+        /// Checks if the given verification code matches the verification code in the database for the account. Also sets the verified column to true (1).
+        /// </summary>
+        /// <param name="verificationCode">The verification code that needs to be checked with the database.</param>
+        /// <param name="account">The account the verification code needs to be checked for.</param>
+        /// <returns>True if the verification code matches, false if not.</returns>
+        public static bool CheckIfVerificationCodeMatches(string verificationCode, Account account)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB")))
+            {
+                string verificationCodeInDatabase = connection.QuerySingle<string>("SELECT VerificationCode FROM Account WHERE Email = @Email", account);
+                if (verificationCodeInDatabase == verificationCode)
+                {
+                    connection.Execute($"UPDATE Account SET AccountVerified = 1 WHERE Email = @Email", account);
+                    return true;
+                }
+                return false;
+            }
+        }
+        #endregion
     }
 }

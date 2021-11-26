@@ -12,6 +12,7 @@ namespace ViewModel
         private Account _account;
         private string _errorMessage;
         private int _passwordStrength;
+        private string _verificationCode;
         #endregion
 
         #region Properties
@@ -62,6 +63,15 @@ namespace ViewModel
                 RaisePropertyChanged("PasswordStrength");
             }
         }
+        public string VerificationCode
+        {
+            get => _verificationCode;
+            set
+            {
+                _verificationCode = value;
+                RaisePropertyChanged("VerificationCode");
+            }
+        }
 
         #endregion
 
@@ -76,7 +86,7 @@ namespace ViewModel
         /// <summary>
         /// Logs the user in and verifies the details with the database. Sets error messages if something is wrong.
         /// </summary>
-        private void VerifyAccountWithDatabase()
+        private void LoginInDatabase()
         {
             if (Account.Email != null && Account.Password != null && Account.Email.Length > 0 && Account.Password.Length > 0)
             {
@@ -128,7 +138,6 @@ namespace ViewModel
                             string verificationCode = AccountHelper.GenerateVerificationCode(Email);
                             DataAccess.CreateAccount(Account, verificationCode);
                             EmailService.SendVerificationMail(Account, verificationCode);
-                            ErrorMessage = "(debug) Account gemaakt!";
                         }
                         else
                         {
@@ -151,17 +160,30 @@ namespace ViewModel
             }
         }
 
+        private void VerificationOnDatabase()
+        {
+            if (DataAccess.CheckIfVerificationCodeMatches(_verificationCode, Account))
+            {
+                ErrorMessage = "(debug) Account gemaakt!";
+            }
+            else
+            {
+                ErrorMessage = "De verificatie code klopt niet.";
+            }
+        }
+
         /// <summary>
-        /// Checks if the user can login or register.
+        /// Checks if the command can be executed.
         /// </summary>
         /// <returns>True.</returns>
-        private bool CanLoginOrRegister()
+        private bool CanExecute()
         {
             return true;
         }
 
-        public ICommand LoginCommand => new RelayCommand(VerifyAccountWithDatabase, CanLoginOrRegister);
-        public ICommand RegisterCommand => new RelayCommand(CreateAccountInDatabase, CanLoginOrRegister);
+        public ICommand LoginCommand => new RelayCommand(LoginInDatabase, CanExecute);
+        public ICommand RegisterCommand => new RelayCommand(CreateAccountInDatabase, CanExecute);
+        public ICommand VerifyCommand => new RelayCommand(VerificationOnDatabase, CanExecute);
         #endregion
     }
 }
