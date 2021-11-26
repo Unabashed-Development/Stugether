@@ -98,16 +98,29 @@ namespace ViewModel
         {
             if (AccountHelper.IsValidEmail(Email))
             {
-                Account.Password = AccountHelper.HashPassword(Password);
-                Account.DatePasswordChanged = AccountHelper.GetCurrentTime();
-                if (!DataAccess.CheckIfAccountExists(Account))
+                if (AccountHelper.IsSchoolEmail(Email))
                 {
-                    DataAccess.CreateAccount(Account);
-                    ErrorMessage = "(debug) Account gemaakt!";
+                    if (PasswordHelper.IsStrongPassword(Password))
+                    {
+                        Account.Password = AccountHelper.HashPassword(Password); // To prepare, hash the password
+                        if (!DataAccess.CheckIfAccountExists(Account)) // This method makes use of the last preparation
+                        {
+                            DataAccess.CreateAccount(Account);
+                            ErrorMessage = "(debug) Account gemaakt!";
+                        }
+                        else
+                        {
+                            ErrorMessage = "Dit account bestaat al.";
+                        }
+                    }
+                    else
+                    {
+                        ErrorMessage = "Je wachtwoord voldoet niet aan de minimale eisen.";
+                    }
                 }
                 else
                 {
-                    ErrorMessage = "Dit account bestaat al.";
+                    ErrorMessage = "Dit e-mailadres is geen school adres.";
                 }
             }
             else
@@ -116,13 +129,17 @@ namespace ViewModel
             }
         }
 
-        private bool CanLogin()
+        /// <summary>
+        /// Checks if the user can login or register.
+        /// </summary>
+        /// <returns>True.</returns>
+        private bool CanLoginOrRegister()
         {
             return true;
         }
 
-        public ICommand LoginCommand => new RelayCommand(VerifyAccountWithDatabase, CanLogin);
-        public ICommand RegisterCommand => new RelayCommand(CreateAccountInDatabase, CanLogin);
+        public ICommand LoginCommand => new RelayCommand(VerifyAccountWithDatabase, CanLoginOrRegister);
+        public ICommand RegisterCommand => new RelayCommand(CreateAccountInDatabase, CanLoginOrRegister);
         #endregion
     }
 }

@@ -49,7 +49,7 @@ namespace Gateway
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB")))
             {
-                connection.Execute("INSERT INTO Account(Email, Password, DatePasswordChanged) VALUES (@Email, @Password, @DatePasswordChanged)", account); // Better is to use a StoredProcedure later on
+                connection.Execute("INSERT INTO Account(Email, Password) VALUES (@Email, @Password)", account); // Better is to use a StoredProcedure later on
             }
         }
     }
