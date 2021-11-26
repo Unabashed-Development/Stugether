@@ -11,6 +11,7 @@ namespace ViewModel
         #region Fields
         private Account _account;
         private string _errorMessage;
+        private int _passwordStrength;
         #endregion
 
         #region Properties
@@ -36,6 +37,8 @@ namespace ViewModel
             set
             {
                 Account.Password = value;
+                PasswordStrength = (int)PasswordHelper.GetPasswordStrength(Account.Password);
+                // Get the password strength when password is getting written
                 RaisePropertyChanged("Password");
             }
         }
@@ -47,6 +50,16 @@ namespace ViewModel
             {
                 _errorMessage = value;
                 RaisePropertyChanged("ErrorMessage");
+            }
+        }
+
+        public int PasswordStrength
+        {
+            get => _passwordStrength;
+            set
+            {
+                _passwordStrength = value;
+                RaisePropertyChanged("PasswordStrength");
             }
         }
 
@@ -65,29 +78,36 @@ namespace ViewModel
         /// </summary>
         private void VerifyAccountWithDatabase()
         {
-            if (AccountHelper.IsValidEmail(Email))
+            if (Account.Email != null && Account.Password != null && Account.Email.Length > 0 && Account.Password.Length > 0)
             {
-                if (DataAccess.CheckIfAccountExists(Account))
+                if (AccountHelper.IsValidEmail(Email))
                 {
-                    bool verified = AccountHelper.VerifyPassword(Password, DataAccess.GetHashedPassswordFromAccount(Account));
-                    if (verified)
+                    if (DataAccess.CheckIfAccountExists(Account))
                     {
-                        Account.Password = AccountHelper.HashPassword(Password);
-                        ErrorMessage = "(debug) Welkom!";
+                        bool verified = AccountHelper.VerifyPassword(Password, DataAccess.GetHashedPassswordFromAccount(Account));
+                        if (verified)
+                        {
+                            Account.Password = AccountHelper.HashPassword(Password);
+                            ErrorMessage = "(debug) Welkom!";
+                        }
+                        else
+                        {
+                            ErrorMessage = "Je inloggegevens zijn onjuist.";
+                        }
                     }
                     else
                     {
-                        ErrorMessage = "Je inloggegevens zijn onjuist.";
+                        ErrorMessage = "Dit account bestaat niet.";
                     }
                 }
                 else
                 {
-                    ErrorMessage = "Dit account bestaat niet.";
+                    ErrorMessage = "Dit e-mailadres is niet geldig.";
                 }
             }
             else
             {
-                ErrorMessage = "Dit e-mailadres is niet geldig.";
+                ErrorMessage = "Niet alle velden zijn ingevuld.";
             }
         }
 
@@ -96,16 +116,18 @@ namespace ViewModel
         /// </summary>
         private void CreateAccountInDatabase()
         {
-            if (AccountHelper.IsValidEmail(Email))
+            if (Account.Email != null && Account.Password != null && Account.Email.Length > 0 && Account.Password.Length > 0)
             {
-                if (AccountHelper.IsSchoolEmail(Email))
+                if (AccountHelper.IsValidEmail(Email) && AccountHelper.IsSchoolEmail(Email))
                 {
                     if (PasswordHelper.IsStrongPassword(Password))
                     {
                         Account.Password = AccountHelper.HashPassword(Password); // To prepare, hash the password
                         if (!DataAccess.CheckIfAccountExists(Account)) // This method makes use of the last preparation
                         {
-                            DataAccess.CreateAccount(Account);
+                            string verificationCode = AccountHelper.GenerateVerificationCode(Email);
+                            DataAccess.CreateAccount(Account, verificationCode);
+                            EmailService.SendVerificationMail(Account, verificationCode);
                             ErrorMessage = "(debug) Account gemaakt!";
                         }
                         else
@@ -120,12 +142,12 @@ namespace ViewModel
                 }
                 else
                 {
-                    ErrorMessage = "Dit e-mailadres is geen school adres.";
+                    ErrorMessage = "Dit e-mailadres is geen geldig school adres.";
                 }
             }
             else
             {
-                ErrorMessage = "Dit e-mailadres is niet geldig.";
+                ErrorMessage = "Niet alle velden zijn ingevuld.";
             }
         }
 

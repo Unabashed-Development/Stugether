@@ -22,7 +22,10 @@
                 <components:BindablePasswordBox Margin="5 0" FontSize="14"
                     Password="{Binding Password}"/>
 
-                <Button Name="registerSubmit" Content="Registreren" Margin="80 10" Background="#F16F6F" Foreground="White" FontSize="14" Command="{Binding RegisterCommand}">
+                <Label Content="Wachtwoordsterkte:" FontSize="14" HorizontalAlignment="Center" Margin="0,0,-5,0"/>
+                <ProgressBar Maximum="5" Value="{Binding PasswordStrength}" Height="7" Background="#F16F6F" Foreground="#fff78f"/>
+
+                <Button Name="registerSubmit" Content="Registreren" Margin="100 10" Background="#F16F6F" Foreground="White" FontSize="14" Command="{Binding RegisterCommand}">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="10"/>

@@ -12,7 +12,7 @@ namespace View
         public MainWindow()
         {
             InitializeComponent();
-            SetupSSHConnection.InitializeSsh(); // Not MVVM, this needs to be moved somewhere soon
+            SSHConnection.InitializeSsh(); // Not MVVM, this needs to be moved somewhere soon
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

@@ -54,6 +54,32 @@ namespace ViewModel.Helpers
             string mainDomainOfEmail = fullDomainOfEmail[^2]; // Get the main domain of the email. Example: main & test & com > test
             return Enum.TryParse(mainDomainOfEmail, true, out SchoolEmails _); // Case insensitive check in the enum if the domain exists there, returns true if it does
         }
+
+        /// <summary>
+        /// Generates a random verification code based on a hidden secret, current time and the e-mailaddress.
+        /// </summary>
+        /// <param name="email">The e-mail address used for the seed of the random code.</param>
+        /// <returns>The 6-character verification code as a string.</returns>
+        public static string GenerateVerificationCode(string email)
+        {
+            int hiddenSecret = 766822153;
+            int currentTime = (int)DateTime.UtcNow.Ticks;
+            int emailHashCode = email.GetHashCode();
+            int average = (hiddenSecret + currentTime + emailHashCode) / 3;
+
+            Random random = new Random(average);
+            string verificationCode = random.Next(0, 999999).ToString();
+
+            return verificationCode.Length switch // This switch adds zeroes if the verification code is shorter than 6 numbers
+            {
+                5 => verificationCode += "0",
+                4 => verificationCode += "00",
+                3 => verificationCode += "000",
+                2 => verificationCode += "0000",
+                1 => verificationCode += "00000",
+                _ => verificationCode,
+            };
+        }
         #endregion
     }
 }
