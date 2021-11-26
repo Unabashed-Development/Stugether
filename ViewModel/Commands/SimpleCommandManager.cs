@@ -25,7 +25,7 @@ namespace ViewModel.Commands
 
         private static void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            // this if clause is to prevent an infinity loop
+            // This if clause is to prevent an infinity loop
             if (e.PropertyName != "CanExecute")
             {
                 RefreshCommandStates();
@@ -34,9 +34,9 @@ namespace ViewModel.Commands
 
         public static void RefreshCommandStates()
         {
-            for (var i = 0; i < _raiseCanExecuteChangedActions.Count; i++)
+            for (int i = 0; i < _raiseCanExecuteChangedActions.Count; i++)
             {
-                var raiseCanExecuteChangedAction = _raiseCanExecuteChangedActions[i];
+                Action raiseCanExecuteChangedAction = _raiseCanExecuteChangedActions[i];
                 if (raiseCanExecuteChangedAction != null)
                 {
                     raiseCanExecuteChangedAction.Invoke();

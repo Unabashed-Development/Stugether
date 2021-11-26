@@ -38,7 +38,7 @@ namespace View.Authentication
         /// </summary>
         private void InitializeRegisterView()
         {
-            RegisterPage registerPage = new RegisterPage();
+            RegisterView registerPage = new RegisterView();
             Authentication.Content = registerPage;
             registerPage.LoginGotClicked += OnLoginGotClicked;
         }

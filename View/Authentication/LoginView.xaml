@@ -8,7 +8,7 @@
       Title="LoginView">
 
     <Page.DataContext>
-        <ViewModel:LoginViewModel/>
+        <ViewModel:AuthenticationViewModel/>
     </Page.DataContext>
 
     <Grid>
@@ -22,7 +22,7 @@
                 <components:BindablePasswordBox Margin="5 0" FontSize="14"
                     Password="{Binding Password}"/>
 
-                <Button Content="Inloggen" Margin="100 10" Background="#F16F6F" Foreground="White" FontSize="14" Command="{Binding LoginCommand, Mode=OneWay}">
+                <Button Content="Inloggen" Margin="100 10" Background="#F16F6F" Foreground="White" FontSize="14" Command="{Binding LoginCommand}">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="10"/>
@@ -36,6 +36,8 @@
                     <Label Content="Nog geen account?" FontSize="14" HorizontalAlignment="Center" Margin="0,0,-5,0"/>
                     <Label Content="Klik hier om te registreren!" MouseLeftButtonDown="RegisterClick" FontSize="14" HorizontalAlignment="Center" FontWeight="Bold"/>
                 </StackPanel>
+
+                <Label Content="{Binding ErrorMessage}" Foreground="Red" FontSize="14" HorizontalAlignment="Center"/>
             </StackPanel>
         </Border>
     </Grid>

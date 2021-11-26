@@ -16,11 +16,11 @@ namespace View.Authentication
     /// <summary>
     /// Interaction logic for RegisterPage.xaml
     /// </summary>
-    public partial class RegisterPage : Page
+    public partial class RegisterView : Page
     {
         public event EventHandler LoginGotClicked;
 
-        public RegisterPage()
+        public RegisterView()
         {
             InitializeComponent();
         }

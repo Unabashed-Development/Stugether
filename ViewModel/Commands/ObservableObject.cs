@@ -33,7 +33,7 @@ namespace ViewModel.Commands
         /// </summary>
         [Conditional("DEBUG")]
         [DebuggerStepThrough]
-        public void VerifyPropertyName(String propertyName)
+        public void VerifyPropertyName(string propertyName)
         {
             // verify that the property name matches a real,  
             // public, instance property on this Object.
