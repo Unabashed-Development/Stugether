@@ -18,7 +18,7 @@
                 <TextBox Margin="5 0" FontSize="14"
                     Text="{Binding VerificationCode, UpdateSourceTrigger=PropertyChanged}"/>
 
-                <Button Name="verifySubmit" Content="Verifiëren" Margin="100 10" Background="#F16F6F" Foreground="White" FontSize="14" Command="{Binding VerifyCommand}">
+                <Button Name="VerifySubmit" Content="Verifiëren" Margin="100 10" Background="#F16F6F" Foreground="White" FontSize="14" Command="{Binding VerifyCommand}" Click="VerifySubmit_Click">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="10"/>

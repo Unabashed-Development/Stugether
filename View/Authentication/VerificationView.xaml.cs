@@ -22,5 +22,10 @@ namespace View.Authentication
         {
             InitializeComponent();
         }
+
+        private void VerifySubmit_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

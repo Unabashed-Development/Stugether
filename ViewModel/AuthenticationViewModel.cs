@@ -1,5 +1,6 @@
 ﻿using Gateway;
 using Model;
+using System;
 using System.Windows.Input;
 using ViewModel.Commands;
 using ViewModel.Helpers;
@@ -31,6 +32,10 @@ namespace ViewModel
                 RaisePropertyChanged("Email");
             }
         }
+
+        #region Events
+        public event EventHandler VerificationSent;
+        #endregion
 
         public string Password
         {
@@ -138,6 +143,7 @@ namespace ViewModel
                             string verificationCode = AccountHelper.GenerateVerificationCode(Email);
                             DataAccess.CreateAccount(Account, verificationCode);
                             EmailService.SendVerificationMail(Account, verificationCode);
+
                         }
                         else
                         {
@@ -164,7 +170,7 @@ namespace ViewModel
         {
             if (DataAccess.CheckIfVerificationCodeMatches(_verificationCode, Account))
             {
-                ErrorMessage = "(debug) Account gemaakt!";
+                ErrorMessage = "(debug) Welkom bij StudentMatcher!";
             }
             else
             {

@@ -17,6 +17,7 @@ namespace View.Authentication
     /// </summary>
     public partial class AuthenticationWindow : Window
     {
+        // This code can be nicer, for example: https://rachel53461.wordpress.com/2011/12/18/navigation-with-mvvm-2/
         public AuthenticationWindow()
         {
             InitializeComponent();
@@ -28,9 +29,9 @@ namespace View.Authentication
         /// </summary>
         private void InitializeLoginView()
         {
-            LoginView loginPage = new LoginView();
-            Authentication.Content = loginPage;
-            loginPage.RegisterGotClicked += OnRegisterGotClicked;
+            LoginView loginView = new LoginView();
+            Authentication.Content = loginView;
+            loginView.RegisterGotClicked += OnRegisterGotClicked;
         }
 
         /// <summary>
@@ -38,9 +39,16 @@ namespace View.Authentication
         /// </summary>
         private void InitializeRegisterView()
         {
-            RegisterView registerPage = new RegisterView();
-            Authentication.Content = registerPage;
-            registerPage.LoginGotClicked += OnLoginGotClicked;
+            RegisterView registerView = new RegisterView();
+            Authentication.Content = registerView;
+            registerView.LoginGotClicked += OnLoginGotClicked;
+        }
+
+        private void InitializeVerificationView()
+        {
+            VerificationView verificationView = new VerificationView();
+            Authentication.Content = verificationView;
+            //verificationView.Registered += OnRegistered;
         }
 
         /// <summary>
@@ -52,5 +60,10 @@ namespace View.Authentication
         /// When the button for Register got clicked, initialize the LoginPage.
         /// </summary>
         public void OnLoginGotClicked(object sender, EventArgs e) => InitializeLoginView();
+
+        /// <summary>
+        /// -
+        /// </summary>
+        public void OnRegistered(object sender, EventArgs e) => InitializeVerificationView();
     }
 }
