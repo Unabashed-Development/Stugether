@@ -47,7 +47,7 @@
             </DataTrigger>
         </Style.Triggers>
     </Style>
-    
+
     <Style TargetType="Button">
         <Style.Resources>
             <Style TargetType="Border">
@@ -56,5 +56,5 @@
         </Style.Resources>
         <Setter Property="Background" Value="{StaticResource BackgroundTertiary}"/>
     </Style>
-    
+
 </ResourceDictionary>

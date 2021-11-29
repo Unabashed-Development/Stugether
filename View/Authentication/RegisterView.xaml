@@ -12,7 +12,7 @@
     </Page.DataContext>
     
     <Grid>
-        <Border Background="#94D2E6" CornerRadius="10" Margin="10">
+        <Border Background="{StaticResource BackgroundPrimary}" CornerRadius="10" Margin="10">
             <StackPanel Margin="10">
                 <Label Content="E-mailadres van je schoolaccount" FontSize="14"/>
                 <TextBox Margin="5 0" FontSize="14"
@@ -23,9 +23,9 @@
                     Password="{Binding Password}"/>
 
                 <Label Content="Wachtwoordsterkte:" FontSize="14" HorizontalAlignment="Center" Margin="0,0,-5,0"/>
-                <ProgressBar Maximum="5" Value="{Binding PasswordStrength}" Height="7" Background="#F16F6F" Foreground="#fff78f"/>
+                <ProgressBar Maximum="5" Value="{Binding PasswordStrength}" Height="7" Background="{StaticResource BackgroundTertiary}" Foreground="{StaticResource BackgroundQuaternary}"/>
 
-                <Button Name="registerSubmit" Content="Registreren" Margin="100 10" Background="#F16F6F" Foreground="White" FontSize="14" Command="{Binding RegisterCommand}">
+                <Button Name="registerSubmit" Content="Registreren" Margin="100 10" Background="{StaticResource BackgroundTertiary}" Foreground="White" FontSize="14" Command="{Binding RegisterCommand}">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="10"/>
