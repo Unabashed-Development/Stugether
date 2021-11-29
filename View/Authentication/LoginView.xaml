@@ -1,0 +1,44 @@
+﻿<Page x:Class="View.Authentication.LoginView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:View.Authentication" xmlns:components="clr-namespace:View.Components" xmlns:ViewModel="clr-namespace:ViewModel;assembly=ViewModel"
+      mc:Ignorable="d" 
+      Title="LoginView">
+
+    <Page.DataContext>
+        <ViewModel:AuthenticationViewModel/>
+    </Page.DataContext>
+
+    <Grid>
+        <Border Background="#94D2E6" CornerRadius="10" Margin="10">
+            <StackPanel Margin="10">
+                <Label Content="E-mailadres van je schoolaccount" FontSize="14"/>
+                <TextBox Margin="5 0" FontSize="14"
+                    Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <Label Content="Je wachtwoord van StudentMatcher" FontSize="14"/>
+                <components:BindablePasswordBox Margin="5 0" FontSize="14"
+                    Password="{Binding Password}"/>
+
+                <Button Content="Inloggen" Margin="100 10" Background="#F16F6F" Foreground="White" FontSize="14" Command="{Binding LoginCommand}">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+                <Separator/>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Label Content="Nog geen account?" FontSize="14" HorizontalAlignment="Center" Margin="0,0,-5,0"/>
+                    <Label Content="Klik hier om te registreren!" MouseLeftButtonDown="RegisterClick" FontSize="14" HorizontalAlignment="Center" FontWeight="Bold"/>
+                </StackPanel>
+
+                <Label Content="{Binding ErrorMessage}" Foreground="Red" FontSize="14" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>
