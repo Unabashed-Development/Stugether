@@ -4,12 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:View"
+        xmlns:vm="clr-namespace:ViewModel;assembly=ViewModel"
+        xmlns:vmc="clr-namespace:ViewModel.Commands;assembly=ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Stugether" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:MainPageViewModel/>
+    </Window.DataContext>
     <DockPanel LastChildFill="True">
-        <DockPanel.DataContext>
-            <local:MainMenuData/>
-        </DockPanel.DataContext>
         <StackPanel DockPanel.Dock="Left" Width="100">
             <Grid Height="{Binding ActualHeight, ElementName=tbContentTitle, Mode=OneWay}">
                 <Grid.ColumnDefinitions>
@@ -28,12 +30,12 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <ItemContainerTemplate>
-                        <local:MainWindowNavigationItem Content="{Binding Title}" Page="{Binding Page}" ExtraNavigationInformation="{Binding ExtraInformation}" Click="MainWindowNavigationItem_Click"/>
+                        <local:MainWindowNavigationItem Content="{Binding Title}" Page="{Binding Page}" ExtraNavigationInformation="{Binding ExtraInformation}" Command="{Binding Path=DataContext.NavigateButtonCommand, RelativeSource={RelativeSource AncestorType=Window},Mode=Default}" CommandParameter="{Binding Mode=OneWay}"/>
                     </ItemContainerTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </StackPanel>
-        <TextBlock x:Name="tbContentTitle" DockPanel.Dock="Top" Text="Title" FontSize="22" FontWeight="Bold"/>
-        <Frame x:Name="frContent" NavigationUIVisibility="Hidden" Navigated="frContent_Navigated"/>
+        <TextBlock x:Name="tbContentTitle" DockPanel.Dock="Top" FontSize="22" FontWeight="Bold" Text="{Binding Title}"/>
+        <Frame x:Name="frContent" NavigationUIVisibility="Hidden" Navigated="frContent_Navigated" Source="{Binding CurrentVisiblePage}" />
     </DockPanel>
 </Window>
