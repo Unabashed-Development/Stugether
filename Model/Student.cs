@@ -18,6 +18,9 @@ namespace Model
         public DateTime DateOfBirth { get; set; }
         public School School { get; set; }
         public HashSet<Relationships> Relationships { get; set; }
+        public Profile Profile { get; set; }
+
+        public string Name { get; set; }
 
         public Student(string email)
         {
@@ -28,6 +31,12 @@ namespace Model
             DateOfBirth = (DateTime)LoadObject(DataKeys.DateOfBirth);
             School = (School)LoadObject(DataKeys.School);
             Relationships = (HashSet<Relationships>)LoadObject(DataKeys.Relationships);
+            Profile = new Profile(this);
+        }
+
+        public Student()
+        {
+
         }
 
         private object LoadObject(DataKeys data)

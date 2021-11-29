@@ -8,13 +8,13 @@ namespace Model
     {
 
         private Student Student { get; set; }
-        private QAData QAData { get; set; }
-        private MoralsData MoralsData { get; set; }
-        private InterestsData InterestsData { get; set; }
-        private string Description { get; set; }
-        private Media Media { get; set; }
-        private MatchList MatchList { get; set; }
-        private BlockList BlockList { get; set; }
+        public QAData QAData { get; set; }
+        public MoralsData MoralsData { get; set; }
+        public InterestsData InterestsData { get; set; }
+        public string Description { get; set; }
+        public Media Media { get; set; }
+        public MatchList MatchList { get; set; }
+        public BlockList BlockList { get; set; }
 
         public Profile(Student student)
         {
