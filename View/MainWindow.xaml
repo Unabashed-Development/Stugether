@@ -4,23 +4,34 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:View"
+        xmlns:vm="clr-namespace:ViewModel;assembly=ViewModel"
+        xmlns:vmc="clr-namespace:ViewModel.Commands;assembly=ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <DockPanel LastChildFill="True">
-        <DockPanel.DataContext>
-            <local:MainMenuData/>
-        </DockPanel.DataContext>
-        <StackPanel DockPanel.Dock="Left" Width="100">
-            <Grid Height="{Binding ActualHeight, ElementName=tbContentTitle, Mode=OneWay}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="1*" />
-                </Grid.ColumnDefinitions>
-                <Button x:Name="btPreviousButton" Content="&lt;" Margin="5,5,5,5" Click="NavigationNextPreviousButton_Click"/>
-                <Button x:Name="btNextButton" Content="&gt;" Grid.Column="1" Margin="5" Click="NavigationNextPreviousButton_Click"/>
-            </Grid>
-            <!-- The Stackpanel doesn't allow a binding for its children, so we use a ItemsControl instead -->
-            <ItemsControl x:Name="icMenuItems" ItemsSource="{Binding MainNavigationItems}">
+        Style="{StaticResource {x:Type Window}}"
+        Title="Stugether" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:MainPageViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MaxWidth="150"/>
+            <ColumnDefinition Width="6*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid Height="{Binding ActualHeight, ElementName=tbContentTitle, Mode=OneWay}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btPreviousButton" Content="&lt;" Margin="5,5,5,5" Click="NavigationNextPreviousButton_Click"/>
+            <Button x:Name="btNextButton" Content="&gt;" Grid.Column="1" Margin="5" Click="NavigationNextPreviousButton_Click"/>
+        </Grid>
+        <!-- The Stackpanel doesn't allow a binding for its children, so we use a ItemsControl instead -->
+        <StackPanel Grid.Row="1"> <!-- TEMPORARY for login button -->
+            <ItemsControl x:Name="icMenuItems" Grid.Row="1" ItemsSource="{Binding MainNavigationItems}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel IsItemsHost="True"/>
@@ -28,12 +39,15 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <ItemContainerTemplate>
-                        <local:MainWindowNavigationItem Content="{Binding Title}" Page="{Binding Page}" ExtraNavigationInformation="{Binding ExtraInformation}" Click="MainWindowNavigationItem_Click"/>
+                        <local:MainWindowNavigationItem Content="{Binding Title}" Page="{Binding Page}" ExtraNavigationInformation="{Binding ExtraInformation}" Command="{Binding Path=DataContext.NavigateButtonCommand, RelativeSource={RelativeSource AncestorType=Window},Mode=Default}" CommandParameter="{Binding Mode=OneWay}"/>
                     </ItemContainerTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
+            <local:MainWindowNavigationItem Content="Login" ExtraNavigationInformation="" Click="Login_Click"/>
         </StackPanel>
-        <TextBlock x:Name="tbContentTitle" DockPanel.Dock="Top" Text="Title" FontSize="22" FontWeight="Bold"/>
-        <Frame x:Name="frContent" NavigationUIVisibility="Hidden" Navigated="frContent_Navigated"/>
-    </DockPanel>
+        <TextBlock x:Name="tbContentTitle" Grid.Column="1" FontSize="22" FontWeight="Bold" Text="{Binding Title}"/>
+        <ScrollViewer Grid.Column="1" Grid.Row="1" VerticalScrollBarVisibility="Auto" >
+            <Frame x:Name="frContent" Grid.Column="1" Grid.Row="1"  NavigationUIVisibility="Hidden" Navigated="frContent_Navigated" Source="{Binding CurrentVisiblePage}"/>
+        </ScrollViewer>
+    </Grid>
 </Window>
