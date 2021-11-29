@@ -49,5 +49,16 @@ namespace View
                 tbContentTitle.Text = ((Page)((Frame)sender).Content).Title;
             }
         }
+
+        private void MainWindowNavigationItem_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Login_Click(object sender, RoutedEventArgs e)
+        {
+            AuthenticationWindow authenticationWindow = new AuthenticationWindow();
+            authenticationWindow.Show();
+        }
     }
 }
