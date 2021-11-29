@@ -3,9 +3,10 @@
                     xmlns:local="clr-namespace:View"
                     xmlns:stylingHelperTools="clr-namespace:View.StylingHelperTools">
     
-    <SolidColorBrush x:Key="BackgroundPrimary" Color="LightGray"/>
-    <SolidColorBrush x:Key="BackgroundSecundary" Color="Bisque"/>
-    <SolidColorBrush x:Key="BackgroundTertiary" Color="Orange"/>
+    <SolidColorBrush x:Key="BackgroundPrimary" Color="#94d2e6"/>
+    <SolidColorBrush x:Key="BackgroundSecundary" Color="#c1224f"/>
+    <SolidColorBrush x:Key="BackgroundTertiary" Color="#f16f6f"/>
+    <SolidColorBrush x:Key="BackgroundQuaternary" Color="#fff78f"/>
 
     <Style TargetType="local:MainWindowNavigationItem" BasedOn="{StaticResource {x:Type ToggleButton}}">
         <Style.Triggers>
