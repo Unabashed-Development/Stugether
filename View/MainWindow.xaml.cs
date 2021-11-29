@@ -63,6 +63,10 @@ namespace View
         {
             btPreviousButton.IsEnabled = ((Frame)sender).CanGoBack;
             btNextButton.IsEnabled = ((Frame)sender).CanGoForward;
+            if (((Frame)sender).Content.GetType() == typeof(Page)) 
+            {
+                tbContentTitle.Text = ((Page)((Frame)sender).Content).Title;
+            }
         }
     }
 }

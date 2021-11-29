@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:View"
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="100"
-             Style="{StaticResource {x:Type ToggleButton}}"
              GroupName="MainNavigation">
-    
+    <!--             Style="{StaticResource {x:Type ToggleButton}}"
+-->    
 </RadioButton>
