@@ -4,10 +4,9 @@ using System.Text;
 
 namespace Model
 {
-    class MatchList
+    public class MatchList
     {
-
-        private HashSet<Match> Matches { get; set; }
+        public HashSet<Match> Matches { get; set; }
         private Student Student;
 
         public MatchList(Student student)
