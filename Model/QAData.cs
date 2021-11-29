@@ -4,7 +4,14 @@ using System.Text;
 
 namespace Model
 {
-    class QAData
+    public class QAData
     {
+
+        public QAData(Student student)
+        {
+
+        }
+
+
     }
 }

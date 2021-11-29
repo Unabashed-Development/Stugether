@@ -4,7 +4,13 @@ using System.Text;
 
 namespace Model
 {
-    class MoralsData
+    public class MoralsData
     {
+
+        public MoralsData(Student student)
+        {
+
+        }
+
     }
 }

@@ -14,6 +14,7 @@ namespace Model
         public Media(Student student)
         {
             Student = student;
+            //set picture data
         }
 
     }
