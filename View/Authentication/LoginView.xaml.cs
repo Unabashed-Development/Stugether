@@ -8,18 +8,26 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace View.Authentication
 {
     /// <summary>
-    /// Interaction logic for Window1.xaml
+    /// Interaction logic for LoginView.xaml
     /// </summary>
-    public partial class Window1 : Window
+    public partial class LoginView : Page
     {
-        public Window1()
+        public event EventHandler RegisterGotClicked;
+
+        public LoginView()
         {
             InitializeComponent();
+        }
+
+        private void RegisterClick(object sender, MouseButtonEventArgs e)
+        {
+            RegisterGotClicked?.Invoke(this, e);
         }
     }
 }
