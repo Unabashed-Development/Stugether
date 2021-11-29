@@ -35,7 +35,7 @@ namespace Model
             Matches.Remove(match);
         }
 
-        public Boolean isMatch(Match match)
+        public Boolean IsMatch(Match match)
         {
             return Matches.Contains(match);
         }
