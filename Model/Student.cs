@@ -11,9 +11,10 @@ namespace Model
     {
 
         //public Account Account { get; set; }
+        public int ID { get; set; }
         public string Email { get; set; }
         public string Eduction { get; set; }
-        public string Address { get; set; }
+        public string Address { get; set; } 
         public DateTime DateOfBirth { get; set; }
         public School School { get; set; }
         public HashSet<Relationships> Relationships { get; set; }
