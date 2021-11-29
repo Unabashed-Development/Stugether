@@ -2,6 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:View"
                     xmlns:stylingHelperTools="clr-namespace:View.StylingHelperTools">
+    
+    <SolidColorBrush x:Key="BackgroundPrimary" Color="LightGray"/>
+    <SolidColorBrush x:Key="BackgroundSecundary" Color="Bisque"/>
+    <SolidColorBrush x:Key="BackgroundTertiary" Color="Orange"/>
+
     <Style TargetType="local:MainWindowNavigationItem" BasedOn="{StaticResource {x:Type ToggleButton}}">
         <Style.Triggers>
             <!--<Trigger Property="ActualWidth" Value="150">
@@ -16,18 +21,18 @@
                         Converter={x:Static stylingHelperTools:isLessThanConverter.Instance},
                         ConverterParameter=100}"
                     Value="True">
-                <Setter Property="Background" Value="Blue"/>
-                <Setter Property="Foreground" Value="White"/>
                 <Setter Property="HorizontalContentAlignment" Value="Left"/>
             </DataTrigger>
         </Style.Triggers>
     </Style>
+    
     <Style TargetType="StackPanel">
-        <Setter Property="Background" Value="LightGray"/>
+        <Setter Property="Background" Value="{StaticResource BackgroundSecundary}"/>
     </Style>
+    
     <Style TargetType="Window">
         <Setter Property="FontSize" Value="22"/>
-        <Setter Property="Background" Value="Bisque"/>
+        <Setter Property="Background" Value="{StaticResource BackgroundPrimary}"/>
         <Style.Triggers>
             <DataTrigger
                     Binding="{Binding
@@ -40,11 +45,14 @@
             </DataTrigger>
         </Style.Triggers>
     </Style>
+    
     <Style TargetType="Button">
         <Style.Resources>
             <Style TargetType="Border">
                 <Setter Property="CornerRadius" Value="10"/>
             </Style>
         </Style.Resources>
+        <Setter Property="Background" Value="{StaticResource BackgroundTertiary}"/>
     </Style>
+    
 </ResourceDictionary>
