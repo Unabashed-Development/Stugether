@@ -44,6 +44,21 @@ namespace View
         {
             btPreviousButton.IsEnabled = ((Frame)sender).CanGoBack;
             btNextButton.IsEnabled = ((Frame)sender).CanGoForward;
+            if (((Frame)sender).Content.GetType() == typeof(Page)) 
+            {
+                tbContentTitle.Text = ((Page)((Frame)sender).Content).Title;
+            }
+        }
+
+        private void MainWindowNavigationItem_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Login_Click(object sender, RoutedEventArgs e)
+        {
+            AuthenticationWindow authenticationWindow = new AuthenticationWindow();
+            authenticationWindow.Show();
         }
     }
 }

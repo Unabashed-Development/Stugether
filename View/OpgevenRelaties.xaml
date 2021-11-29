@@ -26,7 +26,7 @@
         <CheckBox Content="Zakelijk" Margin="79,36,0,0" Grid.Column="1" Height="15" VerticalAlignment="Top" HorizontalAlignment="Left" Width="99"/>
         <CheckBox Content="Vrienden" Margin="10,92,0,0" Grid.Column="1" Height="14" VerticalAlignment="Top" HorizontalAlignment="Left" Width="69"/>
         <CheckBox Content="Studiemaatje" Margin="79,92,0,0" Grid.Column="1" HorizontalAlignment="Left" Width="99" Height="14" VerticalAlignment="Top"/>
-        <Frame Content="Hobby" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3" Background="Aqua" Source="HobbyOptionsView.xaml"/>
+        <Frame Content="Hobby" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3" Background="{StaticResource BackgroundPrimary}" Source="HobbyOptionsView.xaml"/>
         <Button Content="Opslaan" Grid.Column="3" HorizontalAlignment="Center" Margin="0,24,0,0" VerticalAlignment="Top" Height="20" Width="59"/>
         <Button Content="Annuleren" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Top" Height="20" Width="59" Margin="0,65,0,0"/>
         
