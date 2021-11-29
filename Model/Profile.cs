@@ -7,7 +7,6 @@ namespace Model
     public class Profile
     {
 
-        private Student Student { get; set; }
         public QAData QAData { get; set; }
         public MoralsData MoralsData { get; set; }
         public InterestsData InterestsData { get; set; }
@@ -18,15 +17,13 @@ namespace Model
 
         public Profile(Student student)
         {
-            Student = student;
             QAData = new QAData(student);
             MoralsData = new MoralsData(student);
             InterestsData = new InterestsData(student);
             Media = new Media(student);
             MatchList = new MatchList(student);
             BlockList = new BlockList(student);
-            Description = ""; //get description from db
-
+            Description = "";
         }
 
     }
