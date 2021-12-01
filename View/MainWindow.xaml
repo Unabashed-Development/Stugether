@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:View"
         xmlns:vm="clr-namespace:ViewModel;assembly=ViewModel"
         xmlns:vmc="clr-namespace:ViewModel.Commands;assembly=ViewModel"
+        xmlns:converters="clr-namespace:View.Converters"
         mc:Ignorable="d"
         Style="{StaticResource {x:Type Window}}"
         Title="Stugether" Height="450" Width="800">
@@ -34,7 +35,6 @@
             </Button>
         </Grid>
         <!-- The Stackpanel doesn't allow a binding for its children, so we use a ItemsControl instead -->
-        <StackPanel Grid.Row="1"> <!-- TEMPORARY for login button -->
             <ItemsControl x:Name="icMenuItems" Grid.Row="1" ItemsSource="{Binding MainNavigationItems}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -43,15 +43,16 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <ItemContainerTemplate>
-                        <local:MainWindowNavigationItem Content="{Binding Title}" Page="{Binding Page}" ExtraNavigationInformation="{Binding ExtraInformation}" Command="{Binding Path=DataContext.NavigateButtonCommand, RelativeSource={RelativeSource AncestorType=Window},Mode=Default}" CommandParameter="{Binding Mode=OneWay}"/>
+                        <local:MainWindowNavigationItem 
+                            Content="{Binding Title}" Page="{Binding Page}" ExtraNavigationInformation="{Binding ExtraInformation}" 
+                            Command="{Binding Path=DataContext.NavigateButtonCommand, RelativeSource={RelativeSource AncestorType=Window},Mode=Default}" CommandParameter="{Binding Mode=OneWay}" 
+                            IsChecked="{Binding Mode=OneWay, RelativeSource={RelativeSource PreviousData}, Converter={x:Static converters:NullAsTrueConverter.Instance}}" />
                     </ItemContainerTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <local:MainWindowNavigationItem Content="Login" ExtraNavigationInformation="" Click="Login_Click"/>
-        </StackPanel>
         <TextBlock x:Name="tbContentTitle" Grid.Column="1" FontSize="22" FontWeight="Bold" Text="{Binding Content.Title, ElementName=frContent}"/>
         <ScrollViewer Grid.Column="1" Grid.Row="1" VerticalScrollBarVisibility="Auto" >
-            <Frame x:Name="frContent" Grid.Column="1" Grid.Row="1"  NavigationUIVisibility="Hidden" Source="{Binding CurrentVisiblePage}"/>
+            <Frame x:Name="frContent" Grid.Column="1" Grid.Row="1"  NavigationUIVisibility="Hidden" Source="{Binding CurrentVisiblePage, Mode=TwoWay}"/>
         </ScrollViewer>
     </Grid>
 </Window>

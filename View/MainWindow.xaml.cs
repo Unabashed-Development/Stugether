@@ -16,11 +16,5 @@ namespace View
             InitializeComponent();
             SSHConnection.InitializeSsh(); // TODO: Not MVVM, this needs to be moved somewhere soon
         }
-
-        private void Login_Click(object sender, RoutedEventArgs e)
-        {
-            AuthenticationWindow authenticationWindow = new AuthenticationWindow();
-            authenticationWindow.Show();
-        }
     }
 }
