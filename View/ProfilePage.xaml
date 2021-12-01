@@ -16,7 +16,7 @@
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
     
-    <Grid x:Name="AllGrids" Background="White" DataContext="{StaticResource vm}">
+    <Grid x:Name="AllGrids" DataContext="{StaticResource vm}">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="5*"/>

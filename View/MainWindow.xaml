@@ -26,8 +26,12 @@
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
-            <Button x:Name="btPreviousButton" Content="&lt;" Margin="5,5,5,5" Click="NavigationNextPreviousButton_Click"/>
-            <Button x:Name="btNextButton" Content="&gt;" Grid.Column="1" Margin="5" Click="NavigationNextPreviousButton_Click"/>
+            <Button x:Name="btPreviousButton" Margin="5,5,5,5" Command="NavigationCommands.BrowseBack" CommandTarget="{Binding ElementName=frContent}">
+                <Path Margin="0,0,2,0" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 4 0 L 0 4 L 4 8 Z" Fill="#FF444444"/>
+            </Button>
+            <Button x:Name="btNextButton" Grid.Column="1" Margin="5" Command="NavigationCommands.BrowseForward" CommandTarget="{Binding ElementName=frContent}">
+                <Path Margin="0,0,2,0" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 0 8 Z" Fill="#FF444444"/>
+            </Button>
         </Grid>
         <!-- The Stackpanel doesn't allow a binding for its children, so we use a ItemsControl instead -->
         <StackPanel Grid.Row="1"> <!-- TEMPORARY for login button -->
@@ -45,9 +49,9 @@
             </ItemsControl>
             <local:MainWindowNavigationItem Content="Login" ExtraNavigationInformation="" Click="Login_Click"/>
         </StackPanel>
-        <TextBlock x:Name="tbContentTitle" Grid.Column="1" FontSize="22" FontWeight="Bold" Text="{Binding Title}"/>
+        <TextBlock x:Name="tbContentTitle" Grid.Column="1" FontSize="22" FontWeight="Bold" Text="{Binding Content.Title, ElementName=frContent}"/>
         <ScrollViewer Grid.Column="1" Grid.Row="1" VerticalScrollBarVisibility="Auto" >
-            <Frame x:Name="frContent" Grid.Column="1" Grid.Row="1"  NavigationUIVisibility="Hidden" Navigated="frContent_Navigated" Source="{Binding CurrentVisiblePage}"/>
+            <Frame x:Name="frContent" Grid.Column="1" Grid.Row="1"  NavigationUIVisibility="Hidden" Source="{Binding CurrentVisiblePage}"/>
         </ScrollViewer>
     </Grid>
 </Window>
