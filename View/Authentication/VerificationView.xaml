@@ -1,0 +1,33 @@
+﻿<Page x:Class="View.Authentication.VerificationView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:View.Authentication" xmlns:ViewModel="clr-namespace:ViewModel;assembly=ViewModel"
+      mc:Ignorable="d" 
+      Title="VerificationView">
+
+    <Page.DataContext>
+        <ViewModel:AuthenticationViewModel/>
+    </Page.DataContext>
+
+    <Grid>
+        <Border Background="{StaticResource BackgroundPrimary}" CornerRadius="10" Margin="10">
+            <StackPanel Margin="10">
+                <Label Content="Vul je verificatiecode in:" FontSize="14"/>
+                <TextBox Margin="5 0" FontSize="14"
+                    Text="{Binding VerificationCode, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <Button Name="VerifySubmit" Content="Verifiëren" Margin="100 10" Background="{StaticResource BackgroundTertiary}" Foreground="White" FontSize="14" Command="{Binding VerifyCommand}" Click="VerifySubmit_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+                <Label Content="{Binding ErrorMessage}" Foreground="Red" FontSize="14" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>
