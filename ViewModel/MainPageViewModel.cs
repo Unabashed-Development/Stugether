@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Gateway;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Text;
 using ViewModel.Commands;
 //using System.Windows.Controls;
 
@@ -63,13 +61,14 @@ namespace ViewModel
         public NavigateButtonCommand NavigateButtonCommand { get; set; }
         #endregion
 
-        #region constructor
+        #region Construction
         /// <summary>
         /// Creates a new viewmodel for MainPage
         /// </summary>
         public MainPageViewModel()
         {
             NavigateButtonCommand = new NavigateButtonCommand(this);
+            SSHService.Initialize(); // Initialize SSH for the database connection and logging in
         }
         #endregion
 
