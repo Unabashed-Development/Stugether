@@ -1,7 +1,5 @@
-﻿using Gateway;
-using Model;
+﻿using Model;
 using System;
-using System.Windows.Input;
 using ViewModel.Commands;
 using ViewModel.Helpers;
 using ViewModel.Stores;
@@ -38,7 +36,7 @@ namespace ViewModel
             }
         }
 
-        public int PasswordStrength
+        public int? PasswordStrength
         {
             get => Account.passwordStrength;
             set
@@ -69,6 +67,10 @@ namespace ViewModel
         }
         #endregion
 
+        #region Events
+        public event Action LoggedIn;
+        #endregion
+
         #region Commands
         /// <summary>
         /// Checks if the command can be executed.
@@ -77,6 +79,23 @@ namespace ViewModel
         protected bool CanExecute()
         {
             return true;
+        }
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Cleans up account data not needed anymore in the application after registering.
+        /// </summary>
+        protected void CleanUpAccountData()
+        {
+            Password = null;
+            VerificationCode = null;
+            PasswordStrength = null;
+        }
+
+        protected void OnLoggedIn()
+        {
+            LoggedIn?.Invoke();
         }
         #endregion
     }

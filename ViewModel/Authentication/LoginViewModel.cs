@@ -1,7 +1,4 @@
 ﻿using Gateway;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
 using ViewModel.Commands;
 using ViewModel.Helpers;
@@ -27,8 +24,8 @@ namespace ViewModel
                         bool verified = AccountHelper.VerifyPassword(Password, DataAccess.GetHashedPassswordFromAccount(Email));
                         if (verified)
                         {
-                            Account.password = AccountHelper.HashPassword(Password);
-                            ErrorMessage = "(debug) Welkom!";
+                            CleanUpAccountData();
+                            OnLoggedIn();
                         }
                         else
                         {
@@ -51,6 +48,9 @@ namespace ViewModel
             }
         }
 
+        /// <summary>
+        /// Sets the CurrentViewModel of the navigationStore to the register ViewModel.
+        /// </summary>
         private void NavigateToRegister() => navigationStore.CurrentViewModel = new RegisterViewModel(navigationStore);
         #endregion
 
@@ -59,8 +59,14 @@ namespace ViewModel
         #endregion
 
         #region Commands
+        /// <summary>
+        /// Navigates to the Register ViewModel.
+        /// </summary>
         public ICommand NavigateToRegisterCommand => new RelayCommand(NavigateToRegister, CanExecute);
 
+        /// <summary>
+        /// Attempts to log the user in.
+        /// </summary>
         public ICommand LoginCommand => new RelayCommand(LoginInDatabase, CanExecute);
         #endregion
     }

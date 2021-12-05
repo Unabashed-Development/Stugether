@@ -59,14 +59,18 @@ namespace View
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
-            AuthenticationNavigationStore navigationStore = new AuthenticationNavigationStore();
-            navigationStore.CurrentViewModel = new LoginViewModel(navigationStore);
+            AuthenticationNavigationStore navigationStore = new AuthenticationNavigationStore(); // Create navigation store for the ViewModel
+            navigationStore.CurrentViewModel = new LoginViewModel(navigationStore); // Set the LoginViewModel as the current view model
+            MainAuthenticationViewModel currentViewModel = new MainAuthenticationViewModel(navigationStore); // Create a new MainAuthenticationViewModel
 
             AuthenticationWindow authenticationWindow = new AuthenticationWindow()
-            {
-                DataContext = new MainAuthenticationViewModel(navigationStore)
+            { // Sets the data context for the authentiction window to MainAuthenticationViewModel.
+                DataContext = currentViewModel
             };
-            authenticationWindow.Show();
+
+            authenticationWindow.Show(); // Show the authentication window
+
+            currentViewModel.RequestClose += () => authenticationWindow.Close();
         }
     }
 }

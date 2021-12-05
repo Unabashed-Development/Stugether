@@ -21,14 +21,8 @@
                 <Label Content="Wachtwoordsterkte:" FontSize="14" HorizontalAlignment="Center" Margin="0,0,-5,0"/>
                 <ProgressBar Maximum="5" Value="{Binding PasswordStrength}" Height="7" Background="{StaticResource BackgroundTertiary}" Foreground="{StaticResource BackgroundQuaternary}"/>
 
-                <Button Name="registerSubmit" Content="Registreren" Margin="100 10" Background="{StaticResource BackgroundTertiary}" Foreground="White" FontSize="14" Command="{Binding RegisterCommand}">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="10"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-                
+                <Button Name="registerSubmit" Content="Registreren" Margin="100 10" Background="{StaticResource BackgroundTertiary}" Foreground="White" FontSize="14" Command="{Binding RegisterCommand}"/>
+
                 <Separator/>
                 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
