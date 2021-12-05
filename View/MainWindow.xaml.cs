@@ -3,6 +3,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using View.Authentication;
+using ViewModel;
+using ViewModel.Stores;
 
 namespace View
 {
@@ -57,7 +59,13 @@ namespace View
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
-            AuthenticationWindow authenticationWindow = new AuthenticationWindow();
+            AuthenticationNavigationStore navigationStore = new AuthenticationNavigationStore();
+            navigationStore.CurrentViewModel = new LoginViewModel(navigationStore);
+
+            AuthenticationWindow authenticationWindow = new AuthenticationWindow()
+            {
+                DataContext = new MainAuthenticationViewModel(navigationStore)
+            };
             authenticationWindow.Show();
         }
     }

@@ -3,14 +3,10 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:View.Authentication" xmlns:ViewModel="clr-namespace:ViewModel;assembly=ViewModel" xmlns:components="clr-namespace:View.Components"
+      xmlns:components="clr-namespace:View.Components"
       mc:Ignorable="d" 
       Title="RegisterView">
 
-    <Page.DataContext>
-        <ViewModel:AuthenticationViewModel/>
-    </Page.DataContext>
-    
     <Grid>
         <Border Background="{StaticResource BackgroundPrimary}" CornerRadius="10" Margin="10">
             <StackPanel Margin="10">
@@ -36,8 +32,8 @@
                 <Separator/>
                 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Label Content="Terug naar inloggen?" FontSize="14" HorizontalAlignment="Center" Margin="0,0,-5,0"/>
-                    <Label Content="Klik hier!" FontSize="14" HorizontalAlignment="Center" FontWeight="Bold" MouseLeftButtonDown="LoginClick"/>
+                    <Label Content="Terug naar inloggen?" FontSize="14" HorizontalAlignment="Center"/>
+                    <Button Content="Klik hier!" FontSize="14" Background="{StaticResource BackgroundTertiary}" Foreground="White" Command="{Binding NavigateToLoginCommand}"/>
                 </StackPanel>
 
                 <Label Content="{Binding ErrorMessage}" Foreground="Red" FontSize="14" HorizontalAlignment="Center"/>

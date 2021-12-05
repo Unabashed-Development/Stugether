@@ -1,11 +1,10 @@
-﻿using System;
-
-namespace Model
+﻿namespace Model
 {
-    public class Account
+    public static class Account
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public DateTime DatePasswordChanged { get; set; }
+        public static string email;
+        public static string password;
+        public static int passwordStrength;
+        public static string verificationCode;
     }
 }

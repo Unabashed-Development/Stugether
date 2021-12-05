@@ -18,16 +18,9 @@ namespace View.Authentication
     /// </summary>
     public partial class RegisterView : Page
     {
-        public event EventHandler LoginGotClicked;
-
         public RegisterView()
         {
             InitializeComponent();
-        }
-
-        private void LoginClick(object sender, MouseButtonEventArgs e)
-        {
-            LoginGotClicked?.Invoke(this, e);
         }
     }
 }
