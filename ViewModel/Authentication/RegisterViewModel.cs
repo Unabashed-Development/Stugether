@@ -24,10 +24,10 @@ namespace ViewModel
                         if (Password == VerifyPassword)
                         {
                             Account.password = AccountHelper.HashPassword(Password); // To prepare, hash the password
-                            if (!DataAccess.CheckIfAccountExists(Email)) // This method makes use of the last preparation
+                            if (!AccountDataAccess.CheckIfAccountExists(Email)) // This method makes use of the last preparation
                             {
                                 VerificationCode = AccountHelper.GenerateVerificationCode(Email); // Generate a random verification code
-                                DataAccess.CreateAccount(Email, Password, VerificationCode); // Create the account in the database with the generated verification code
+                                AccountDataAccess.CreateAccount(Email, Password, VerificationCode); // Create the account in the database with the generated verification code
                                 EmailService.SendVerificationMail(Email, VerificationCode); // Send the user an email with the verification code
                                 CleanUpAccountData(); // Clear sensitive account data before verifying the user
                                 NavigateToVerification(); // Navigate to the verification code page

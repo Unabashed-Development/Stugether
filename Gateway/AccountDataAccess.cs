@@ -5,7 +5,7 @@ using System;
 
 namespace Gateway
 {
-    public static class DataAccess
+    public static class AccountDataAccess
     {
         #region Methods
         // These methods might be able to turn into generic methods, but that might be a bit too difficult or not useful enough.

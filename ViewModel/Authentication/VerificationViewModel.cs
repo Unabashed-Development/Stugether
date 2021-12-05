@@ -14,7 +14,7 @@ namespace ViewModel
         /// </summary>
         private void VerificationOnDatabase()
         {
-            if (DataAccess.CheckIfVerificationCodeMatches(VerificationCode, Email))
+            if (AccountDataAccess.CheckIfVerificationCodeMatches(VerificationCode, Email))
             {
                 Account.authenticated = true;
                 OnLoggedIn();

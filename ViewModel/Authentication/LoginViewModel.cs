@@ -19,9 +19,9 @@ namespace ViewModel
             {
                 if (AccountHelper.IsValidEmail(Email))
                 {
-                    if (DataAccess.CheckIfAccountExists(Email))
+                    if (AccountDataAccess.CheckIfAccountExists(Email))
                     {
-                        bool verified = AccountHelper.VerifyPassword(Password, DataAccess.GetHashedPassswordFromAccount(Email));
+                        bool verified = AccountHelper.VerifyPassword(Password, AccountDataAccess.GetHashedPassswordFromAccount(Email));
                         if (verified)
                         {
                             CleanUpAccountData();
