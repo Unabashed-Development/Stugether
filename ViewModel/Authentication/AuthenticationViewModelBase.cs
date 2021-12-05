@@ -36,6 +36,16 @@ namespace ViewModel
             }
         }
 
+        public string VerifyPassword
+        {
+            get => Account.verifyPassword;
+            set
+            {
+                Account.verifyPassword = value;
+                RaisePropertyChanged("VerifyPassword");
+            }
+        }
+
         public int? PasswordStrength
         {
             get => Account.passwordStrength;

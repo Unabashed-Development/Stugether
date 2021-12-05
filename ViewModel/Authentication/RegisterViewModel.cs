@@ -15,24 +15,31 @@ namespace ViewModel
         /// </summary>
         private void CreateAccountInDatabase()
         {
-            if (Account.email != null && Account.password != null && Account.email.Length > 0 && Account.password.Length > 0)
+            if (Email != null && Password != null && VerifyPassword != null && Email.Length > 0 && Password.Length > 0)
             {
                 if (AccountHelper.IsValidEmail(Email) && AccountHelper.IsSchoolEmail(Email))
                 {
                     if (PasswordHelper.IsStrongPassword(Password))
                     {
-                        Account.password = AccountHelper.HashPassword(Password); // To prepare, hash the password
-                        if (!DataAccess.CheckIfAccountExists(Email)) // This method makes use of the last preparation
+                        if (Password == VerifyPassword)
                         {
-                            VerificationCode = AccountHelper.GenerateVerificationCode(Email); // Generate a random verification code
-                            DataAccess.CreateAccount(Email, Password, VerificationCode); // Create the account in the database with the generated verification code
-                            EmailService.SendVerificationMail(Email, VerificationCode); // Send the user an email with the verification code
-                            CleanUpAccountData(); // Clear sensitive account data before verifying the user
-                            NavigateToVerification(); // Navigate to the verification code page
+                            Account.password = AccountHelper.HashPassword(Password); // To prepare, hash the password
+                            if (!DataAccess.CheckIfAccountExists(Email)) // This method makes use of the last preparation
+                            {
+                                VerificationCode = AccountHelper.GenerateVerificationCode(Email); // Generate a random verification code
+                                DataAccess.CreateAccount(Email, Password, VerificationCode); // Create the account in the database with the generated verification code
+                                EmailService.SendVerificationMail(Email, VerificationCode); // Send the user an email with the verification code
+                                CleanUpAccountData(); // Clear sensitive account data before verifying the user
+                                NavigateToVerification(); // Navigate to the verification code page
+                            }
+                            else
+                            {
+                                ErrorMessage = "Dit account bestaat al.";
+                            }
                         }
                         else
                         {
-                            ErrorMessage = "Dit account bestaat al.";
+                            ErrorMessage = "Je wachtwoorden komen niet overeen met elkaar.";
                         }
                     }
                     else
