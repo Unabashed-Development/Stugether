@@ -24,8 +24,15 @@ namespace ViewModel
                         bool verified = AccountHelper.VerifyPassword(Password, AccountDataAccess.GetHashedPassswordFromAccount(Email));
                         if (verified)
                         {
-                            CleanUpAccountData();
-                            OnLoggedIn();
+                            if (AccountDataAccess.CheckIfAccountIsVerified(Email))
+                            {
+                                CleanUpAccountData();
+                                OnLoggedIn();
+                            }
+                            else
+                            {
+                                ErrorMessage = "Je account is nog niet geverifieerd.";
+                            }
                         }
                         else
                         {

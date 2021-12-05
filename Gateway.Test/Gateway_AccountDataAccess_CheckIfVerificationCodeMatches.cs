@@ -1,6 +1,4 @@
 using NUnit.Framework;
-using System.Configuration;
-using System.Reflection;
 
 namespace Gateway.Test
 {
@@ -28,8 +26,6 @@ namespace Gateway.Test
             const string verificationCode = "000000";
 
             // Act
-            var ding = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            var configLocation = Assembly.GetEntryAssembly().Location;
             bool result = AccountDataAccess.CheckIfVerificationCodeMatches(verificationCode, email);
 
             // Assert
