@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace ViewModel.Test
+namespace View.Test
 {
     public class Tests
     {

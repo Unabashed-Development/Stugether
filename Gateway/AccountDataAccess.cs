@@ -1,6 +1,5 @@
 ﻿using Dapper;
 using System.Data;
-using Model;
 using System;
 
 namespace Gateway

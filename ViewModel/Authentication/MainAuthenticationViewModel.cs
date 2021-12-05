@@ -28,7 +28,7 @@ namespace ViewModel
             _navigationStore = navigationStore;
             _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
             ((AuthenticationViewModelBase)_navigationStore.CurrentViewModel).LoggedIn += OnLoggedIn;
-            SSHConnection.Initialize(); // Initialize SSH for the database connection and logging in
+            SSHService.Initialize(); // Initialize SSH for the database connection and logging in
         }
         #endregion
 
