@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Text;
+﻿using System.Collections.ObjectModel;
 using ViewModel.Commands;
-//using System.Windows.Controls;
 
 namespace ViewModel
 {
     /// <summary>
     /// ViewModel for MainPage
     /// </summary>
-    public class MainPageViewModel : INotifyPropertyChanged
+    public class MainPageViewModel : ObservableObject
     {
         #region Properties
         /// <summary>
@@ -38,7 +33,7 @@ namespace ViewModel
             set
             {
                 currentVisiblePage = value;
-                OnPropertyChanged("CurrentVisiblePage");
+                RaisePropertyChanged("CurrentVisiblePage");
             }
         }
 
@@ -89,21 +84,6 @@ namespace ViewModel
             /// Optional extra information to be given when navigating
             /// </summary>
             public object ExtraInformation { get; set; }
-        }
-        #endregion
-
-        #region Property change notification
-        /// <summary>
-        /// Occurs when a property value changes.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-        /// <summary>
-        /// Triggers the PropertyChanged event
-        /// </summary>
-        /// <param name="propertyName">The property which is changed</param>
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
     }
