@@ -79,7 +79,7 @@ namespace Gateway
 		/// <summary>
 		/// Sets up an SSL connection and binds the SshClient and SshPort to properties.
 		/// </summary>
-		public static void InitializeSsh()
+		public static void Initialize()
 		{
 			string[] databaseInfo = File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"NoPush\DatabaseInfo.txt"));
 			Tuple<SshClient, uint> sshConnection = SSHConnection.ConnectSsh(databaseInfo[0], databaseInfo[1], databaseInfo[2]);

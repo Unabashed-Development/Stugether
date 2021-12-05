@@ -16,9 +16,7 @@ namespace View
         public MainWindow()
         {
             InitializeComponent();
-            SSHConnection.InitializeSsh(); // TODO: Not MVVM, this needs to be moved somewhere soon
         }
-
 
         /// <summary>
         /// Occurs when the back/forward buttons are clicked

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gateway;
+using System;
 using ViewModel.Commands;
 using ViewModel.Stores;
 
@@ -27,6 +28,7 @@ namespace ViewModel
             _navigationStore = navigationStore;
             _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
             ((AuthenticationViewModelBase)_navigationStore.CurrentViewModel).LoggedIn += OnLoggedIn;
+            SSHConnection.Initialize(); // Initialize SSH for the database connection and logging in
         }
         #endregion
 
