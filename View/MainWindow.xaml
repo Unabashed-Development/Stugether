@@ -22,7 +22,7 @@
             <RowDefinition Height="35"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Grid Height="{Binding ActualHeight, ElementName=tbContentTitle, Mode=OneWay}">
+        <Grid Height="{Binding ActualHeight, ElementName=tbContentTitle, Mode=OneWay}" Background="{StaticResource BackgroundSecundary}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />

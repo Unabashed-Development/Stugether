@@ -22,6 +22,7 @@ namespace ViewModel
             new MainMenuNavigationItemData("Home", "HomePage.xaml", null),
             new MainMenuNavigationItemData("Profile", "ProfilePage.xaml", null),
             new MainMenuNavigationItemData("Hobby opties", "HobbyOptionsView.xaml", null)
+            new MainMenuNavigationItemData("Settings", "ProfileSettings.xaml", null)
         };
 
 
