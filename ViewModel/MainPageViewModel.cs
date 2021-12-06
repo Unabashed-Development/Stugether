@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
 using ViewModel.Commands;
 
 namespace ViewModel
@@ -26,10 +28,7 @@ namespace ViewModel
         /// </summary>
         public string CurrentVisiblePage
         {
-            get
-            {
-                return currentVisiblePage;
-            }
+            get => currentVisiblePage;
             set
             {
                 currentVisiblePage = value;
@@ -40,17 +39,25 @@ namespace ViewModel
         /// <summary>
         /// Handles the click events of the main menu buttons
         /// </summary>
-        public NavigateButtonCommand NavigateButtonCommand { get; set; }
-        #endregion
-
-        #region constructor
-        /// <summary>
-        /// Creates a new viewmodel for MainPage
-        /// </summary>
-        public MainPageViewModel()
-        {
-            NavigateButtonCommand = new NavigateButtonCommand(this);
-        }
+        public ICommand NavigateButtonCommand => new RelayCommand(
+            (parameter) =>
+            {
+                if (parameter.GetType() == typeof(string))
+                {
+                    CurrentVisiblePage = (string)parameter;
+                }
+                else if (parameter.GetType() == typeof(MainMenuNavigationItemData))
+                {
+                    MainMenuNavigationItemData data = (MainMenuNavigationItemData)parameter;
+                    CurrentVisiblePage = data.Page;
+                }
+                else
+                {
+                    throw new InvalidOperationException("Accepts only strings");
+                }
+            },
+            (parameter) => MainNavigationItems.Count > 0
+            );
         #endregion
 
         #region MainMenuNavigationItemData
