@@ -57,4 +57,10 @@
         <Setter Property="Background" Value="{StaticResource BackgroundTertiary}"/>
     </Style>
 
+    <Style TargetType="TabItem">
+        <Setter Property="Background" Value="{StaticResource BackgroundTertiary}"/>
+        <Setter Property="MinHeight" Value="50px"/>
+        <Setter Property="MinWidth" Value="150px"/>
+    </Style>
+
 </ResourceDictionary>

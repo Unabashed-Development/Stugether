@@ -19,7 +19,8 @@ namespace ViewModel
         /// </summary>
         public ObservableCollection<MainMenuNavigationItemData> MainNavigationItems { get; } = new ObservableCollection<MainMenuNavigationItemData>()
         {
-            new MainMenuNavigationItemData("Profile", "ProfilePage.xaml", null)
+            new MainMenuNavigationItemData("Profile", "ProfilePage.xaml", null),
+            new MainMenuNavigationItemData("Settings", "ProfileSettings.xaml", null)
         };
 
 
