@@ -11,7 +11,7 @@ namespace Gateway.Test
         public void GetHashedPassswordFromAccount_ExistingAccount_ReturnsValueStartingWithDollarSign()
         {
             // Arrange
-            const string email = "ThisAccountDoesExist";
+            const string email = "ThisAccountDoesExist@windesheim.nl";
 
             // Act
             string hashedPassword = AccountDataAccess.GetHashedPassswordFromAccount(email);

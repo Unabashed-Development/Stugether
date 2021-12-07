@@ -15,7 +15,7 @@ namespace ViewModel
         /// </summary>
         private void CreateAccountInDatabase()
         {
-            if (Email != null && Password != null && VerifyPassword != null && Email.Length > 0 && Password.Length > 0)
+            if (Email != null && Password != null && VerifyPassword != null && Email.Length > 0 && Password.Length > 0 && VerifyPassword.Length > 0)
             {
                 if (AccountHelper.IsValidEmail(Email) && AccountHelper.IsSchoolEmail(Email))
                 {

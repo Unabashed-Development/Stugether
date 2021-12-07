@@ -8,7 +8,7 @@ namespace Gateway.Test
         public void CheckIfAccountIsVerified_AccountNotVerified_ReturnsFalse()
         {
             // Arrange
-            const string email = "ThisAccountDoesExist";
+            const string email = "ThisAccountDoesExist@windesheim.nl";
 
             // Act
             bool result = AccountDataAccess.CheckIfAccountIsVerified(email);
