@@ -96,9 +96,10 @@ namespace ViewModel
         /// <summary>
         /// Cleans up account data not needed anymore in the application after registering.
         /// </summary>
-        protected void CleanUpAccountData()
+        public void CleanUpAccountData()
         {
             Password = null;
+            VerifyPassword = null;
             VerificationCode = null;
             PasswordStrength = null;
         }
