@@ -1,10 +1,8 @@
 ﻿using Gateway;
 using Model;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Text;
 
 namespace ViewModel
 {
@@ -14,7 +12,7 @@ namespace ViewModel
         public event PropertyChangedEventHandler PropertyChanged;
         private Student _student { set; get; }
 
-        public ObservableCollection<string> InterestsList { get; } = new ObservableCollection<string>(ProfileSettingsDataAccess.GetAllInterests());
+        public ObservableCollection<string> InterestsList { get; } = new ObservableCollection<string>(ProfileDataAccess.GetAllInterests());
 
         public SettingsPageViewModel()
         {
