@@ -54,7 +54,7 @@ namespace ViewModel
             }
             else
             {
-                ErrorMessage = "Niet alle velden zijn ingevuld.";
+                ErrorMessage_NotAllFieldsOccupied();
             }
         }
 
@@ -63,10 +63,6 @@ namespace ViewModel
         /// </summary>
         private void NavigateToRegister() => navigationStore.CurrentViewModel = new LoginViewModel(navigationStore);
 
-        /// <summary>
-        /// Sets the CurrentViewModel of the navigationStore to the verification ViewModel.
-        /// </summary>
-        private void NavigateToVerification() => navigationStore.CurrentViewModel = new VerificationViewModel(navigationStore);
         #endregion
 
         #region Construction

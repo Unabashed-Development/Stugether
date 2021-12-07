@@ -77,15 +77,31 @@ namespace Gateway
         /// <returns>True if the verification code matches, false if not.</returns>
         public static bool CheckIfVerificationCodeMatches(string verificationCode, string email)
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB")))
+            string verificationCodeInDatabase = GetVerificationCodeFromAccount(email);
+            if (verificationCodeInDatabase == verificationCode)
             {
-                string verificationCodeInDatabase = connection.QuerySingle<string>($"SELECT VerificationCode FROM Account WHERE Email = '{email}'");
-                if (verificationCodeInDatabase == verificationCode)
+                using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB")))
                 {
                     connection.Execute($"UPDATE Account SET AccountVerified = 1 WHERE Email = '{email}'");
-                    return true;
                 }
+                return true;
+            }
+            else
+            {
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Gets the verification code from an account from the database.
+        /// </summary>
+        /// <param name="email">The email the verification code needs to be checked for.</param>
+        /// <returns>The verification code from the database for that account.</returns>
+        public static string GetVerificationCodeFromAccount(string email)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB")))
+            {
+               return connection.QuerySingle<string>($"SELECT VerificationCode FROM Account WHERE Email = '{email}'");
             }
         }
 

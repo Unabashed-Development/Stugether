@@ -9,7 +9,7 @@ namespace Gateway.Test
         public void GetUserIDFromAccount_ExistingUserID_ReturnsCorrectID()
         {
             // Arrange
-            const string email = "ThisAccountDoesExist@windesheim.nl";
+            const string email = "ThisAccountDoesExist@wafoe.nl";
 
             // Act
             int userID = AccountDataAccess.GetUserIDFromAccount(email);

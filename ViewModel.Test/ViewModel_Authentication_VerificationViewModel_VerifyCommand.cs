@@ -10,9 +10,10 @@ namespace ViewModel.Test
         public void VerifyCommand_VerificationCodeDoesNotMatch_SetsCorrectErrorMessage()
         {
             // Arrange
+            InitialSetupForTests.ClearFieldsInAccount();
             VerificationViewModel verificationViewModel = new VerificationViewModel(new Stores.AuthenticationNavigationStore())
             {
-                Email = "ThisAccountDoesExist@windesheim.nl",
+                Email = "ThisAccountDoesExist@wafoe.nl",
                 VerificationCode = "654321" // The verification code in the database is "123456"
             };
 
@@ -28,9 +29,10 @@ namespace ViewModel.Test
         public void VerifyCommand_VerificationCodeMatches_LogsUserInAndSetsCorrectOutput()
         {
             // Arrange
+            InitialSetupForTests.ClearFieldsInAccount();
             VerificationViewModel verificationViewModel = new VerificationViewModel(new Stores.AuthenticationNavigationStore())
             {
-                Email = "ThisAccountDoesExist@windesheim.nl",
+                Email = "ThisAccountDoesExist@wafoe.nl",
                 VerificationCode = "123456" // The verification code in the database is "123456"
             };
 
