@@ -38,13 +38,11 @@ namespace ViewModel.Commands
             if (parameter.GetType() == typeof(string))
             {
                 VM.CurrentVisiblePage = (string)parameter;
-                VM.Title = "StudentMatcher";
             }
             else if (parameter.GetType() == typeof(MainPageViewModel.MainMenuNavigationItemData))
             {
                 var data = (MainPageViewModel.MainMenuNavigationItemData)parameter;
                 VM.CurrentVisiblePage = data.Page;
-                VM.Title = data.Title;
             }
             else
             {
