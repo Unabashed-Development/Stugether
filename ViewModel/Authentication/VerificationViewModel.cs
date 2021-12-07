@@ -16,7 +16,8 @@ namespace ViewModel
         {
             if (AccountDataAccess.CheckIfVerificationCodeMatches(VerificationCode, Email))
             {
-                Account.authenticated = true;
+                Account.authenticated = true; // Set the authentication state of the application to true
+                Account.userID = AccountDataAccess.GetUserIDFromAccount(Email); // Get the user ID from the account and save it in the application
                 OnLoggedIn();
             }
             else
