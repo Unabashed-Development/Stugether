@@ -58,6 +58,18 @@ namespace Gateway
         }
 
         /// <summary>
+        /// Deletes an account from the database.
+        /// </summary>
+        /// <param name="email">The email of the account to be removed from the database.</param>
+        public static void DeleteAccount(string email)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB")))
+            {
+                connection.Execute($"DELETE FROM Account WHERE Email = '{email}'");
+            }
+        }
+
+        /// <summary>
         /// Checks if the given verification code matches the verification code in the database for the account. Also sets the verified column to true (1).
         /// </summary>
         /// <param name="verificationCode">The verification code that needs to be checked with the database.</param>
@@ -88,6 +100,14 @@ namespace Gateway
             {
                 bool verified = connection.QuerySingle<bool>($"SELECT AccountVerified FROM Account WHERE Email = '{email}'");
                 return verified;
+            }
+        }
+
+        public static int GetUserIDFromAccount(string email)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB")))
+            {
+                return connection.QuerySingle<int>($"SELECT UserID FROM Account WHERE Email = '{email}'");
             }
         }
         #endregion
