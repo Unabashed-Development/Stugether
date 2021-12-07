@@ -15,6 +15,5 @@ namespace Gateway
             return (List<string>) connection.Query<string>("SELECT HobbyName FROM HobbyType");
         }
 
-
     }
 }

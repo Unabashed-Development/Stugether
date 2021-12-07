@@ -13,50 +13,33 @@ namespace Model
         //public Account Account { get; set; }
         public int ID { get; set; }
         public string Email { get; set; }
-        public string City { get; set; } 
+        public string City { get; set; }
         public DateTime DateOfBirth { get; set; }
-
         public string Age { get; set; }
         public School School { get; set; }
         public HashSet<Relationships> Relationships { get; set; }
         public Profile Profile { get; set; }
         public string Name { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public bool Sex { get; set; }
 
         public Student(string email)
         {
             //Account = account;
             Email = email;
-            City = (string)LoadObject(DataKeys.City);
-            DateOfBirth = (DateTime)LoadObject(DataKeys.DateOfBirth);
+            City = (string)"";
+            DateOfBirth = (DateTime)DateTime.MaxValue;
             Age = CalculateAge(DateOfBirth).ToString() + " Jaar";
-            School = (School)LoadObject(DataKeys.School);
-            Relationships = (HashSet<Relationships>)LoadObject(DataKeys.Relationships);
+            School = (School)new School("", "", "");
+            Relationships = (HashSet<Relationships>)new HashSet<Relationships>();
+
             Profile = new Profile(this);
         }
 
         public Student()
         {
-        }
-
-        private object LoadObject(DataKeys data)
-        {
-
-            //this method will connect to the database and load the correct data for the object
-            switch (data)
-            {
-                case DataKeys.City:
-                    break;
-                case DataKeys.DateOfBirth:
-                    break;
-                case DataKeys.School:
-                    break;
-                case DataKeys.Relationships:
-                    break;
-                default:
-                    break;
-            }
-
-            return null;
+            Profile = new Profile(this);
         }
 
         private static int CalculateAge(DateTime birthDay)

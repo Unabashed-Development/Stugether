@@ -9,11 +9,11 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ProfileSettings">
 
-    <Page.Resources>
-        <VM:SettingsPageViewModel x:Key="vm"/>
-    </Page.Resources>
+    <Page.DataContext>
+        <VM:SettingsPageViewModel/>
+    </Page.DataContext>
 
-    <Grid Background="{StaticResource BackgroundSecundary}" DataContext="{StaticResource vm}">
+    <Grid Background="{StaticResource BackgroundSecundary}">
         <TabControl TabStripPlacement="Top" Padding="0, 0, 0, 0" BorderThickness="0">
             <TabItem Header="Persoonlijk">
                 <Grid Background="{StaticResource BackgroundSecundary}">
@@ -37,11 +37,11 @@
                     <Label Content="Woonplaats" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Center"/>
                     <Label Content="Geboortedatum" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="4" VerticalAlignment="Center"/>
                     <Label Content="Geslacht" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Center"/>
-                    <TextBox Grid.Column="2" HorizontalAlignment="Left" Grid.Row="1" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Center" Width="220"/>
-                    <TextBox Grid.Column="2" HorizontalAlignment="Left" Grid.Row="2" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Center" Width="220"/>
-                    <TextBox Grid.Column="2" HorizontalAlignment="Left" Grid.Row="3" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Center" Width="220"/>
-                    <DatePicker Grid.Column="2" HorizontalAlignment="Left" Grid.Row="4" VerticalAlignment="Center" Width="220"/>
-                    <RadioButton Content="Man" GroupName="Sex" IsChecked="True" Grid.Column="2" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Center"/>
+                    <TextBox Grid.Column="2" HorizontalAlignment="Left" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Center" Width="220" Text="{Binding FirstName, Mode=TwoWay}"/>
+                    <TextBox Grid.Column="2" HorizontalAlignment="Left" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Center" Width="220" Text="{Binding LastName, Mode=TwoWay}"/>
+                    <TextBox Grid.Column="2" HorizontalAlignment="Left" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" Width="220" Text="{Binding City, Mode=TwoWay}"/>
+                    <DatePicker Grid.Column="2" HorizontalAlignment="Left" Grid.Row="4" VerticalAlignment="Center" Width="220" Text="{Binding DateOfBirth, Mode=TwoWay}"/>
+                    <RadioButton Content="Man" GroupName="Sex" IsChecked="{Binding Sex, Mode=TwoWay}" Grid.Column="2" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Center"/>
                     <RadioButton Content="Vrouw" GroupName ="Sex" Grid.Column="2" HorizontalAlignment="Left" Margin="80,0,0,0" Grid.Row="5" VerticalAlignment="Center"/>
                     <Button Content="Opslaan" Grid.Column="3" HorizontalAlignment="Center" Grid.Row="6" VerticalAlignment="Center" MinHeight="50" MinWidth="150"/>
                     <Label Content="Persoonlijk" FontSize="22" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
@@ -67,9 +67,9 @@
                     <Label Content="School" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center" Height="25" Width="46"/>
                     <Label Content="Opleiding" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Center" Height="26" Width="62"/>
                     <Label Content="Plaats school" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Center" Height="26" Width="79"/>
-                    <TextBox Grid.Column="2" HorizontalAlignment="Left" Grid.Row="1" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Center" Width="220" Height="18"/>
-                    <TextBox Grid.Column="2" HorizontalAlignment="Left" Grid.Row="2" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Center" Width="220" Height="18"/>
-                    <TextBox Grid.Column="2" HorizontalAlignment="Left" Grid.Row="3" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Center" Width="220" Height="18"/>
+                    <TextBox Grid.Column="2" HorizontalAlignment="Left" Grid.Row="1" Text="{Binding SchoolName, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="220" Height="18"/>
+                    <TextBox Grid.Column="2" HorizontalAlignment="Left" Grid.Row="2" Text="{Binding Study, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="220" Height="18"/>
+                    <TextBox Grid.Column="2" HorizontalAlignment="Left" Grid.Row="3" Text="{Binding SchoolCity, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="220" Height="18"/>
                     <Button Content="Opslaan" Grid.Column="3" HorizontalAlignment="Center" Grid.Row="5" VerticalAlignment="Center" MinHeight="50" MinWidth="150" Height="50" Width="150"/>
                     <Label Content="School" Grid.Column="1" FontSize="22" HorizontalAlignment="Left"  VerticalAlignment="Center"/>
 
@@ -90,7 +90,7 @@
                         <ColumnDefinition Width="25*"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Schrijf hier wat leuks over jezelf (max 420 woorden)." Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center" Height="26" Width="281"/>
-                    <TextBlock Grid.Column="1" Grid.Row="2" Text="TextBlock" TextWrapping="Wrap" Grid.ColumnSpan="1" Background="{StaticResource BackgroundPrimary}" />
+                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Description, Mode=TwoWay}" TextWrapping="Wrap" Grid.ColumnSpan="1" Background="{StaticResource BackgroundPrimary}" />
                     <Button Content="Opslaan" Grid.Column="2" HorizontalAlignment="Center" Grid.Row="4" VerticalAlignment="Center" MinHeight="50" MinWidth="150" Height="50" Width="150"/>
                     <Label Content="Beschrijving" Grid.Column="1" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
