@@ -26,6 +26,7 @@ namespace ViewModel
                         {
                             if (AccountDataAccess.CheckIfAccountIsVerified(Email))
                             {
+                                Account.userID = AccountDataAccess.GetUserIDFromAccount(Email); // Get the user ID from the account and save it in the application
                                 CleanUpAccountData();
                                 OnLoggedIn();
                             }
