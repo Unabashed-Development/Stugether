@@ -20,13 +20,13 @@ namespace View
     public partial class MainWindowNavigationItem : RadioButton
     {
         public static readonly DependencyProperty PageProperty = DependencyProperty.Register(
-            "Page", typeof(string), typeof(MainWindowNavigationItem));
+            "Page", typeof(UIElement), typeof(MainWindowNavigationItem));
         /// <summary>
         /// The page to be navigated to
         /// </summary>
-        public string Page
+        public UIElement Page
         {
-            get { return GetValue(PageProperty) as string; }
+            get { return GetValue(PageProperty) as UIElement; }
             set { SetValue(PageProperty, value); }
         }
 
