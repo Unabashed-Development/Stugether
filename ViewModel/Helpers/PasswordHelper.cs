@@ -54,7 +54,7 @@ namespace ViewModel.Helpers
         }
 
         /// <summary>
-        /// Sample password policy implementation:
+        /// Stugether password policy implementation:
         /// - minimum 8 characters
         /// - at lease one UC letter
         /// - at least one LC letter

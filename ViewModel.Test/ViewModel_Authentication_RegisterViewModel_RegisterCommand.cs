@@ -1,3 +1,5 @@
+using Gateway;
+using Model;
 using NUnit.Framework;
 
 namespace ViewModel.Test
@@ -43,7 +45,9 @@ namespace ViewModel.Test
             // Arrange
             RegisterViewModel registerViewModel = new RegisterViewModel(new Stores.AuthenticationNavigationStore())
             {
-                Email = email
+                Email = email,
+                Password = "SomethingToPreventNotAllFieldsEnteredError",
+                VerifyPassword = "SomethingToPreventNotAllFieldsEnteredError"
             };
 
             // Act
@@ -54,7 +58,6 @@ namespace ViewModel.Test
             Assert.AreEqual("Dit e-mailadres is geen geldig school adres.", registerViewModel.ErrorMessage);
         }
 
-        [TestCase("")]
         [TestCase("a")]
         [TestCase("abc")]
         [TestCase("#")]
@@ -62,15 +65,14 @@ namespace ViewModel.Test
         [TestCase("123")]
         [TestCase("abcdefghijklmnopqrstuvwxyz")]
         [TestCase("Abcdefghijklmnopqrstuvwxyz")]
-        [TestCase("Abcdefghijklmnopqrstuvwxyz&")]
-        [TestCase("Abcdefghijklmnopqrstuvwxyz1")]
         public void RegisterCommand_InsufficientPassword_SetsCorrectErrorMessage(string password)
         {
             // Arrange
             RegisterViewModel registerViewModel = new RegisterViewModel(new Stores.AuthenticationNavigationStore())
             {
                 Email = "ThisIsASchoolEmail@windesheim.nl",
-                Password = password
+                Password = password,
+                VerifyPassword = password
             };
 
             // Act
@@ -81,7 +83,7 @@ namespace ViewModel.Test
             Assert.AreEqual("Je wachtwoord voldoet niet aan de minimale eisen.", registerViewModel.ErrorMessage);
         }
 
-        [TestCase("ThisP4ssw@rdIsSufficient", "")]
+        [TestCase("ThisP4ssw@rdIsSufficient", "test")]
         [TestCase("ThisP4ssw@rdIsSufficient", "abc123DEF!@#")]
         public void RegisterCommand_PasswordsSufficientButDoesNotMatch_SetsCorrectErrorMessage(string password, string verifyPasword)
         {
@@ -107,7 +109,7 @@ namespace ViewModel.Test
             // Arrange
             RegisterViewModel registerViewModel = new RegisterViewModel(new Stores.AuthenticationNavigationStore())
             {
-                Email = "ThisIsASchoolEmail@windesheim.nl",
+                Email = "ThisAccountDoesExist@windesheim.nl",
                 Password = "ThisP4ssw@rdIsSufficient",
                 VerifyPassword = "ThisP4ssw@rdIsSufficient"
             };
@@ -120,23 +122,32 @@ namespace ViewModel.Test
             Assert.AreEqual("Dit account bestaat al.", registerViewModel.ErrorMessage);
         }
 
-        //[Test]
-        //public void RegisterCommand_NoProblems_CreatesAccountAndGivesCorrectOutput()
-        //{
-        //    // Arrange
-        //    RegisterViewModel registerViewModel = new RegisterViewModel(new Stores.AuthenticationNavigationStore())
-        //    {
-        //        Email = "ThisIsANewSchoolEmail@wafoe.nl",
-        //        Password = "ThisP4ssw@rdIsSufficient",
-        //        VerifyPassword = "ThisP4ssw@rdIsSufficient"
-        //    };
+        [Test]
+        public void RegisterCommand_NoProblems_CreatesAccountAndGivesCorrectOutput()
+        {
+            // Arrange
+            RegisterViewModel registerViewModel = new RegisterViewModel(new Stores.AuthenticationNavigationStore())
+            {
+                Email = "ThisIsANewSchoolEmail@wafoe.nl",
+                Password = "ThisP4ssw@rdIsSufficient",
+                VerifyPassword = "ThisP4ssw@rdIsSufficient"
+            };
 
-        //    // Act
-        //    registerViewModel.RegisterCommand.Execute(null);
+            // Act
+            registerViewModel.RegisterCommand.Execute(null);
 
-        //    // Assert
-        //    Assert.IsNotNull(registerViewModel.ErrorMessage);
-        //    Assert.AreEqual("Dit account bestaat al.", registerViewModel.ErrorMessage);
-        //}
+            // Clean up
+            AccountDataAccess.DeleteAccount(registerViewModel.Email);
+
+            // Assert
+            Assert.IsNull(registerViewModel.ErrorMessage);
+            Assert.IsNull(registerViewModel.VerificationCode);
+            Assert.IsNull(registerViewModel.Password);
+            Assert.IsNull(registerViewModel.VerifyPassword);
+            Assert.IsNull(registerViewModel.PasswordStrength);
+            Assert.IsNotNull(registerViewModel.Email);
+            Assert.IsNotNull(Account.userID);
+            Assert.IsTrue(Account.authenticated);
+        }
     }
 }
