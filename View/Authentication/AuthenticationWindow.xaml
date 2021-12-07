@@ -3,10 +3,23 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:View.Authentication"
+        xmlns:authentication="clr-namespace:View.Authentication"
+        xmlns:viewmodels="clr-namespace:ViewModel;assembly=ViewModel"
         mc:Ignorable="d"
-        Title="AuthenticationWindow" Height="330" Width="400">
+        Title="AuthenticationWindow" Height="370" Width="400">
     <Grid>
-        <Frame x:Name="Authentication" NavigationUIVisibility="Hidden"/>
+        <Frame Content="{Binding CurrentViewModel}" NavigationUIVisibility="Hidden">
+            <Frame.Resources>
+                <DataTemplate DataType="{x:Type viewmodels:LoginViewModel}">
+                    <authentication:LoginView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:RegisterViewModel}">
+                    <authentication:RegisterView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:VerificationViewModel}">
+                    <authentication:VerificationView/>
+                </DataTemplate>
+            </Frame.Resources>
+        </Frame>
     </Grid>
 </Window>
