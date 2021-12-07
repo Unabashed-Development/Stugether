@@ -15,7 +15,7 @@ namespace ViewModel
         /// </summary>
         private void LoginInDatabase()
         {
-            if (Account.email != null && Account.password != null && Account.email.Length > 0 && Account.password.Length > 0)
+            if (Email != null && Password != null && Email.Length > 0 && Password.Length > 0)
             {
                 if (AccountHelper.IsValidEmail(Email))
                 {
@@ -26,6 +26,7 @@ namespace ViewModel
                         {
                             if (AccountDataAccess.CheckIfAccountIsVerified(Email))
                             {
+                                Account.userID = AccountDataAccess.GetUserIDFromAccount(Email); // Get the user ID from the account and save it in the application
                                 CleanUpAccountData();
                                 OnLoggedIn();
                             }

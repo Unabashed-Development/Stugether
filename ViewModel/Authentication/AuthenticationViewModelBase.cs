@@ -94,11 +94,12 @@ namespace ViewModel
 
         #region Methods
         /// <summary>
-        /// Cleans up account data not needed anymore in the application after registering.
+        /// Cleans up account data not needed anymore in the application after registering or logging in.
         /// </summary>
-        protected void CleanUpAccountData()
+        public void CleanUpAccountData()
         {
             Password = null;
+            VerifyPassword = null;
             VerificationCode = null;
             PasswordStrength = null;
         }

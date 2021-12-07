@@ -8,7 +8,7 @@ namespace Gateway.Test
         public void CheckIfVerificationCodeMatches_ValidVerificationCode_ReturnsTrue()
         {
             // Arrange
-            const string email = "ThisAccountDoesExist";
+            const string email = "ThisAccountDoesExist@windesheim.nl";
             const string verificationCode = "123456";
 
             // Act
@@ -22,7 +22,7 @@ namespace Gateway.Test
         public void CheckIfVerificationCodeMatches_InvalidVerificationCode_ReturnsFalse()
         {
             // Arrange
-            const string email = "ThisAccountDoesExist";
+            const string email = "ThisAccountDoesExist@windesheim.nl";
             const string verificationCode = "000000";
 
             // Act

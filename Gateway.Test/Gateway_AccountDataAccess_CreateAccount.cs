@@ -21,6 +21,7 @@ namespace Gateway.Test
                 try
                 {
                     AccountDataAccess.CreateAccount(email, password, verificationCode);
+                    AccountDataAccess.DeleteAccount(email); // Also tests the delete method to clean up garbage data from the database
                 }
                 catch (Exception)
                 {
