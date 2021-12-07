@@ -17,11 +17,14 @@ namespace ViewModel
         /// </summary>
         public ObservableCollection<MainMenuNavigationItemData> MainNavigationItems { get; } = new ObservableCollection<MainMenuNavigationItemData>()
         {
-            new MainMenuNavigationItemData("Profile", "ProfilePage.xaml", null)
+            new MainMenuNavigationItemData("Home", "HomePage.xaml", null),
+            new MainMenuNavigationItemData("Profile", "ProfilePage.xaml", null),
+            new MainMenuNavigationItemData("Hobby opties", "HobbyOptionsView.xaml", null),
+            new MainMenuNavigationItemData("Settings", "ProfileSettings.xaml", null)
         };
 
 
-        private string currentVisiblePage;
+        private string currentVisiblePage = "HomePage.xaml";
         /// <summary>
         /// Page that is currently visible on the frame
         /// </summary>
@@ -35,23 +38,6 @@ namespace ViewModel
             {
                 currentVisiblePage = value;
                 OnPropertyChanged("CurrentVisiblePage");
-            }
-        }
-
-        private string title;
-        /// <summary>
-        /// Title shown on top of the page
-        /// </summary>
-        public string Title
-        {
-            get
-            {
-                return title;
-            }
-            set
-            {
-                title = value;
-                OnPropertyChanged("Title");
             }
         }
 

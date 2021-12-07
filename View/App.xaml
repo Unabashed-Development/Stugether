@@ -2,7 +2,6 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:View"
-             xmlns:stylingHelperTools="clr-namespace:View.StylingHelperTools"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary Source="Styling/Main.xaml"/>
