@@ -22,5 +22,19 @@ namespace View
         {
             InitializeComponent();
         }
+
+        // TODO: Can this be MVVM'd?
+        private void AddPhoto_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new Microsoft.Win32.OpenFileDialog();
+            dialog.Filter = "Foto's (.jpg, .png)|*.jpg;*.jpeg;*.png";
+
+            bool? result = dialog.ShowDialog();
+
+            if (result == true)
+            {
+                ((sender as Button).DataContext as ViewModel.ProfilePagePhotosViewModel).SelectedMediaFileForUpload = dialog.FileName;
+            }
+        }
     }
 }

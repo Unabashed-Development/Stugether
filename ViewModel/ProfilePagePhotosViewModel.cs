@@ -1,4 +1,5 @@
 ﻿using Gateway;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,7 +11,7 @@ using ViewModel.Commands;
 
 namespace ViewModel
 {
-    public class ProfilePagePhotosViewModel : INotifyPropertyChanged
+    public class ProfilePagePhotosViewModel : ObservableObject
     {
         public Uri SelectedImage
         {
@@ -35,10 +36,8 @@ namespace ViewModel
         public ObservableCollection<Uri> Images { get; } = new ObservableCollection<Uri>();
 
         public ICommand PhotoNavigationButtonCommand => new RelayCommand(
-            //(parameter) =>
-            () =>
+            (parameter) =>
             {
-                object parameter = "+"; // TODO: use given parameter when commit 63d05e29 is merged
                 if (Images.Count > 0)
                 {
                     if ((string)parameter == "+")
@@ -52,18 +51,44 @@ namespace ViewModel
                         _selectedImage %= Images.Count;
                     }
                 }
-                OnPropertyChanged("SelectedImage");
+                RaisePropertyChanged("SelectedImage");
             },
             () => true
             );
 
+        public ICommand DeletePhotoButton => new RelayCommand(
+            (parameter) =>
+            {
+                System.Diagnostics.Debug.WriteLine($"Remove photo {parameter}");
+            },
+            () => true);
+
+        public string SelectedMediaFileForUpload
+        {
+            get => selectedMediaFileForUpload;
+            set
+            {
+                selectedMediaFileForUpload = value;
+                RaisePropertyChanged("SelectedMediaFileForUpload");
+            }
+        }
+        private string selectedMediaFileForUpload;
+
+
+        public ICommand UploadPhotoButtonCommand => new RelayCommand(
+            () =>
+            {
+                //MediaDataAccess.UploadPhoto();
+            },
+            () => !(string.IsNullOrEmpty(selectedMediaFileForUpload) || string.IsNullOrWhiteSpace(selectedMediaFileForUpload)));
+
         public ProfilePagePhotosViewModel()
         {
-            List<string> imageStrings = new List<string>(MediaDataAccess.GetUserMedia(1));
+            List<string> imageStrings = new List<string>(MediaDataAccess.GetUserMedia(Account.userID));
             Images = new ObservableCollection<Uri>(imageStrings.ConvertAll((str) => new Uri(str, UriKind.RelativeOrAbsolute)));
         }
 
-        #region Property change notification
+        /*#region Property change notification
         /// <summary>
         /// Occurs when a property value changes.
         /// </summary>
@@ -76,6 +101,6 @@ namespace ViewModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        #endregion
+        #endregion*/
     }
 }
