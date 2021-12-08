@@ -8,34 +8,41 @@ namespace Gateway
     public class ProfileDataAccess
     {
 
-        public static List<string> GetAllInterests()
+        public static List<string> LoadAllInterests()
         {
             using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
-            return (List<string>)connection.Query<string>("SELECT HobbyName FROM HobbyType");
+            List<string> result = (List<string>)connection.Query<string>("SELECT InterestName FROM InterestType");
+            return result;
         }
 
-
-        public static Profile GetProfile(Account account)
+        public static Profile LoadProfile(int id)
         {
             using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
-            string studentData = connection.QuerySingle<string>("SELECT * FROM Profile WHERE UserID = @userID", account);
+            Profile studentData = (Profile)connection.QuerySingle<Profile>("SELECT * FROM Profile WHERE UserID = 3");
+
             return null;
         }
 
-        public static QAData GetQAData(Account account)
+        public static School LoadSchool(Account account)
+        {
+
+            return null;
+        }
+
+        public static QAData LoadQAData(Account account)
         {
             using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
             //string studentData = connection.QuerySingle<string>("SELECT * FROM Student");
             return null;
         }
 
-        public static InterestsData GetInterestsData(Account account)
+        public static InterestsData LoadInterestsData(Account account)
         {
             using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
             //string studentData = connection.QuerySingle<string>("SELECT * FROM Student");
             return null;
         }
-        public static MoralsData GetMoralsData(Account account)
+        public static MoralsData LoadMoralsData(Account account)
         {
             using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
             //string studentData = connection.QuerySingle<string>("SELECT * FROM Student");
