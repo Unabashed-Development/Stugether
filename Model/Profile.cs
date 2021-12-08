@@ -6,45 +6,30 @@ namespace Model
     public class Profile
     {
 
+        public static Profile CurrentProfile { get; set; }
+        private DateTime _dateOfBirth;
+
         public int ID { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Age { get; set; }
+        public bool Sex { get; set; }
+        public string Description { get; set; }
+        public string City { get; set; }
         public QAData QAData { get; set; }
         public MoralsData MoralsData { get; set; }
         public InterestsData InterestsData { get; set; }
-        public string Description { get; set; }
-        public string City { get; set; }
-        public DateTime DateOfBirth 
+        public DateTime DateOfBirth
         {
-            get => DateOfBirth;
+            get => _dateOfBirth;
             set
             {
-                DateOfBirth = value;
+                _dateOfBirth = value;
                 Age = CalculateAge(value).ToString() + " Jaar";
-            } 
+            }
         }
-        public string Age { get; set; }
         public School School { get; set; }
         public HashSet<int> Relationships { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public bool Sex { get; set; }
-
-        public Profile(int id, string firstName, string lastName, string age, bool sex, School school, HashSet<int> relationships, QAData qaData, MoralsData moralsData, InterestsData interestsData, string description, string city, DateTime dateOfBirth)
-        {
-            ID = id;
-            FirstName = firstName;
-            LastName = lastName;
-            Age = age;
-            Sex = sex;
-            School = school;
-            Relationships = relationships;
-            QAData = qaData;
-            MoralsData = moralsData;
-            InterestsData = interestsData;
-            Description = description;
-            City = city;
-            DateOfBirth = dateOfBirth;
-        }
-
         private static int CalculateAge(DateTime birthDay)
         {
             int years = DateTime.Now.Year - birthDay.Year;
