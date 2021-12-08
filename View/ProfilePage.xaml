@@ -7,7 +7,6 @@
       xmlns:VM="clr-namespace:ViewModel;assembly=ViewModel"
       mc:Ignorable="d" 
       d:DesignHeight="1920" d:DesignWidth="1080"
-      
       Title="Profile">
 
 
@@ -120,7 +119,7 @@
             <ProgressBar x:Name="ClimateProgressBar" Grid.Column="1" Grid.Row="6" Background="{StaticResource BackgroundSecundary}" Margin="10,10,10,10" Value="10" Foreground="{StaticResource BackgroundQuaternary}" MaxHeight="12" MinHeight="12"/>
 
         </Grid>
-
-    </Grid>
+            <Grid Grid.Column="2" Grid.Row="7" Background="{StaticResource BackgroundSecundary}"/>
+        </Grid>
     </ScrollViewer>
 </Page>

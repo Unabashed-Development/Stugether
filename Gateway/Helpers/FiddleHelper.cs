@@ -9,9 +9,6 @@ namespace Gateway
         /// </summary>
         /// <param name="name">The name of the connection.</param>
         /// <returns>A string of the ConfigurationManager.</returns>
-        public static string GetConnectionStringSql(string name)
-        {
-            return ConfigurationManager.ConnectionStrings[name].ConnectionString;
-        }
+        public static string GetConnectionStringSql(string name) => ConfigurationManager.ConnectionStrings[name].ConnectionString;
     }
 }
