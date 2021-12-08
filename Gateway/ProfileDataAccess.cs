@@ -15,11 +15,16 @@ namespace Gateway
             return result;
         }
 
-        public static Profile LoadProfile(Account account)
+        public static Profile LoadProfile(int id)
         {
             using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
             Profile studentData = (Profile)connection.QuerySingle<Profile>("SELECT * FROM Profile WHERE UserID = 3");
 
+            return null;
+        }
+
+        public static School LoadSchool(Account account)
+        {
 
             return null;
         }
