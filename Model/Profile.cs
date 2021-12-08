@@ -6,9 +6,9 @@ namespace Model
     public class Profile
     {
 
-        public static Profile CurrentProfile { get; set; }
-        private DateTime _dateOfBirth;
+        public static Profile LoggedInProfile { get; set; }
 
+        private DateTime _dateOfBirth;
         public int ID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
