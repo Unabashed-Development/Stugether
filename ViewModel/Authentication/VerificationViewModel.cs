@@ -16,8 +16,7 @@ namespace ViewModel
         {
             if (AccountDataAccess.CheckIfVerificationCodeMatches(VerificationCode, Email))
             {
-                Account.authenticated = true;
-                OnLoggedIn();
+                LogUserIn();
             }
             else
             {
@@ -30,6 +29,15 @@ namespace ViewModel
         public VerificationViewModel(AuthenticationNavigationStore navigationStore)
         {
             base.navigationStore = navigationStore;
+        }
+
+        /// <summary>
+        /// Overload for the default constructor to display an error message on open.
+        /// </summary>
+        public VerificationViewModel(AuthenticationNavigationStore navigationStore, string errorMessage)
+        {
+            base.navigationStore = navigationStore;
+            ErrorMessage = errorMessage;
         }
         #endregion
 

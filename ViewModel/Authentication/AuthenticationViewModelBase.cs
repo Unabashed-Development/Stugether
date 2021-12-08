@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using Gateway;
+using Model;
 using System;
 using ViewModel.Commands;
 using ViewModel.Helpers;
@@ -90,6 +91,17 @@ namespace ViewModel
         {
             return true;
         }
+
+        /// <summary>
+        /// Sets the CurrentViewModel of the navigationStore to the verification ViewModel.
+        /// </summary>
+        protected void NavigateToVerification() => navigationStore.CurrentViewModel = new VerificationViewModel(navigationStore);
+
+        /// <summary>
+        /// Sets the CurrentViewModel of the navigationStore to the verification ViewModel. (overload)
+        /// </summary>
+        /// <param name="errorMessage">Optional parameter to give the ViewModel an error message when creating it.</param>
+        protected void NavigateToVerification(string errorMessage) => navigationStore.CurrentViewModel = new VerificationViewModel(navigationStore, errorMessage);
         #endregion
 
         #region Methods
@@ -103,7 +115,24 @@ namespace ViewModel
             VerificationCode = null;
             PasswordStrength = null;
         }
+        /// <summary>
+        /// Logs the user in by setting the authentication and user ID to the correct value and calling OnLoggedIn to invoke an event.
+        /// </summary>
+        protected void LogUserIn()
+        {
+            Account.authenticated = true; // Set the authentication state of the application to true
+            Account.userID = AccountDataAccess.GetUserIDFromAccount(Email); // Get the user ID from the account and save it in the application
+            OnLoggedIn();
+        }
 
+        /// <summary>
+        /// Sets the ErrorMessage property to indicate that not all fields are occupied.
+        /// </summary>
+        protected void ErrorMessage_NotAllFieldsOccupied() => ErrorMessage = "Niet alle velden zijn ingevuld.";
+
+        /// <summary>
+        /// Invokes the LoggedIn event to indicate that the user has logged in.
+        /// </summary>
         protected void OnLoggedIn()
         {
             LoggedIn?.Invoke();
