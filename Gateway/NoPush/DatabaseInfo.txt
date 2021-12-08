@@ -1,7 +1,3 @@
 145.44.233.153
 student
 Spidb1@
-1433
-sa
-Spidb1@!#
-StudentMatcher

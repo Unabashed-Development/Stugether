@@ -12,6 +12,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using View.Authentication;
+using ViewModel;
+using ViewModel.Stores;
 
 namespace View
 {
@@ -27,8 +29,18 @@ namespace View
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
-            AuthenticationWindow authenticationWindow = new AuthenticationWindow();
-            authenticationWindow.Show();
+            AuthenticationNavigationStore navigationStore = new AuthenticationNavigationStore(); // Create navigation store for the ViewModel
+            navigationStore.CurrentViewModel = new LoginViewModel(navigationStore); // Set the LoginViewModel as the current view model
+            MainAuthenticationViewModel currentViewModel = new MainAuthenticationViewModel(navigationStore); // Create a new MainAuthenticationViewModel
+
+            AuthenticationWindow authenticationWindow = new AuthenticationWindow()
+            { // Sets the data context for the authentiction window to MainAuthenticationViewModel.
+                DataContext = currentViewModel
+            };
+
+            authenticationWindow.Show(); // Show the authentication window
+
+            currentViewModel.RequestClose += () => authenticationWindow.Close();
         }
     }
 }

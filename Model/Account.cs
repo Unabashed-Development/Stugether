@@ -2,13 +2,14 @@
 
 namespace Model
 {
-    public class Account
+    public static class Account
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public DateTime DatePasswordChanged { get; set; }
-
-        public static Account CurrentAccount { get; set; }
-
+        public static string email;
+        public static string password;
+        public static string verifyPassword;
+        public static int? passwordStrength; // Nullable
+        public static string verificationCode;
+        public static bool authenticated;
+        public static int userID;
     }
 }

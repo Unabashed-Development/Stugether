@@ -3,13 +3,9 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:View.Authentication" xmlns:components="clr-namespace:View.Components" xmlns:ViewModel="clr-namespace:ViewModel;assembly=ViewModel"
+      xmlns:components="clr-namespace:View.Components"
       mc:Ignorable="d" 
       Title="LoginView">
-
-    <Page.DataContext>
-        <ViewModel:AuthenticationViewModel/>
-    </Page.DataContext>
 
     <Grid>
         <Border Background="{StaticResource BackgroundPrimary}" CornerRadius="10" Margin="10">
@@ -22,19 +18,13 @@
                 <components:BindablePasswordBox Margin="5 0" FontSize="14"
                     Password="{Binding Password}"/>
 
-                <Button Content="Inloggen" Margin="100 10" Background="{StaticResource BackgroundTertiary}" Foreground="White" FontSize="14" Command="{Binding LoginCommand}">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="10"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
+                <Button Content="Inloggen" Margin="100 10" Background="{StaticResource BackgroundTertiary}" Foreground="White" FontSize="14" Command="{Binding LoginCommand}"/>
 
                 <Separator/>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Label Content="Nog geen account?" FontSize="14" HorizontalAlignment="Center" Margin="0,0,-5,0"/>
-                    <Label Content="Klik hier om te registreren!" MouseLeftButtonDown="RegisterClick" FontSize="14" HorizontalAlignment="Center" FontWeight="Bold"/>
+                    <Label Content="Nog geen account?" FontSize="14" HorizontalAlignment="Center"/>
+                    <Button Content="Registreer je!" FontSize="14" Background="{StaticResource BackgroundTertiary}" Foreground="White" Command="{Binding NavigateToRegisterCommand}"/>
                 </StackPanel>
 
                 <Label Content="{Binding ErrorMessage}" Foreground="Red" FontSize="14" HorizontalAlignment="Center"/>

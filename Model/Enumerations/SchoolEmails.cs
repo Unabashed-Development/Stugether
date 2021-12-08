@@ -6,6 +6,7 @@
     public enum SchoolEmails
     { // For later research: https://dev.elsevier.com/apikey/create
         Windesheim, // Currently only Hogeschool Windesheim in Zwolle
-        Hotmail // Temporary for testing purposes
+        Hotmail, // Temporary for testing purposes
+        Msn // Temporary as well
     }
 }

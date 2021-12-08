@@ -1,6 +1,5 @@
 ﻿using MailKit.Net.Smtp;
 using MimeKit;
-using Model;
 
 namespace Gateway
 {
@@ -11,11 +10,11 @@ namespace Gateway
         /// </summary>
         /// <param name="account">The account the mail needs to be send to.</param>
         /// <param name="verificationCode">The verification code that needs to be in the mail.</param>
-        public static void SendVerificationMail(Account account, string verificationCode)
+        public static void SendVerificationMail(string email, string verificationCode)
         {
             MimeMessage mailMessage = new MimeMessage();
             mailMessage.From.Add(new MailboxAddress("Stugether", "no-reply@stugether.wafoe.nl"));
-            mailMessage.To.Add(new MailboxAddress($"Stugether gebruiker", account.Email));
+            mailMessage.To.Add(new MailboxAddress($"Stugether gebruiker", email));
             mailMessage.Subject = "Welkom bij Stugether! Dit is je verificatiecode.";
             mailMessage.Body = new TextPart("plain")
             {

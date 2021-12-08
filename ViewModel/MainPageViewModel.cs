@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
+using Gateway;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 using System.ComponentModel;
-using System.Text;
 using ViewModel.Commands;
-//using System.Windows.Controls;
 
 namespace ViewModel
 {
     /// <summary>
     /// ViewModel for MainPage
     /// </summary>
-    public class MainPageViewModel : INotifyPropertyChanged
+    public class MainPageViewModel : ObservableObject
     {
         #region Properties
         /// <summary>
@@ -32,30 +31,45 @@ namespace ViewModel
         /// </summary>
         public string CurrentVisiblePage
         {
-            get
-            {
-                return currentVisiblePage;
-            }
+            get => currentVisiblePage;
             set
             {
                 currentVisiblePage = value;
-                OnPropertyChanged("CurrentVisiblePage");
+                RaisePropertyChanged("CurrentVisiblePage");
             }
         }
 
         /// <summary>
         /// Handles the click events of the main menu buttons
         /// </summary>
-        public NavigateButtonCommand NavigateButtonCommand { get; set; }
+        public ICommand NavigateButtonCommand => new RelayCommand(
+            (parameter) =>
+            {
+                if (parameter.GetType() == typeof(string))
+                {
+                    CurrentVisiblePage = (string)parameter;
+                }
+                else if (parameter.GetType() == typeof(MainMenuNavigationItemData))
+                {
+                    MainMenuNavigationItemData data = (MainMenuNavigationItemData)parameter;
+                    CurrentVisiblePage = data.Page;
+                }
+                else
+                {
+                    throw new InvalidOperationException("Accepts only strings");
+                }
+            },
+            (parameter) => MainNavigationItems.Count > 0
+            );
         #endregion
 
-        #region constructor
+        #region Construction
         /// <summary>
         /// Creates a new viewmodel for MainPage
         /// </summary>
         public MainPageViewModel()
         {
-            NavigateButtonCommand = new NavigateButtonCommand(this);
+            SSHService.Initialize(); // Initialize SSH for the database connection and logging in
         }
         #endregion
 
@@ -90,21 +104,6 @@ namespace ViewModel
             /// Optional extra information to be given when navigating
             /// </summary>
             public object ExtraInformation { get; set; }
-        }
-        #endregion
-
-        #region Property change notification
-        /// <summary>
-        /// Occurs when a property value changes.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-        /// <summary>
-        /// Triggers the PropertyChanged event
-        /// </summary>
-        /// <param name="propertyName">The property which is changed</param>
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
     }
