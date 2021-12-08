@@ -7,7 +7,7 @@ namespace Model
     public class QAData
     {
 
-        public QAData(Student student)
+        public QAData(Profile student)
         {
 
         }

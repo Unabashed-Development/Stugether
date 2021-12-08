@@ -7,7 +7,7 @@ namespace Model
     public class InterestsData
     {
 
-        public InterestsData(Student student)
+        public InterestsData(Profile student)
         {
 
         }
