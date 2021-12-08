@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Model
+﻿namespace Model
 {
     public class MoralsData
     {
 
-        public MoralsData(Student student)
+        public MoralsData(Profile student)
         {
 
         }
