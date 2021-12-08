@@ -8,6 +8,12 @@ namespace Gateway
 {
     public static class MediaDataAccess
     {
+        #region SQL
+        /// <summary>
+        /// Gets all media for userID from the database
+        /// </summary>
+        /// <param name="userID">The userID to get the media for</param>
+        /// <returns>IEnumerable with paths to the media</returns>
         public static IEnumerable<string> GetUserMedia(int userID)
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB")))
@@ -17,19 +23,48 @@ namespace Gateway
         }
 
         /// <summary>
+        /// Uploads media to the server and adds its record to the database
+        /// </summary>
+        /// <param name="localPath">The local path to the file to upload on the computer</param>
+        /// <param name="userID">The userID to upload the media for</param>
+        public static void AddUserMedia(string localPath, int userID)
+        {
+            string uploadedFile = UploadMediaToServer(localPath);
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB")))
+            {
+                connection.Query("INSERT INTO UserMedia (UserID, Path) VALUES(@uid, @file); ", new { uid = userID, file = $"http://www.stugether.wafoe.nl/{uploadedFile}" });
+            }
+        }
+        #endregion
+
+        #region SFTP
+        /// <summary>
         /// Uploads a local file to the media server.
         /// </summary>
         /// <param name="localPath">The path of the media that needs to be uploaded.</param>
-        public static void UploadMediaToServer(string localPath)
+        /// <returns>The relative path where the media is stored.</returns>
+        public static string UploadMediaToServer(string localPath)
         {
             using (Session session = new Session())
             {
                 // Connect
                 session.Open(SFTPService.GenerateSessionOptions());
 
-                session.PutFiles($"{localPath}", $"/mnt/StorageDisk/stugether/media/").Check();
+                // Generate random filename for remote
+                string filename = "";
+                do
+                {
+                    System.Guid filenameGuid = System.Guid.NewGuid();
+                    filename = filenameGuid.ToString() + new System.IO.FileInfo(localPath).Extension;
+                    System.Diagnostics.Debug.WriteLine(filename);
+                }
+                while (session.FileExists($"/mnt/StorageDisk/stugether/media/{filename}"));
+
+                session.PutFiles($"{localPath}", $"/mnt/StorageDisk/stugether/media/{filename}").Check();
 
                 session.Close();
+
+                return $"media/{filename}";
             }
         }
 
@@ -49,5 +84,6 @@ namespace Gateway
                 session.Close();
             }
         }
+        #endregion
     }
 }

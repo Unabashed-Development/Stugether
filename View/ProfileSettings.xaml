@@ -155,7 +155,8 @@
                         <Button Width="100" Height="75" HorizontalAlignment="Left" Margin="10,0,10,0" Background="#FF6FF16F" Click="AddPhoto_Click">
                             <Path Data="M 25,12.5 L 0,12.5 M 12.5,25 L 12.5,0" StrokeThickness="2.5" Margin="3.75,3.75,2.5,2.5" Stroke="#FF444444" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
                         </Button>
-                        <Button Width="100" Height="75" HorizontalAlignment="Left" Margin="10,0,0,0" Content="Upload" Command="{Binding UploadPhotoButtonCommand}"/>
+                        <Button Width="100" Height="75" HorizontalAlignment="Left" Margin="10,0,10,0" Content="Upload" IsEnabled="{Binding CanUpload}" Command="{Binding UploadPhotoButtonCommand}"/>
+                        <TextBlock VerticalAlignment="Center" Text="{Binding UploadStatus}" Margin="10,0,0,0" TextWrapping="Wrap"/>
                     </StackPanel>
                     <Image Source="{Binding SelectedMediaFileForUpload}"/>
                 </StackPanel>
