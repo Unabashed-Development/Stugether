@@ -1,0 +1,62 @@
+﻿<Page x:Class="View.OpgevenRelaties"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:View"
+      xmlns:VM="clr-namespace:ViewModel;assembly=ViewModel"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="OpgevenRelaties">
+
+    <Page.Resources>
+        <VM:HobbyOptionViewModel x:Key="vm"/>
+    </Page.Resources>
+
+    <Grid DataContext="{StaticResource vm}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20*" />
+            <ColumnDefinition Width="188*" />
+            <ColumnDefinition Width="430*" />
+            <ColumnDefinition Width="90*" />
+            <ColumnDefinition Width="20*" />
+            
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ListView Grid.Row="0" Grid.Column="2" >
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <CheckBox>
+
+                        </CheckBox>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+
+
+        
+        <ListView Grid.Row="0" Grid.Column="2" DataContext="{StaticResource vm}">
+
+
+            <CheckBox Name="LoveBox" Content="Liefde" Width="59" Height="15" VerticalAlignment="Top" IsChecked="{Binding IsCheckedLove}"/>
+            <CheckBox Name="BussinesBox" Content="Zakelijk"  Height="15" VerticalAlignment="Top" HorizontalAlignment="Left" Width="99" IsChecked="{Binding IsCheckedBusiness}"/>
+            <CheckBox Name="FriendBox" Content="Vrienden" Height="14" VerticalAlignment="Top" HorizontalAlignment="Left" Width="69" IsChecked="{Binding IsCheckedFriends}"/>
+            <CheckBox Name="StudyBox" Content="Studiemaatje" HorizontalAlignment="Left" Width="99" Height="14" VerticalAlignment="Top" IsChecked="{Binding IsCheckedStudy}"/>
+        
+        </ListView>
+        <Frame Content="Hobby" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3" Background="Aqua" Source="HobbyOptionsView.xaml" HorizontalAlignment="Left" Width="755"/>
+        <Button Content="Opslaan" Command="{Binding SaveCommand}" Grid.Column="3" HorizontalAlignment="Right" Margin="0,24,16,0" VerticalAlignment="Top" Height="20" Width="58"/>
+        <Button Content="Annuleren" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" Height="20" Width="58" Margin="0,0,16,0"/>
+
+
+
+    </Grid>
+</Page>
