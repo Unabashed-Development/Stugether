@@ -8,7 +8,7 @@ namespace Gateway.Test
         public void CheckIfAccountExists_ExistingAccount_ReturnsTrue()
         {
             // Arrange
-            const string email = "ThisAccountDoesExist@windesheim.nl";
+            const string email = "ThisAccountDoesExist@wafoe.nl";
 
             // Act
             bool result = AccountDataAccess.CheckIfAccountExists(email);

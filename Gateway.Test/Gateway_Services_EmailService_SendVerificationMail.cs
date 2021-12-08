@@ -9,7 +9,7 @@ namespace Gateway.Test
         public void SendVerificationMail_HasSuccessfullySent_ThrowsNoException()
         {
             // Arrange
-            const string email = "stugether_nunit_test@wafoe.com";
+            const string email = "ThisAccountDoesExist@wafoe.nl";
             const string verificationCode = "123456";
 
             // Act

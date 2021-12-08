@@ -10,6 +10,6 @@ namespace Model
         public static int? passwordStrength; // Nullable
         public static string verificationCode;
         public static bool authenticated;
-        public static int userID;
+        public static int? userID; // Nullable
     }
 }

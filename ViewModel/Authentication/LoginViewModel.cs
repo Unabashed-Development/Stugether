@@ -21,18 +21,20 @@ namespace ViewModel
                 {
                     if (AccountDataAccess.CheckIfAccountExists(Email))
                     {
-                        bool verified = AccountHelper.VerifyPassword(Password, AccountDataAccess.GetHashedPassswordFromAccount(Email));
-                        if (verified)
+                        bool passwordVerified = AccountHelper.VerifyPassword(Password, AccountDataAccess.GetHashedPassswordFromAccount(Email));
+                        if (passwordVerified)
                         {
+                            CleanUpAccountData(); // Clear sensitive account data before verifying the user
                             if (AccountDataAccess.CheckIfAccountIsVerified(Email))
                             {
-                                Account.userID = AccountDataAccess.GetUserIDFromAccount(Email); // Get the user ID from the account and save it in the application
-                                CleanUpAccountData();
-                                OnLoggedIn();
+                                LogUserIn();
                             }
                             else
                             {
                                 ErrorMessage = "Je account is nog niet geverifieerd.";
+                                string verificationCode = AccountDataAccess.GetVerificationCodeFromAccount(Email); // Get the verification code from the database
+                                EmailService.SendVerificationMail(Email, verificationCode); // Send the user an email with the verification code
+                                NavigateToVerification(ErrorMessage); // Navigate to the verification code page
                             }
                         }
                         else
@@ -52,7 +54,7 @@ namespace ViewModel
             }
             else
             {
-                ErrorMessage = "Niet alle velden zijn ingevuld.";
+                ErrorMessage_NotAllFieldsOccupied();
             }
         }
 
