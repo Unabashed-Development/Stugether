@@ -13,11 +13,6 @@ namespace ViewModel
     /// </summary>
     public class MainPageViewModel : ObservableObject
     {
-        #region fields
-        private static string homePage = @"HomePages\HomePageBeforeLogin.xaml";
-        private MainMenuNavigationItemData navigationData;
-        #endregion
-
         #region Construction
         /// <summary>
         /// Creates a new viewmodel for MainPage
@@ -25,15 +20,13 @@ namespace ViewModel
         public MainPageViewModel()
         {
             SSHService.Initialize(); // Initialize SSH for the database connection and logging in
+            MainNavigationItems = SetObservableCollection(false);
             ViewModelMediators.UserAuthenticated += OnFinishLoggingIn;
         }
 
         private void OnFinishLoggingIn()
         {
-            var item = MainNavigationItems.FirstOrDefault(i => i.Page == homePage);
-            homePage = @"HomePages\HomePageAfterLogin.xaml";
-            item.Page = homePage;
-            CurrentVisiblePage = homePage;
+            MainNavigationItems = SetObservableCollection(true);
         }
 
         #endregion
@@ -42,13 +35,24 @@ namespace ViewModel
         /// <summary>
         /// Collection of pages for the main navigation menu
         /// </summary>
-        public ObservableCollection<MainMenuNavigationItemData> MainNavigationItems { get; } = new ObservableCollection<MainMenuNavigationItemData>()
+        public ObservableCollection<MainMenuNavigationItemData> MainNavigationItems { get; set; }
+
+        private ObservableCollection<MainMenuNavigationItemData> SetObservableCollection(bool logoutPage)
         {
-            new MainMenuNavigationItemData("Home", homePage, null), // Make the home page dynamic
-            new MainMenuNavigationItemData("Profile", "ProfilePage.xaml", null),
-            new MainMenuNavigationItemData("Hobby opties", "HobbyOptionsView.xaml", null),
-            new MainMenuNavigationItemData("Settings", "ProfileSettings.xaml", null)
-        };
+            var collection = new ObservableCollection<MainMenuNavigationItemData>();
+            if (!logoutPage)
+            {
+                collection.Add(new MainMenuNavigationItemData("Home", @"HomePages\HomePageBeforeLogin.xaml", null));
+            }
+            else
+            {
+                collection.Add(new MainMenuNavigationItemData("Home", @"HomePages\HomePageAfterLogin.xaml", null));
+            }
+            collection.Add(new MainMenuNavigationItemData("Profile", "ProfilePage.xaml", null));
+            collection.Add(new MainMenuNavigationItemData("Hobby opties", "HobbyOptionsView.xaml", null));
+            collection.Add(new MainMenuNavigationItemData("Settings", "ProfileSettings.xaml", null));
+            return collection;
+        }
 
         private string currentVisiblePage = @"HomePages\HomePageBeforeLogin.xaml";
         /// <summary>
@@ -76,7 +80,7 @@ namespace ViewModel
                 }
                 else if (parameter.GetType() == typeof(MainMenuNavigationItemData))
                 {
-                    navigationData = (MainMenuNavigationItemData)parameter;
+                    MainMenuNavigationItemData navigationData = (MainMenuNavigationItemData)parameter;
                     CurrentVisiblePage = navigationData.Page;
                 }
                 else
