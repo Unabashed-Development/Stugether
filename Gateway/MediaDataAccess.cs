@@ -52,7 +52,7 @@ namespace Gateway
                 
                 if (remotePath.Contains("http://www.stugether.wafoe.nl/media/"))
                 {
-                    string relativePath = remotePath.Substring("http://www.stugether.wafoe.nl/media/".Length);
+                    string relativePath = remotePath.Substring("http://www.stugether.wafoe.nl/".Length);
 
                     DeleteMediaFromServer(relativePath);
                 }
@@ -104,7 +104,7 @@ namespace Gateway
                 // Connect
                 session.Open(SFTPService.GenerateSessionOptions());
 
-                session.RemoveFile($"/mnt/StorageDisk/stugether/media/{remoteFile}");
+                session.RemoveFile($"/mnt/StorageDisk/stugether/{remoteFile}");
 
                 session.Close();
             }

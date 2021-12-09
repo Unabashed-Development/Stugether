@@ -11,7 +11,7 @@ namespace Gateway.Test
         public void UploadMediaToServer_and_DeleteMediaFromServer_ExistingFile_FileIsAccessibleOnWebhostAndDeletedAfterwards()
         {
             // Arrange
-            const string filename = "Gateway.dll"; // Pick a random file present on every debug run
+            string filename = "Gateway.dll"; // Pick a random file present on every debug run
             string file = Directory.GetCurrentDirectory() + @"\" + filename;
             long lengthOfFile = new System.IO.FileInfo(file).Length; // Get the length in bytes of that file
 
@@ -20,7 +20,7 @@ namespace Gateway.Test
             {
                 try
                 {
-                    MediaDataAccess.UploadMediaToServer(file);
+                    filename = MediaDataAccess.UploadMediaToServer(file);
                 }
                 catch (Exception)
                 {
@@ -33,7 +33,7 @@ namespace Gateway.Test
                 try
                 {
                     // Attempt to see if the file exists on the remote server with WebRequest
-                    WebRequest request = WebRequest.Create(new Uri("http://www.stugether.wafoe.nl/media/" + filename));
+                    WebRequest request = WebRequest.Create(new Uri("http://www.stugether.wafoe.nl/" + filename));
                     request.Method = "HEAD";
 
                     using (WebResponse response = request.GetResponse())
