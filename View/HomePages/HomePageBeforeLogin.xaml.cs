@@ -8,11 +8,11 @@ using ViewModel.Stores;
 namespace View
 {
     /// <summary>
-    /// Interaction logic for HomePage.xaml
+    /// Interaction logic for HomePageBeforeLogin.xaml
     /// </summary>
-    public partial class HomePage : Page
+    public partial class HomePageBeforeLogin : Page
     {
-        public HomePage()
+        public HomePageBeforeLogin()
         {
             InitializeComponent();
         }

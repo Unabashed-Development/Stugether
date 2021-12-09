@@ -18,13 +18,13 @@ namespace ViewModel
         /// </summary>
         public ObservableCollection<MainMenuNavigationItemData> MainNavigationItems { get; } = new ObservableCollection<MainMenuNavigationItemData>()
         {
-            new MainMenuNavigationItemData("Home", "HomePage.xaml", null),
+            new MainMenuNavigationItemData("Home", @"HomePages\HomePageBeforeLogin.xaml", null),
             new MainMenuNavigationItemData("Profile", "ProfilePage.xaml", null),
             new MainMenuNavigationItemData("Hobby opties", "HobbyOptionsView.xaml", null),
             new MainMenuNavigationItemData("Settings", "ProfileSettings.xaml", null)
         };
 
-        private string currentVisiblePage = "HomePage.xaml";
+        private string currentVisiblePage = @"HomePages\HomePageBeforeLogin.xaml";
         /// <summary>
         /// Page that is currently visible on the frame
         /// </summary>
