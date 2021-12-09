@@ -83,10 +83,11 @@ namespace ViewModel
         /// <summary>
         /// Handles when the delete media button is pressed and will delete the media
         /// </summary>
-        public ICommand DeletePhotoButton => new RelayCommand(
+        public ICommand DeletePhotoButtonCommand => new RelayCommand(
             (parameter) =>
             {
-                System.Diagnostics.Debug.WriteLine($"Remove photo {parameter}");
+                MediaDataAccess.DeleteUserMedia(((Uri)parameter).ToString(), Account.userID);
+                RefreshImages();
             },
             () => true);
         #endregion

@@ -144,7 +144,7 @@
                             <ItemContainerTemplate>
                                 <Grid>
                                     <Image Source="{Binding}" MaxHeight="100" MaxWidth="100" Margin="10"/>
-                                    <components:YesNoButton HorizontalAlignment="Right" VerticalAlignment="Top" Question="Weet je zeker dat je deze foto wilt verwijderen?" Command="{Binding Path=DataContext.DeletePhotoButton, RelativeSource={RelativeSource AncestorType=Grid,AncestorLevel=2}}" CommandParameter="{Binding}">
+                                    <components:YesNoButton HorizontalAlignment="Right" VerticalAlignment="Top" Question="Weet je zeker dat je deze foto wilt verwijderen?" Command="{Binding Path=DataContext.DeletePhotoButtonCommand, RelativeSource={RelativeSource AncestorType=StackPanel,AncestorLevel=1}}" CommandParameter="{Binding}">
                                         <Path Data="M 4,4 L 0,0 M 0,4 L 4,0" Stroke="#FF444444" Fill="#FF444444" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Margin="1.5,1.5,1,1" Stretch="None" />
                                     </components:YesNoButton>
                                 </Grid>

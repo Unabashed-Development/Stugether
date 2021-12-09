@@ -35,6 +35,31 @@ namespace Gateway
                 connection.Query("INSERT INTO UserMedia (UserID, Path) VALUES(@uid, @file); ", new { uid = userID, file = $"http://www.stugether.wafoe.nl/{uploadedFile}" });
             }
         }
+
+        /// <summary>
+        /// Deletes media from the server and removes its record to the database
+        /// </summary>
+        /// <param name="remotePath">The remote path where the media can be found</param>
+        /// <param name="userID">The userID from who the media is</param>
+        public static void DeleteUserMedia(string remotePath, int userID)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB")))
+            {
+                List<dynamic> doesExist = connection.Query("SELECT UserID, Path FROM UserMedia WHERE UserID = @uid AND Path = @path", new { uid = userID, path = remotePath }).AsList();
+                if (doesExist.Count != 1) return;
+                var row = doesExist[0];
+                if (row.UserID != userID || row.Path != remotePath) return;
+                
+                if (remotePath.Contains("http://www.stugether.wafoe.nl/media/"))
+                {
+                    string relativePath = remotePath.Substring("http://www.stugether.wafoe.nl/media/".Length);
+
+                    DeleteMediaFromServer(relativePath);
+                }
+
+                connection.Query("DELETE FROM UserMedia WHERE UserID = @uid AND Path = @path", new { uid = userID, path = remotePath });
+            }
+        }
         #endregion
 
         #region SFTP
