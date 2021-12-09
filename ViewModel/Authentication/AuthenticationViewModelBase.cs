@@ -3,6 +3,7 @@ using Model;
 using System;
 using ViewModel.Commands;
 using ViewModel.Helpers;
+using ViewModel.Mediators;
 using ViewModel.Stores;
 
 namespace ViewModel
@@ -17,21 +18,21 @@ namespace ViewModel
         #region Properties
         public string Email
         {
-            get => Account.email;
+            get => Account.Email;
             set
             {
-                Account.email = value;
+                Account.Email = value;
                 RaisePropertyChanged("Email");
             }
         }
 
         public string Password
         {
-            get => Account.password;
+            get => Account.Password;
             set
             {
-                Account.password = value;
-                PasswordStrength = (int)PasswordHelper.GetPasswordStrength(Account.password);
+                Account.Password = value;
+                PasswordStrength = (int)PasswordHelper.GetPasswordStrength(Account.Password);
                 // Get the password strength when password is getting written
                 RaisePropertyChanged("Password");
             }
@@ -39,30 +40,30 @@ namespace ViewModel
 
         public string VerifyPassword
         {
-            get => Account.verifyPassword;
+            get => Account.VerifyPassword;
             set
             {
-                Account.verifyPassword = value;
+                Account.VerifyPassword = value;
                 RaisePropertyChanged("VerifyPassword");
             }
         }
 
         public int? PasswordStrength
         {
-            get => Account.passwordStrength;
+            get => Account.PasswordStrength;
             set
             {
-                Account.passwordStrength = value;
+                Account.PasswordStrength = value;
                 RaisePropertyChanged("PasswordStrength");
             }
         }
 
         public string VerificationCode
         {
-            get => Account.verificationCode;
+            get => Account.VerificationCode;
             set
             {
-                Account.verificationCode = value;
+                Account.VerificationCode = value;
                 RaisePropertyChanged("VerificationCode");
             }
         }
@@ -116,27 +117,19 @@ namespace ViewModel
             PasswordStrength = null;
         }
         /// <summary>
-        /// Logs the user in by setting the authentication and user ID to the correct value and calling OnLoggedIn to invoke an event.
+        /// Logs the user in by setting the authentication and user ID to the correct value and calling LoggedIn.
         /// </summary>
         protected void LogUserIn()
         {
-            Account.authenticated = true; // Set the authentication state of the application to true
-            Account.userID = AccountDataAccess.GetUserIDFromAccount(Email); // Get the user ID from the account and save it in the application
-            OnLoggedIn();
+            ViewModelMediators.Authenticated = true; // Set the authentication state of the application to true (which invokes an event)
+            Account.UserID = AccountDataAccess.GetUserIDFromAccount(Email); // Get the user ID from the account and save it in the application
+            LoggedIn?.Invoke();
         }
 
         /// <summary>
         /// Sets the ErrorMessage property to indicate that not all fields are occupied.
         /// </summary>
         protected void ErrorMessage_NotAllFieldsOccupied() => ErrorMessage = "Niet alle velden zijn ingevuld.";
-
-        /// <summary>
-        /// Invokes the LoggedIn event to indicate that the user has logged in.
-        /// </summary>
-        protected void OnLoggedIn()
-        {
-            LoggedIn?.Invoke();
-        }
         #endregion
     }
 }

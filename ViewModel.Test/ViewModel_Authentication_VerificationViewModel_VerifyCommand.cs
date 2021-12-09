@@ -41,8 +41,8 @@ namespace ViewModel.Test
 
             // Assert
             Assert.IsNull(verificationViewModel.ErrorMessage);
-            Assert.IsTrue(Account.authenticated);
-            Assert.AreEqual(AccountDataAccess.GetUserIDFromAccount(verificationViewModel.Email), Account.userID);
+            Assert.IsTrue(Account.Authenticated);
+            Assert.AreEqual(AccountDataAccess.GetUserIDFromAccount(verificationViewModel.Email), Account.UserID);
         }
     }
 }

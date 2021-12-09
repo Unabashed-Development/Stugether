@@ -2,8 +2,9 @@
 using Gateway;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using System.ComponentModel;
 using ViewModel.Commands;
+using ViewModel.Mediators;
+using System.Linq;
 
 namespace ViewModel
 {
@@ -12,13 +13,38 @@ namespace ViewModel
     /// </summary>
     public class MainPageViewModel : ObservableObject
     {
+        #region fields
+        private static string homePage = @"HomePages\HomePageBeforeLogin.xaml";
+        private MainMenuNavigationItemData navigationData;
+        #endregion
+
+        #region Construction
+        /// <summary>
+        /// Creates a new viewmodel for MainPage
+        /// </summary>
+        public MainPageViewModel()
+        {
+            SSHService.Initialize(); // Initialize SSH for the database connection and logging in
+            ViewModelMediators.UserAuthenticated += OnFinishLoggingIn;
+        }
+
+        private void OnFinishLoggingIn()
+        {
+            var item = MainNavigationItems.FirstOrDefault(i => i.Page == homePage);
+            homePage = @"HomePages\HomePageAfterLogin.xaml";
+            item.Page = homePage;
+            CurrentVisiblePage = homePage;
+        }
+
+        #endregion
+
         #region Properties
         /// <summary>
         /// Collection of pages for the main navigation menu
         /// </summary>
         public ObservableCollection<MainMenuNavigationItemData> MainNavigationItems { get; } = new ObservableCollection<MainMenuNavigationItemData>()
         {
-            new MainMenuNavigationItemData("Home", @"HomePages\HomePageBeforeLogin.xaml", null),
+            new MainMenuNavigationItemData("Home", homePage, null), // Make the home page dynamic
             new MainMenuNavigationItemData("Profile", "ProfilePage.xaml", null),
             new MainMenuNavigationItemData("Hobby opties", "HobbyOptionsView.xaml", null),
             new MainMenuNavigationItemData("Settings", "ProfileSettings.xaml", null)
@@ -50,8 +76,8 @@ namespace ViewModel
                 }
                 else if (parameter.GetType() == typeof(MainMenuNavigationItemData))
                 {
-                    MainMenuNavigationItemData data = (MainMenuNavigationItemData)parameter;
-                    CurrentVisiblePage = data.Page;
+                    navigationData = (MainMenuNavigationItemData)parameter;
+                    CurrentVisiblePage = navigationData.Page;
                 }
                 else
                 {
@@ -60,16 +86,6 @@ namespace ViewModel
             },
             (parameter) => MainNavigationItems.Count > 0
             );
-        #endregion
-
-        #region Construction
-        /// <summary>
-        /// Creates a new viewmodel for MainPage
-        /// </summary>
-        public MainPageViewModel()
-        {
-            SSHService.Initialize(); // Initialize SSH for the database connection and logging in
-        }
         #endregion
 
         #region MainMenuNavigationItemData

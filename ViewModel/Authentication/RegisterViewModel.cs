@@ -23,7 +23,7 @@ namespace ViewModel
                     {
                         if (Password == VerifyPassword)
                         {
-                            Account.password = AccountHelper.HashPassword(Password); // To prepare, hash the password
+                            Account.Password = AccountHelper.HashPassword(Password); // To prepare, hash the password
                             if (!AccountDataAccess.CheckIfAccountExists(Email)) // This method makes use of the last preparation
                             {
                                 VerificationCode = AccountHelper.GenerateVerificationCode(Email); // Generate a random verification code

@@ -152,8 +152,8 @@ namespace ViewModel.Test
             Assert.IsNull(viewModel.VerifyPassword, "VerifyPassword");
             Assert.IsNull(viewModel.PasswordStrength, "PasswordStrength");
             Assert.IsNotNull(viewModel.Email, "Email");
-            Assert.IsNull(Account.userID, "userID");
-            Assert.IsFalse(Account.authenticated, "authenticated");
+            Assert.IsNull(Account.UserID, "userID");
+            Assert.IsFalse(Account.Authenticated, "authenticated");
         }
     }
 }

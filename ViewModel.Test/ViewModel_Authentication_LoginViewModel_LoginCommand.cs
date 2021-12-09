@@ -127,8 +127,8 @@ namespace ViewModel.Test
             Assert.IsNull(loginViewModel.VerifyPassword);
             Assert.IsNull(loginViewModel.PasswordStrength);
             Assert.AreEqual("ThisAccountDoesExist@wafoe.nl", loginViewModel.Email);
-            Assert.AreEqual(AccountDataAccess.GetUserIDFromAccount(loginViewModel.Email), Account.userID);
-            Assert.IsTrue(Account.authenticated);
+            Assert.AreEqual(AccountDataAccess.GetUserIDFromAccount(loginViewModel.Email), Account.UserID);
+            Assert.IsTrue(Account.Authenticated);
         }
     }
 }
