@@ -21,17 +21,17 @@ namespace View
         {
             NavigationStore navigationStore = new NavigationStore(); // Create navigation store for the ViewModel
             navigationStore.CurrentViewModel = new LoginViewModel(navigationStore); // Set the LoginViewModel as the current view model
-            ViewModelMediators.currentAuthenticationViewModel = new MainAuthenticationViewModel(navigationStore); // Create a new MainAuthenticationViewModel
+            ViewModelMediators.CurrentAuthenticationViewModel = new MainAuthenticationViewModel(navigationStore); // Create a new MainAuthenticationViewModel
 
             AuthenticationWindow authenticationWindow = new AuthenticationWindow()
             { // Sets the data context for the authentiction window to MainAuthenticationViewModel.
-                DataContext = ViewModelMediators.currentAuthenticationViewModel
+                DataContext = ViewModelMediators.CurrentAuthenticationViewModel
             };
 
             authenticationWindow.Show(); // Show the authentication window
 
             // Close the window once the authentication has finished
-            ViewModelMediators.currentAuthenticationViewModel.FinishLoggingIn += () => authenticationWindow.Close();
+            ViewModelMediators.CurrentAuthenticationViewModel.FinishLoggingIn += () => authenticationWindow.Close();
         }
     }
 }
