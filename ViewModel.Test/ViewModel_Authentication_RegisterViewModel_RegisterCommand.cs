@@ -24,7 +24,7 @@ namespace ViewModel.Test
         {
             // Arrange
             InitialSetupForTests.ClearFieldsInAccount();
-            RegisterViewModel registerViewModel = new RegisterViewModel(new Stores.AuthenticationNavigationStore())
+            RegisterViewModel registerViewModel = new RegisterViewModel(new Stores.NavigationStore())
             {
                 Email = email,
                 Password = password,
@@ -45,7 +45,7 @@ namespace ViewModel.Test
         {
             // Arrange
             InitialSetupForTests.ClearFieldsInAccount();
-            RegisterViewModel registerViewModel = new RegisterViewModel(new Stores.AuthenticationNavigationStore())
+            RegisterViewModel registerViewModel = new RegisterViewModel(new Stores.NavigationStore())
             {
                 Email = email,
                 Password = "SomethingToPreventNotAllFieldsEnteredError",
@@ -71,7 +71,7 @@ namespace ViewModel.Test
         {
             // Arrange
             InitialSetupForTests.ClearFieldsInAccount();
-            RegisterViewModel registerViewModel = new RegisterViewModel(new Stores.AuthenticationNavigationStore())
+            RegisterViewModel registerViewModel = new RegisterViewModel(new Stores.NavigationStore())
             {
                 Email = "ThisIsASchoolEmail@wafoe.nl",
                 Password = password,
@@ -92,7 +92,7 @@ namespace ViewModel.Test
         {
             // Arrange
             InitialSetupForTests.ClearFieldsInAccount();
-            RegisterViewModel registerViewModel = new RegisterViewModel(new Stores.AuthenticationNavigationStore())
+            RegisterViewModel registerViewModel = new RegisterViewModel(new Stores.NavigationStore())
             {
                 Email = "ThisIsASchoolEmail@wafoe.nl",
                 Password = password,
@@ -112,7 +112,7 @@ namespace ViewModel.Test
         {
             // Arrange
             InitialSetupForTests.ClearFieldsInAccount();
-            RegisterViewModel registerViewModel = new RegisterViewModel(new Stores.AuthenticationNavigationStore())
+            RegisterViewModel registerViewModel = new RegisterViewModel(new Stores.NavigationStore())
             {
                 Email = "ThisAccountDoesExist@wafoe.nl",
                 Password = "ThisP4ssw@rdIsSufficient",
@@ -132,7 +132,7 @@ namespace ViewModel.Test
         {
             // Arrange
             InitialSetupForTests.ClearFieldsInAccount();
-            RegisterViewModel viewModel = new RegisterViewModel(new Stores.AuthenticationNavigationStore())
+            RegisterViewModel viewModel = new RegisterViewModel(new Stores.NavigationStore())
             {
                 Email = "ThisIsANewSchoolEmail@wafoe.nl",
                 Password = "ThisP4ssw@rdIsSufficient",

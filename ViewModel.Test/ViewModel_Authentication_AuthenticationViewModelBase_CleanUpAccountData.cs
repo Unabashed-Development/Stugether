@@ -20,7 +20,7 @@ namespace ViewModel.Test
         public void CleanUpAccountData_CleanedUp_Successful()
         {
             // Arrange
-            RegisterViewModel registerViewModel = new RegisterViewModel(new Stores.AuthenticationNavigationStore()); // Setup one of the authentication view models
+            RegisterViewModel registerViewModel = new RegisterViewModel(new Stores.NavigationStore()); // Setup one of the authentication view models
 
             // Act
             registerViewModel.CleanUpAccountData();
@@ -37,7 +37,7 @@ namespace ViewModel.Test
         public void CleanUpAccountData_NotCleanedUp_Succesful()
         {
             // Arrange
-            RegisterViewModel registerViewModel = new RegisterViewModel(new Stores.AuthenticationNavigationStore()); // Setup one of the authentication view models
+            RegisterViewModel registerViewModel = new RegisterViewModel(new Stores.NavigationStore()); // Setup one of the authentication view models
 
             // Assert
             Assert.IsNotNull(Account.email);

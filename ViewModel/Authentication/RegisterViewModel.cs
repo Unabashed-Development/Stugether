@@ -66,7 +66,7 @@ namespace ViewModel
         #endregion
 
         #region Construction
-        public RegisterViewModel(AuthenticationNavigationStore navigationStore) => base.navigationStore = navigationStore;
+        public RegisterViewModel(NavigationStore navigationStore) => base.navigationStore = navigationStore;
         #endregion
 
         #region Commands

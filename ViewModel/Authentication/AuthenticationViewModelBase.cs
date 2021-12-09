@@ -10,7 +10,7 @@ namespace ViewModel
     public abstract class AuthenticationViewModelBase : ObservableObject
     {
         #region Fields
-        protected AuthenticationNavigationStore navigationStore;
+        protected NavigationStore navigationStore;
         private string _errorMessage;
         #endregion
 

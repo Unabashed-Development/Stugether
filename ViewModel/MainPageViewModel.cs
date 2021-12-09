@@ -24,7 +24,6 @@ namespace ViewModel
             new MainMenuNavigationItemData("Settings", "ProfileSettings.xaml", null)
         };
 
-
         private string currentVisiblePage = "HomePage.xaml";
         /// <summary>
         /// Page that is currently visible on the frame
