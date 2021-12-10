@@ -5,8 +5,13 @@ namespace ViewModel.Mediators
 {
     public static class ViewModelMediators
     {
+        #region fields
+        private static string _mainWindowPage;
+        #endregion
+
         #region Events
         public static event Action AuthenticationStateChanged;
+        public static event Action MainWindowPageChanged;
         #endregion
 
         #region Properties
@@ -17,6 +22,16 @@ namespace ViewModel.Mediators
             {
                 Account.Authenticated = value;
                 AuthenticationStateChanged?.Invoke();
+            }
+        }
+
+        public static string MainWindowPage
+        {
+            get => _mainWindowPage;
+            set
+            {
+                _mainWindowPage = value;
+                MainWindowPageChanged?.Invoke();
             }
         }
         #endregion
