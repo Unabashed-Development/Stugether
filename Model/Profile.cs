@@ -9,7 +9,7 @@ namespace Model
         public static Profile LoggedInProfile { get; set; }
 
         private DateTime _dateOfBirth;
-        public int ID { get; set; }
+        public int UserID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Age { get; set; }

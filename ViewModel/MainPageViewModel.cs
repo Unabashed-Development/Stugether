@@ -70,6 +70,7 @@ namespace ViewModel
         public MainPageViewModel()
         {
             SSHService.Initialize(); // Initialize SSH for the database connection and logging in
+            ProfileDataAccess.LoadProfile(3);
         }
         #endregion
 
