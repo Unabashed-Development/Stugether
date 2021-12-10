@@ -111,6 +111,7 @@ namespace ViewModel
             collection.Add(new MainMenuNavigationItemData("Profile", "ProfilePage.xaml", null));
             collection.Add(new MainMenuNavigationItemData("Hobby opties", "HobbyOptionsView.xaml", null));
             collection.Add(new MainMenuNavigationItemData("Settings", "ProfileSettings.xaml", null));
+            collection.Add(new MainMenuNavigationItemData("Matches", "OverviewMatches.xaml", null));
             return collection;
         }
         #endregion

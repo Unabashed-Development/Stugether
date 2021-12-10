@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using System;
+using Dapper;
 using Model;
 using System.Collections.Generic;
 using System.Data;
@@ -31,18 +32,25 @@ namespace Gateway
             studentData.School = school;
             InterestsData interestData = LoadInterestsData(id);
             studentData.InterestsData = interestData;
-/*            QAData qaData = LoadQAData(id);
-            studentData.QAData = qaData;
-            MoralsData moralsData = LoadMoralsData(id);
-            studentData.MoralsData = moralsData;*/
+            //QAData qaData = LoadQAData(id);
+            //studentData.QAData = qaData;
+            //MoralsData moralsData = LoadMoralsData(id);
+            //studentData.MoralsData = moralsData;
             return studentData;
         }
 
         public static School LoadSchool(int id)
         {
-            using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
-            School schoolData = connection.QuerySingle<School>($"SELECT * FROM School WHERE UserID = {id};");
-            return schoolData;
+            try
+            {
+                using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
+                School schoolData = connection.QuerySingle<School>($"SELECT * FROM School WHERE UserID = {id};");
+                return schoolData;
+            }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
         }
 
         public static QAData LoadQAData(int id)
@@ -58,7 +66,5 @@ namespace Gateway
             //string studentData = connection.QuerySingle<string>("SELECT * FROM Student");
             return null;
         }
-
-
     }
 }
