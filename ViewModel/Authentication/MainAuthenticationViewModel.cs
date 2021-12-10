@@ -26,12 +26,7 @@ namespace ViewModel
         {
             _navigationStore = navigationStore;
             _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
-            ((AuthenticationViewModelBase)_navigationStore.CurrentViewModel).LoggedIn += OnLoggedIn;
         }
-        #endregion
-
-        #region Events
-        public event Action FinishLoggingIn;
         #endregion
 
         #region Methods
@@ -41,15 +36,6 @@ namespace ViewModel
         private void OnCurrentViewModelChanged()
         {
             RaisePropertyChanged(nameof(CurrentViewModel));
-            ((AuthenticationViewModelBase)_navigationStore.CurrentViewModel).LoggedIn += OnLoggedIn;
-        }
-
-        /// <summary>
-        /// Raise the RequestClose event if the user has successfully logged in.
-        /// </summary>
-        public void OnLoggedIn()
-        {
-            FinishLoggingIn?.Invoke();
         }
         #endregion
     }

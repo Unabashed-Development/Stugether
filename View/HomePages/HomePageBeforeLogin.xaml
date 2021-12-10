@@ -9,8 +9,8 @@
 
     <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="Welkom op de website van Stugether!" Margin="5"/>
-            <Button Click="Login_Click" Content="Klik hier om in te loggen" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5,2,5,2" Margin="5"/>
+            <TextBlock Text="Welkom in de applicatie van Stugether!" Margin="5"/>
+            <Button Click="Login_Click" Content="Inloggen/registreren" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5,2,5,2" Margin="5"/>
         </StackPanel>
     </Grid>
 </Page>

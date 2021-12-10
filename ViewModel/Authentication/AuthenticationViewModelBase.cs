@@ -79,10 +79,6 @@ namespace ViewModel
         }
         #endregion
 
-        #region Events
-        public event Action LoggedIn;
-        #endregion
-
         #region Commands
         /// <summary>
         /// Checks if the command can be executed.
@@ -123,7 +119,6 @@ namespace ViewModel
         {
             ViewModelMediators.Authenticated = true; // Set the authentication state of the application to true (which invokes an event)
             Account.UserID = AccountDataAccess.GetUserIDFromAccount(Email); // Get the user ID from the account and save it in the application
-            LoggedIn?.Invoke();
         }
 
         /// <summary>

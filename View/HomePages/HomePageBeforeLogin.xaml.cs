@@ -17,19 +17,11 @@ namespace View
             InitializeComponent();
         }
 
-        /// <summary>
-        /// Initializes the mediator for the authentication viewmodel.
-        /// </summary>
-        private MainAuthenticationViewModel InitializeMediator()
+        private void Login_Click(object sender, RoutedEventArgs e)
         {
             NavigationStore authenticationNavigationStore = new NavigationStore(); // Create navigation store for the ViewModel
             authenticationNavigationStore.CurrentViewModel = new LoginViewModel(authenticationNavigationStore); // Set the LoginViewModel as the current view model
-            return new MainAuthenticationViewModel(authenticationNavigationStore); // Create a new MainAuthenticationViewModel
-        }
-
-        private void Login_Click(object sender, RoutedEventArgs e)
-        {
-            MainAuthenticationViewModel currentAuthenticationViewModel = InitializeMediator();
+            MainAuthenticationViewModel currentAuthenticationViewModel = new MainAuthenticationViewModel(authenticationNavigationStore); // Create a new MainAuthenticationViewModel
 
             AuthenticationWindow authenticationWindow = new AuthenticationWindow()
             { // Sets the data context for the authentiction window to MainAuthenticationViewModel.
@@ -39,7 +31,7 @@ namespace View
             authenticationWindow.Show(); // Show the authentication window
 
             // Close the window once the authentication has finished
-            currentAuthenticationViewModel.FinishLoggingIn += () => authenticationWindow.Close();
+            ViewModelMediators.AuthenticationStateChanged += () => authenticationWindow.Close();
         }
     }
 }
