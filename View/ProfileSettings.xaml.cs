@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Gateway;
+using Model;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -18,9 +20,12 @@ namespace View
     /// </summary>
     public partial class ProfileSettings : Page
     {
+
+        private string _currentTab { get; set; }
         public ProfileSettings()
         {
             InitializeComponent();
+            _currentTab = "Persoonlijk";
         }
 
         // TODO: Can this be MVVM'd?
@@ -40,6 +45,33 @@ namespace View
             {
                 ((sender as Button).DataContext as ViewModel.ProfilePagePhotosViewModel).SelectedMediaFileForUpload = dialog.FileName;
             }
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            Profile currentProfile = null; //get current profile
+            switch (_currentTab)
+            {
+                case "Persoonlijk":
+                    ProfileDataAccess.UpdateProfile(currentProfile.UserID, currentProfile);
+                    break;
+                case "School":
+                    ProfileDataAccess.UpdateSchool(currentProfile.UserID, currentProfile.School);
+                    break;
+                case "Interesses":
+
+                    break;
+                case "Beschrijving":
+                    ProfileDataAccess.UpdateProfile(currentProfile.UserID, currentProfile);
+                    break;
+            }
+
+        }
+
+        private void TabControl_Selected(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = (TabItem)sender;
+            _currentTab = tabItem.Header.ToString();
         }
     }
 }

@@ -9,13 +9,32 @@ namespace ViewModel
     public class SettingsPageViewModel : INotifyPropertyChanged
     {
 
+        public struct InterestChosen
+        {
+            public bool Chosen { get; set; }
+            public Interest Interest { get; set; }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         private Profile _student { set; get; }
         public ObservableCollection<Interest> InterestsList { get; } = new ObservableCollection<Interest>(ProfileDataAccess.LoadAllInterests());
 
+        public ObservableCollection<InterestChosen> chosenInterests { get; internal set; } = new ObservableCollection<InterestChosen>();
+
         public SettingsPageViewModel()
         {
             _student = ProfileDataAccess.LoadProfile(3);
+            chosenInterests = new ObservableCollection<InterestChosen>();
+            //chosenInterests.CollectionChanged += ChosenInterests_CollectionChanged;
+            foreach(Interest interest in InterestsList)
+            {
+                chosenInterests.Add(new InterestChosen() { Chosen = InterestsData.Interests.Contains(interest), Interest = interest });
+            }
+        }
+
+        private void ChosenInterests_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            //_student.InterestsData.Interests.Clear();
         }
 
         public string FirstName
