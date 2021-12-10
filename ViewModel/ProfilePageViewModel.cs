@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using Gateway;
+using Model;
 using System.ComponentModel;
 namespace ViewModel
 {
@@ -21,6 +22,11 @@ namespace ViewModel
                 _profile.LastName = value;
                 OnPropertyChanged("LastName");
             }
+        }
+
+        public string Name
+        {
+            get => _profile.FirstName + " " + _profile.LastName;
         }
 
         public string School
@@ -73,14 +79,30 @@ namespace ViewModel
             }
         }
 
-        private Profile _profile;
+        public InterestsData InterestsData
+        {
+            get => _profile.InterestsData;
+            set
+            {
+                _profile.InterestsData = value;
+                OnPropertyChanged("InterestsData");
+            }
+        }
 
+        private Profile _profile;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public ProfilePageViewModel(int userID) : this(ProfileDataAccess.LoadProfile(userID)) { }
+
+        public ProfilePageViewModel(Profile profile)
+        {
+            _profile = profile;
+        }
+
         public ProfilePageViewModel()
         {
-            _profile = Profile.LoggedInProfile;
+            _profile = ProfileDataAccess.LoadProfile(3);
         }
 
         private void OnPropertyChanged(string property = null)

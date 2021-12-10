@@ -22,6 +22,7 @@ namespace ViewModel
             SSHService.Initialize(); // Initialize SSH for the database connection and logging in
             MainNavigationItems = SetObservableCollection(false);
             ViewModelMediators.UserAuthenticated += OnFinishLoggingIn;
+            ProfileDataAccess.LoadProfile(3);
         }
 
         private void OnFinishLoggingIn()

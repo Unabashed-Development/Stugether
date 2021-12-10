@@ -7,10 +7,9 @@ namespace Model
     {
 
         public List<int> BlockedStudents { get; set; }
-        private Account Student;
-        public BlockList(Account student)
+
+        public BlockList()
         {
-            Student = student;
             BlockedStudents = new List<int>();
             //update list according to database
         }
