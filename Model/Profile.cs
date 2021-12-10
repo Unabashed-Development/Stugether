@@ -40,5 +40,6 @@ namespace Model
             return years;
         }
 
+        public List<Uri> UserMedia { get; set; } = new List<Uri>();
     }
 }
