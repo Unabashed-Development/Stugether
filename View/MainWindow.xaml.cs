@@ -1,8 +1,4 @@
-﻿using Gateway;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Navigation;
-using View.Authentication;
+﻿using System.Windows;
 
 namespace View
 {

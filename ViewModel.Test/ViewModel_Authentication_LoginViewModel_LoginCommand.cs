@@ -16,7 +16,7 @@ namespace ViewModel.Test
         {
             // Arrange
             InitialSetupForTests.ClearFieldsInAccount();
-            LoginViewModel loginViewModel = new LoginViewModel(new Stores.AuthenticationNavigationStore())
+            LoginViewModel loginViewModel = new LoginViewModel(new Stores.NavigationStore())
             {
                 Email = email,
                 Password = password
@@ -35,7 +35,7 @@ namespace ViewModel.Test
         {
             // Arrange
             InitialSetupForTests.ClearFieldsInAccount();
-            LoginViewModel loginViewModel = new LoginViewModel(new Stores.AuthenticationNavigationStore())
+            LoginViewModel loginViewModel = new LoginViewModel(new Stores.NavigationStore())
             {
                 Email = "ThisIsNotAnEmail",
                 Password = "SomethingToPreventNotAllFieldsEnteredError"
@@ -54,7 +54,7 @@ namespace ViewModel.Test
         {
             // Arrange
             InitialSetupForTests.ClearFieldsInAccount();
-            LoginViewModel loginViewModel = new LoginViewModel(new Stores.AuthenticationNavigationStore())
+            LoginViewModel loginViewModel = new LoginViewModel(new Stores.NavigationStore())
             {
                 Email = "ThisAccountDoesNotExist@wafoe.nl",
                 Password = "SomethingToPreventNotAllFieldsEnteredError"
@@ -73,7 +73,7 @@ namespace ViewModel.Test
         {
             // Arrange
             InitialSetupForTests.ClearFieldsInAccount();
-            LoginViewModel loginViewModel = new LoginViewModel(new Stores.AuthenticationNavigationStore())
+            LoginViewModel loginViewModel = new LoginViewModel(new Stores.NavigationStore())
             {
                 Email = "ThisAccountDoesExist@wafoe.nl",
                 Password = "InvalidPassword"
@@ -92,7 +92,7 @@ namespace ViewModel.Test
         {
             // Arrange
             InitialSetupForTests.ClearFieldsInAccount();
-            LoginViewModel loginViewModel = new LoginViewModel(new Stores.AuthenticationNavigationStore())
+            LoginViewModel loginViewModel = new LoginViewModel(new Stores.NavigationStore())
             {
                 Email = "ThisUnverifiedAccountDoesExist@wafoe.nl",
                 Password = "ValidPassword"
@@ -111,7 +111,7 @@ namespace ViewModel.Test
         {
             // Arrange
             InitialSetupForTests.ClearFieldsInAccount();
-            LoginViewModel loginViewModel = new LoginViewModel(new Stores.AuthenticationNavigationStore())
+            LoginViewModel loginViewModel = new LoginViewModel(new Stores.NavigationStore())
             {
                 Email = "ThisAccountDoesExist@wafoe.nl",
                 Password = "ValidPassword"
@@ -127,8 +127,8 @@ namespace ViewModel.Test
             Assert.IsNull(loginViewModel.VerifyPassword);
             Assert.IsNull(loginViewModel.PasswordStrength);
             Assert.AreEqual("ThisAccountDoesExist@wafoe.nl", loginViewModel.Email);
-            Assert.AreEqual(AccountDataAccess.GetUserIDFromAccount(loginViewModel.Email), Account.userID);
-            Assert.IsTrue(Account.authenticated);
+            Assert.AreEqual(AccountDataAccess.GetUserIDFromAccount(loginViewModel.Email), Account.UserID);
+            Assert.IsTrue(Account.Authenticated);
         }
     }
 }

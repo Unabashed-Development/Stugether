@@ -11,7 +11,7 @@ namespace ViewModel.Test
         {
             // Arrange
             InitialSetupForTests.ClearFieldsInAccount();
-            VerificationViewModel verificationViewModel = new VerificationViewModel(new Stores.AuthenticationNavigationStore())
+            VerificationViewModel verificationViewModel = new VerificationViewModel(new Stores.NavigationStore())
             {
                 Email = "ThisAccountDoesExist@wafoe.nl",
                 VerificationCode = "654321" // The verification code in the database is "123456"
@@ -30,7 +30,7 @@ namespace ViewModel.Test
         {
             // Arrange
             InitialSetupForTests.ClearFieldsInAccount();
-            VerificationViewModel verificationViewModel = new VerificationViewModel(new Stores.AuthenticationNavigationStore())
+            VerificationViewModel verificationViewModel = new VerificationViewModel(new Stores.NavigationStore())
             {
                 Email = "ThisAccountDoesExist@wafoe.nl",
                 VerificationCode = "123456" // The verification code in the database is "123456"
@@ -41,8 +41,8 @@ namespace ViewModel.Test
 
             // Assert
             Assert.IsNull(verificationViewModel.ErrorMessage);
-            Assert.IsTrue(Account.authenticated);
-            Assert.AreEqual(AccountDataAccess.GetUserIDFromAccount(verificationViewModel.Email), Account.userID);
+            Assert.IsTrue(Account.Authenticated);
+            Assert.AreEqual(AccountDataAccess.GetUserIDFromAccount(verificationViewModel.Email), Account.UserID);
         }
     }
 }
