@@ -58,6 +58,15 @@
         <Setter Property="Background" Value="{StaticResource BackgroundTertiary}"/>
     </Style>
 
+    <Style TargetType="ToggleButton">
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="CornerRadius" Value="10"/>
+            </Style>
+        </Style.Resources>
+        <Setter Property="Background" Value="{StaticResource BackgroundTertiary}"/>
+    </Style>
+
     <Style TargetType="TabItem">
         <Setter Property="Background" Value="{StaticResource BackgroundTertiary}"/>
         <Setter Property="MinHeight" Value="50px"/>
