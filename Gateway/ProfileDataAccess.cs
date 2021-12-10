@@ -27,10 +27,10 @@ namespace Gateway
             using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
             Profile studentData = connection.QuerySingle<Profile>($"SELECT * FROM Profile WHERE UserID = {id};");
 
-            School school = LoadSchool(id);
-            studentData.School = school;
-            InterestsData interestData = LoadInterestsData(id);
-            studentData.InterestsData = interestData;
+            //School school = LoadSchool(id);
+            //studentData.School = school;
+            //InterestsData interestData = LoadInterestsData(id);
+            //studentData.InterestsData = interestData;
 /*            QAData qaData = LoadQAData(id);
             studentData.QAData = qaData;
             MoralsData moralsData = LoadMoralsData(id);
@@ -58,7 +58,5 @@ namespace Gateway
             //string studentData = connection.QuerySingle<string>("SELECT * FROM Student");
             return null;
         }
-
-
     }
 }
