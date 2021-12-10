@@ -4,12 +4,12 @@ namespace Model
 {
     public static class Account
     {
-        public static string email;
-        public static string password;
-        public static string verifyPassword;
-        public static int? passwordStrength; // Nullable
-        public static string verificationCode;
-        public static bool authenticated;
-        public static int? userID; // Nullable
+        public static string Email { get; set; }
+        public static string Password { get; set; }
+        public static string VerifyPassword { get; set; }
+        public static int? PasswordStrength { get; set; } // Nullable
+        public static string VerificationCode { get; set; }
+        public static bool Authenticated { get; set; }
+        public static int? UserID { get; set; } // Nullable
     }
 }

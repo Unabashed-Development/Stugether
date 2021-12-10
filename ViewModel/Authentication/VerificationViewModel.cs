@@ -26,7 +26,7 @@ namespace ViewModel
         #endregion
 
         #region Construction
-        public VerificationViewModel(AuthenticationNavigationStore navigationStore)
+        public VerificationViewModel(NavigationStore navigationStore)
         {
             base.navigationStore = navigationStore;
         }
@@ -34,7 +34,7 @@ namespace ViewModel
         /// <summary>
         /// Overload for the default constructor to display an error message on open.
         /// </summary>
-        public VerificationViewModel(AuthenticationNavigationStore navigationStore, string errorMessage)
+        public VerificationViewModel(NavigationStore navigationStore, string errorMessage)
         {
             base.navigationStore = navigationStore;
             ErrorMessage = errorMessage;

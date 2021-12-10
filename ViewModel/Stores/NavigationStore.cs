@@ -4,7 +4,7 @@ using ViewModel.Commands;
 // Inspiration by: https://www.youtube.com/watch?v=N26C_Cq-gAY
 namespace ViewModel.Stores
 {
-    public class AuthenticationNavigationStore
+    public class NavigationStore
     {
         #region Fields
         private ObservableObject _currentViewModel;
@@ -27,6 +27,9 @@ namespace ViewModel.Stores
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Let the subscribers know the current view model has changed.
+        /// </summary>
         private void OnCurrentViewModelChanged()
         {
             CurrentViewModelChanged?.Invoke();

@@ -8,44 +8,44 @@ namespace ViewModel.Test
         [SetUp]
         public void Setup()
         {
-            Account.email = "test@mail.com";
-            Account.password = "TestPassword";
-            Account.verifyPassword = "TestPassword";
-            Account.passwordStrength = 5;
-            Account.verificationCode = "123456";
-            Account.authenticated = true;
+            Account.Email = "test@mail.com";
+            Account.Password = "TestPassword";
+            Account.VerifyPassword = "TestPassword";
+            Account.PasswordStrength = 5;
+            Account.VerificationCode = "123456";
+            Account.Authenticated = true;
         }
 
         [Test]
         public void CleanUpAccountData_CleanedUp_Successful()
         {
             // Arrange
-            RegisterViewModel registerViewModel = new RegisterViewModel(new Stores.AuthenticationNavigationStore()); // Setup one of the authentication view models
+            RegisterViewModel registerViewModel = new RegisterViewModel(new Stores.NavigationStore()); // Setup one of the authentication view models
 
             // Act
             registerViewModel.CleanUpAccountData();
 
             // Assert
-            Assert.IsNotNull(Account.email);
-            Assert.IsNull(Account.password);
-            Assert.IsNull(Account.verifyPassword);
-            Assert.IsNull(Account.passwordStrength);
-            Assert.IsNull(Account.verificationCode);
-            Assert.IsNotNull(Account.authenticated);
+            Assert.IsNotNull(Account.Email);
+            Assert.IsNull(Account.Password);
+            Assert.IsNull(Account.VerifyPassword);
+            Assert.IsNull(Account.PasswordStrength);
+            Assert.IsNull(Account.VerificationCode);
+            Assert.IsNotNull(Account.Authenticated);
         }
 
         public void CleanUpAccountData_NotCleanedUp_Succesful()
         {
             // Arrange
-            RegisterViewModel registerViewModel = new RegisterViewModel(new Stores.AuthenticationNavigationStore()); // Setup one of the authentication view models
+            RegisterViewModel registerViewModel = new RegisterViewModel(new Stores.NavigationStore()); // Setup one of the authentication view models
 
             // Assert
-            Assert.IsNotNull(Account.email);
-            Assert.IsNotNull(Account.password);
-            Assert.IsNotNull(Account.verifyPassword);
-            Assert.IsNotNull(Account.passwordStrength);
-            Assert.IsNotNull(Account.verificationCode);
-            Assert.IsNotNull(Account.authenticated);
+            Assert.IsNotNull(Account.Email);
+            Assert.IsNotNull(Account.Password);
+            Assert.IsNotNull(Account.VerifyPassword);
+            Assert.IsNotNull(Account.PasswordStrength);
+            Assert.IsNotNull(Account.VerificationCode);
+            Assert.IsNotNull(Account.Authenticated);
         }
     }
 }

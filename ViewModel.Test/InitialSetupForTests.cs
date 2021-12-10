@@ -21,13 +21,13 @@ namespace ViewModel.Test
         /// </summary>
         public static void ClearFieldsInAccount()
         {
-            Account.authenticated = false;
-            Account.email = null;
-            Account.password = null;
-            Account.passwordStrength = null;
-            Account.userID = null;
-            Account.verificationCode = null;
-            Account.verifyPassword = null;
+            Account.Authenticated = false;
+            Account.Email = null;
+            Account.Password = null;
+            Account.PasswordStrength = null;
+            Account.UserID = null;
+            Account.VerificationCode = null;
+            Account.VerifyPassword = null;
         }
     }
 }

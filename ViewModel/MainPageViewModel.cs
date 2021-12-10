@@ -2,8 +2,9 @@
 using Gateway;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using System.ComponentModel;
 using ViewModel.Commands;
+using ViewModel.Mediators;
+using System.Linq;
 
 namespace ViewModel
 {
@@ -12,20 +13,48 @@ namespace ViewModel
     /// </summary>
     public class MainPageViewModel : ObservableObject
     {
+        #region Construction
+        /// <summary>
+        /// Creates a new viewmodel for MainPage
+        /// </summary>
+        public MainPageViewModel()
+        {
+            SSHService.Initialize(); // Initialize SSH for the database connection and logging in
+            MainNavigationItems = SetObservableCollection(false);
+            ViewModelMediators.UserAuthenticated += OnFinishLoggingIn;
+        }
+
+        private void OnFinishLoggingIn()
+        {
+            MainNavigationItems = SetObservableCollection(true);
+        }
+
+        #endregion
+
         #region Properties
         /// <summary>
         /// Collection of pages for the main navigation menu
         /// </summary>
-        public ObservableCollection<MainMenuNavigationItemData> MainNavigationItems { get; } = new ObservableCollection<MainMenuNavigationItemData>()
+        public ObservableCollection<MainMenuNavigationItemData> MainNavigationItems { get; set; }
+
+        private ObservableCollection<MainMenuNavigationItemData> SetObservableCollection(bool logoutPage)
         {
-            new MainMenuNavigationItemData("Home", "HomePage.xaml", null),
-            new MainMenuNavigationItemData("Profile", "ProfilePage.xaml", null),
-            new MainMenuNavigationItemData("Hobby opties", "HobbyOptionsView.xaml", null),
-            new MainMenuNavigationItemData("Settings", "ProfileSettings.xaml", null)
-        };
+            var collection = new ObservableCollection<MainMenuNavigationItemData>();
+            if (!logoutPage)
+            {
+                collection.Add(new MainMenuNavigationItemData("Home", @"HomePages\HomePageBeforeLogin.xaml", null));
+            }
+            else
+            {
+                collection.Add(new MainMenuNavigationItemData("Home", @"HomePages\HomePageAfterLogin.xaml", null));
+            }
+            collection.Add(new MainMenuNavigationItemData("Profile", "ProfilePage.xaml", null));
+            collection.Add(new MainMenuNavigationItemData("Hobby opties", "HobbyOptionsView.xaml", null));
+            collection.Add(new MainMenuNavigationItemData("Settings", "ProfileSettings.xaml", null));
+            return collection;
+        }
 
-
-        private string currentVisiblePage = "HomePage.xaml";
+        private string currentVisiblePage = @"HomePages\HomePageBeforeLogin.xaml";
         /// <summary>
         /// Page that is currently visible on the frame
         /// </summary>
@@ -51,8 +80,8 @@ namespace ViewModel
                 }
                 else if (parameter.GetType() == typeof(MainMenuNavigationItemData))
                 {
-                    MainMenuNavigationItemData data = (MainMenuNavigationItemData)parameter;
-                    CurrentVisiblePage = data.Page;
+                    MainMenuNavigationItemData navigationData = (MainMenuNavigationItemData)parameter;
+                    CurrentVisiblePage = navigationData.Page;
                 }
                 else
                 {
@@ -61,16 +90,6 @@ namespace ViewModel
             },
             (parameter) => MainNavigationItems.Count > 0
             );
-        #endregion
-
-        #region Construction
-        /// <summary>
-        /// Creates a new viewmodel for MainPage
-        /// </summary>
-        public MainPageViewModel()
-        {
-            SSHService.Initialize(); // Initialize SSH for the database connection and logging in
-        }
         #endregion
 
         #region MainMenuNavigationItemData
