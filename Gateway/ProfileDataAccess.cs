@@ -36,6 +36,7 @@ namespace Gateway
             //studentData.QAData = qaData;
             //MoralsData moralsData = LoadMoralsData(id);
             //studentData.MoralsData = moralsData;
+            studentData.UserMedia = new List<Uri>(MediaDataAccess.GetUserMediaUris(id));
             return studentData;
         }
 
