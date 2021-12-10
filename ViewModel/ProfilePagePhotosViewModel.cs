@@ -49,7 +49,7 @@ namespace ViewModel
         /// </summary>
         private void RefreshImages()
         {
-            List<string> imageStrings = new List<string>(MediaDataAccess.GetUserMedia(Account.userID));
+            List<string> imageStrings = new List<string>(MediaDataAccess.GetUserMedia(Account.UserID.Value));
             Images = new ObservableCollection<Uri>(imageStrings.ConvertAll((str) => new Uri(str, UriKind.RelativeOrAbsolute)));
             RaisePropertyChanged("Images");
         }
@@ -86,7 +86,7 @@ namespace ViewModel
         public ICommand DeletePhotoButtonCommand => new RelayCommand(
             (parameter) =>
             {
-                MediaDataAccess.DeleteUserMedia(((Uri)parameter).ToString(), Account.userID);
+                MediaDataAccess.DeleteUserMedia(((Uri)parameter).ToString(), Account.UserID.Value);
                 RefreshImages();
             },
             () => true);
@@ -129,7 +129,7 @@ namespace ViewModel
             () =>
             {
                 UploadStatus = "Foto wordt geüpload";
-                MediaDataAccess.AddUserMedia(selectedMediaFileForUpload, Account.userID);
+                MediaDataAccess.AddUserMedia(selectedMediaFileForUpload, Account.UserID.Value);
                 SelectedMediaFileForUpload = "";
                 UploadStatus = "Foto is geüpload.";
                 RefreshImages();
