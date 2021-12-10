@@ -1,9 +1,5 @@
-﻿using Gateway;
-using Model;
-using System;
-using System.Collections.Generic;
+﻿using Model;
 using System.Collections.ObjectModel;
-using System.Text;
 using ViewModel.Commands;
 using ViewModel.Helpers;
 
