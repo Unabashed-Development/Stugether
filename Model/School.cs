@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Model
+﻿namespace Model
 {
     public class School
     {
 
-        public string Name { get; set; }
-        public string City { get; set; }
+        public int UserID { get; set; }
+        public string SchoolName { get; set; }
+        public string SchoolCity { get; set; }
         public string Study { get; set; }
 
-        public School(string name, string city, string study)
+        public School(int userId, string schoolName, string schoolCity, string study)
         {
-            Name = name;
-            City = city;
+            UserID = userId;
+            SchoolName = schoolName;
+            SchoolCity = schoolCity;
             Study = study;
         }
 

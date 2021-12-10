@@ -5,7 +5,7 @@ using System.IO;
 
 namespace Gateway
 {
-	public static class SSHConnection // Source: https://mysqlconnector.net/tutorials/connect-ssh/
+	public static class SSHService // Source: https://mysqlconnector.net/tutorials/connect-ssh/
 	{
 		#region Fields
 		private static SshClient _sshConnection;
@@ -38,7 +38,7 @@ namespace Gateway
 		/// <returns>
 		/// A tuple of the SshClient and the randomized local port.
 		/// </returns>
-		public static Tuple<SshClient, uint> ConnectSsh(string sshHostName, string sshUserName, string sshPassword = null,
+		private static Tuple<SshClient, uint> ConnectSsh(string sshHostName, string sshUserName, string sshPassword = null,
 		string sshKeyFile = null, string sshPassPhrase = null, int sshPort = 22, string databaseServer = "localhost", int databasePort = 1433)
 		{
 			// Check arguments
@@ -79,10 +79,10 @@ namespace Gateway
 		/// <summary>
 		/// Sets up an SSL connection and binds the SshClient and SshPort to properties.
 		/// </summary>
-		public static void InitializeSsh()
+		public static void Initialize()
 		{
 			string[] databaseInfo = File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"NoPush\DatabaseInfo.txt"));
-			Tuple<SshClient, uint> sshConnection = SSHConnection.ConnectSsh(databaseInfo[0], databaseInfo[1], databaseInfo[2]);
+			Tuple<SshClient, uint> sshConnection = SSHService.ConnectSsh(databaseInfo[0], databaseInfo[1], databaseInfo[2]);
 			_sshConnection = sshConnection.Item1;
 			_sshPort = sshConnection.Item2;
 		}

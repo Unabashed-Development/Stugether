@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "View": {
+      "commandName": "Project",
+      "sqlDebugging": true
+    }
+  }
+}

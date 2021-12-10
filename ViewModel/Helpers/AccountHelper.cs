@@ -44,15 +44,22 @@ namespace ViewModel.Helpers
         }
 
         /// <summary>
-        /// Checks if the given email is a school email and compares it against the model enum.
+        /// Checks if the given email is a school email and compares it against the model enum. Assumes the email has at least '@' and '.' chars.
         /// </summary>
         /// <param name="email">The e-mail to be checked.</param>
         /// <returns>True if the email is a valid school email and false if not.</returns>
         public static bool IsSchoolEmail(string email)
         {
-            string[] fullDomainOfEmail = email.Split('@')[1].Split("."); // Split the domain in two halves. Example: hello@main.test.com > main.test.com
-            string mainDomainOfEmail = fullDomainOfEmail[^2]; // Get the main domain of the email. Example: main & test & com > test
-            return Enum.TryParse(mainDomainOfEmail, true, out SchoolEmails _); // Case insensitive check in the enum if the domain exists there, returns true if it does
+            if (email.Contains('@') && email.Contains('.'))
+            {
+                string[] fullDomainOfEmail = email.Split('@')[1].Split("."); // Split the domain in two halves. Example: hello@main.test.com > main.test.com
+                string mainDomainOfEmail = fullDomainOfEmail[^2]; // Get the main domain of the email. Example: main & test & com > test
+                return Enum.TryParse(mainDomainOfEmail, true, out SchoolEmails _); // Case insensitive check in the enum if the domain exists there, returns true if it does
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
