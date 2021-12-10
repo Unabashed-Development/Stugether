@@ -4,7 +4,7 @@ using ViewModel.Stores;
 
 namespace ViewModel
 {
-    public class MainAuthenticationViewModel : ObservableObject
+    public class MainViewModel : ObservableObject
     {
         #region Fields
         private readonly NavigationStore _navigationStore;
@@ -22,7 +22,7 @@ namespace ViewModel
         /// Sets the navigation store to the given parameter and raises the event that it has changed.
         /// </summary>
         /// <param name="navigationStore">The navigation store that needs to be changed.</param>
-        public MainAuthenticationViewModel(NavigationStore navigationStore)
+        public MainViewModel(NavigationStore navigationStore)
         {
             _navigationStore = navigationStore;
             _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;

@@ -16,7 +16,6 @@ namespace ViewModel
     {
         #region Fields
         private ObservableCollection<MainMenuNavigationItemData> _mainNavigationItems;
-        private string _currentVisiblePage;
         #endregion
 
         #region Construction
@@ -28,7 +27,7 @@ namespace ViewModel
             SSHService.Initialize(); // Initialize SSH for the database connection and logging in
             MainNavigationItems = SetObservableCollection(false); // Initialize the default page list
             ViewModelMediators.AuthenticationStateChanged += OnAuthenticationStateChanged;
-            ProfileDataAccess.LoadProfile(3);
+            ViewModelMediators.MainWindowPageChanged += OnMainWindowPageChanged;
         }
 
         /// <summary>
@@ -46,7 +45,7 @@ namespace ViewModel
         {
             get => _mainNavigationItems;
             set
-            { 
+            {
                 _mainNavigationItems = value;
                 RaisePropertyChanged("MainNavigationItems");
             }
@@ -55,14 +54,10 @@ namespace ViewModel
         /// <summary>
         /// Page that is currently visible on the frame.
         /// </summary>
-        public string CurrentVisiblePage
+        public string MainWindowPage
         {
-            get => _currentVisiblePage;
-            set
-            {
-                _currentVisiblePage = value;
-                RaisePropertyChanged("CurrentVisiblePage");
-            }
+            get => ViewModelMediators.MainWindowPage;
+            set => ViewModelMediators.MainWindowPage = value;
         }
 
         /// <summary>
@@ -73,12 +68,12 @@ namespace ViewModel
             {
                 if (parameter.GetType() == typeof(string))
                 {
-                    CurrentVisiblePage = (string)parameter;
+                    MainWindowPage = (string)parameter;
                 }
                 else if (parameter.GetType() == typeof(MainMenuNavigationItemData))
                 {
                     MainMenuNavigationItemData navigationData = (MainMenuNavigationItemData)parameter;
-                    CurrentVisiblePage = navigationData.Page;
+                    MainWindowPage = navigationData.Page;
                 }
                 else
                 {
@@ -100,19 +95,24 @@ namespace ViewModel
             var collection = new ObservableCollection<MainMenuNavigationItemData>();
             if (logoutPage)
             {
-                collection.Add(new MainMenuNavigationItemData("Home", @"HomePages\HomePageAfterLogin.xaml", null));
-                CurrentVisiblePage = @"HomePages\HomePageAfterLogin.xaml";
+                MainWindowPage = @"HomePages\HomePageAfterLogin.xaml";
+                collection.Add(new MainMenuNavigationItemData("Home", MainWindowPage, null));
             }
             else
             {
-                collection.Add(new MainMenuNavigationItemData("Home", @"HomePages\HomePageBeforeLogin.xaml", null));
-                CurrentVisiblePage = @"HomePages\HomePageBeforeLogin.xaml";
+                MainWindowPage = @"HomePages\HomePageBeforeLogin.xaml";
+                collection.Add(new MainMenuNavigationItemData("Home", MainWindowPage, null));
             }
             collection.Add(new MainMenuNavigationItemData("Profile", "ProfilePage.xaml", null));
             collection.Add(new MainMenuNavigationItemData("Hobby opties", "HobbyOptionsView.xaml", null));
             collection.Add(new MainMenuNavigationItemData("Settings", "ProfileSettings.xaml", null));
             collection.Add(new MainMenuNavigationItemData("Matches", "OverviewMatches.xaml", null));
             return collection;
+        }
+
+        private void OnMainWindowPageChanged()
+        {
+            RaisePropertyChanged("MainWindowPage");
         }
         #endregion
 

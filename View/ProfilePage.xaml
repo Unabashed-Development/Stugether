@@ -9,10 +9,6 @@
       d:DesignHeight="1920" d:DesignWidth="1080"
       Title="Profile">
 
-    <Page.DataContext>
-        <VM:ProfilePageViewModel/>
-    </Page.DataContext>
-
     <ScrollViewer VerticalScrollBarVisibility="Auto" IsEnabled="True">
         <Grid x:Name="AllGrids" Background="{StaticResource BackgroundSecundary}">
             <Grid.RowDefinitions>
