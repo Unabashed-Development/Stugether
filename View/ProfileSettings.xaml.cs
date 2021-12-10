@@ -22,5 +22,24 @@ namespace View
         {
             InitializeComponent();
         }
+
+        // TODO: Can this be MVVM'd?
+        /// <summary>
+        /// Is called when the add button is clicked. This will open a OpenFileDialog to select media and puts the path in SelectedMediaFileForUpload.
+        /// </summary>
+        /// <param name="sender">The button which called the event. Its datacontext should be of type ViewModel.ProfilePagePhotosViewModel.</param>
+        /// <param name="e">The event arguments</param>
+        private void AddPhoto_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new Microsoft.Win32.OpenFileDialog();
+            dialog.Filter = "Foto's (.jpg, .png)|*.jpg;*.jpeg;*.png";
+
+            bool? result = dialog.ShowDialog();
+
+            if (result == true)
+            {
+                ((sender as Button).DataContext as ViewModel.ProfilePagePhotosViewModel).SelectedMediaFileForUpload = dialog.FileName;
+            }
+        }
     }
 }
