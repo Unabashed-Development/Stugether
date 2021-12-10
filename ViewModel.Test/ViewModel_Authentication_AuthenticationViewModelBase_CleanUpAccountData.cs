@@ -8,12 +8,14 @@ namespace ViewModel.Test
         [SetUp]
         public void Setup()
         {
+            InitialSetupForTests.ClearFieldsInAccount();
             Account.Email = "test@mail.com";
             Account.Password = "TestPassword";
             Account.VerifyPassword = "TestPassword";
             Account.PasswordStrength = 5;
             Account.VerificationCode = "123456";
             Account.Authenticated = true;
+            Account.UserID = 1;
         }
 
         [Test]
@@ -32,20 +34,7 @@ namespace ViewModel.Test
             Assert.IsNull(Account.PasswordStrength);
             Assert.IsNull(Account.VerificationCode);
             Assert.IsNotNull(Account.Authenticated);
-        }
-
-        public void CleanUpAccountData_NotCleanedUp_Succesful()
-        {
-            // Arrange
-            RegisterViewModel registerViewModel = new RegisterViewModel(new Stores.NavigationStore()); // Setup one of the authentication view models
-
-            // Assert
-            Assert.IsNotNull(Account.Email);
-            Assert.IsNotNull(Account.Password);
-            Assert.IsNotNull(Account.VerifyPassword);
-            Assert.IsNotNull(Account.PasswordStrength);
-            Assert.IsNotNull(Account.VerificationCode);
-            Assert.IsNotNull(Account.Authenticated);
+            Assert.IsNotNull(Account.UserID);
         }
     }
 }

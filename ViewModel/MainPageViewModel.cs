@@ -5,6 +5,7 @@ using System.Windows.Input;
 using ViewModel.Commands;
 using ViewModel.Mediators;
 using System.Linq;
+using Model;
 
 namespace ViewModel
 {
@@ -25,15 +26,15 @@ namespace ViewModel
         public MainPageViewModel()
         {
             SSHService.Initialize(); // Initialize SSH for the database connection and logging in
-            MainNavigationItems = SetObservableCollection(false);
+            MainNavigationItems = SetObservableCollection(false); // Initialize the default page list
             ViewModelMediators.AuthenticationStateChanged += OnAuthenticationStateChanged;
             ProfileDataAccess.LoadProfile(3);
         }
 
-        private void OnAuthenticationStateChanged()
-        {
-            MainNavigationItems = SetObservableCollection(true);
-        }
+        /// <summary>
+        /// On basis of the authentication state, change the Home page view that needs to be displayed.
+        /// </summary>
+        private void OnAuthenticationStateChanged() => MainNavigationItems = Account.Authenticated ? SetObservableCollection(true) : SetObservableCollection(false);
 
         #endregion
 
@@ -97,15 +98,15 @@ namespace ViewModel
         private ObservableCollection<MainMenuNavigationItemData> SetObservableCollection(bool logoutPage)
         {
             var collection = new ObservableCollection<MainMenuNavigationItemData>();
-            if (!logoutPage)
-            {
-                collection.Add(new MainMenuNavigationItemData("Home", @"HomePages\HomePageBeforeLogin.xaml", null));
-                CurrentVisiblePage = @"HomePages\HomePageBeforeLogin.xaml";
-            }
-            else
+            if (logoutPage)
             {
                 collection.Add(new MainMenuNavigationItemData("Home", @"HomePages\HomePageAfterLogin.xaml", null));
                 CurrentVisiblePage = @"HomePages\HomePageAfterLogin.xaml";
+            }
+            else
+            {
+                collection.Add(new MainMenuNavigationItemData("Home", @"HomePages\HomePageBeforeLogin.xaml", null));
+                CurrentVisiblePage = @"HomePages\HomePageBeforeLogin.xaml";
             }
             collection.Add(new MainMenuNavigationItemData("Profile", "ProfilePage.xaml", null));
             collection.Add(new MainMenuNavigationItemData("Hobby opties", "HobbyOptionsView.xaml", null));
