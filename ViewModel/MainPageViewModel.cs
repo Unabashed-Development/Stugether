@@ -85,7 +85,7 @@ namespace ViewModel
                     throw new InvalidOperationException("Accepts only strings");
                 }
             },
-            (parameter) => MainNavigationItems.Count > 0
+            (parameter) => Account.Authenticated
             );
         #endregion
 
