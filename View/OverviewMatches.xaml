@@ -1,0 +1,51 @@
+﻿<Page x:Class="View.OverviewMatches"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:ViewModel="clr-namespace:ViewModel;assembly=ViewModel"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="OverviewMatches">
+
+    <Page.DataContext>
+        <ViewModel:OverviewMatchesViewModel/>
+    </Page.DataContext>
+    
+    <Grid>
+        <ItemsControl ItemsSource="{Binding Matches}">
+            <!-- Sample data -->
+            <d:ItemsControl.ItemsSource>
+                <x:Array Type="models:Profile" xmlns:models="clr-namespace:Model;assembly=Model">
+                    <models:Profile FirstName="Henque" LastName="de Botervogel" Description="Hoi, ik ben een spontane jongen uit het noorden van het land."/>
+                    <models:Profile FirstName="Erick" LastName="Oldenzaahl" Description="Mijn naam is Erick en ik wil kaas."/>
+                    <models:Profile FirstName="Bas" LastName="Castogne" Description="Ik woon niet in Barneveld."/>
+                </x:Array>
+            </d:ItemsControl.ItemsSource>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel IsItemsHost="True"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <ItemContainerTemplate>
+                    <Grid>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source=""/>
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="{Binding FirstName}" FontSize="18" FontWeight="Bold" Padding="5,0,0,0"/>
+                                        <Label Content=" " FontSize="18" FontWeight="Bold" Padding="0,0,0,0"/>
+                                        <Label Content="{Binding LastName}" FontSize="18" FontWeight="Bold" Padding="0,0,0,0"/>
+                                    </StackPanel>
+                                    <Label Content="{Binding Description}" VerticalAlignment="Stretch" Width="300" FontSize="14"/>
+                                </StackPanel>
+                            </StackPanel>
+                            <Button Content="Profiel" Margin="3,3,3,3" Click="Profile_Click"/>
+                        </StackPanel>
+                    </Grid>
+                </ItemContainerTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</Page>

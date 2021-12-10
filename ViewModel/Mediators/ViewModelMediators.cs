@@ -1,26 +1,39 @@
 ﻿using Model;
 using System;
-using ViewModel.Stores;
 
 namespace ViewModel.Mediators
 {
     public static class ViewModelMediators
     {
-        ///// <summary>
-        ///// This mediator serves as a way to subscribe to the FinishLoggingIn event of the MainAuthenticationViewModel.
-        ///// </summary>
-        //public static MainAuthenticationViewModel CurrentAuthenticationViewModel { get; set; }
+        #region fields
+        private static string _mainWindowPage;
+        #endregion
 
-        public static event Action UserAuthenticated;
+        #region Events
+        public static event Action AuthenticationStateChanged;
+        public static event Action MainWindowPageChanged;
+        #endregion
 
+        #region Properties
         public static bool Authenticated
         {
             get => Account.Authenticated;
             set
             {
                 Account.Authenticated = value;
-                UserAuthenticated?.Invoke();
+                AuthenticationStateChanged?.Invoke();
             }
         }
+
+        public static string MainWindowPage
+        {
+            get => _mainWindowPage;
+            set
+            {
+                _mainWindowPage = value;
+                MainWindowPageChanged?.Invoke();
+            }
+        }
+        #endregion
     }
 }

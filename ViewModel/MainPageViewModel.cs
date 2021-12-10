@@ -5,6 +5,7 @@ using System.Windows.Input;
 using ViewModel.Commands;
 using ViewModel.Mediators;
 using System.Linq;
+using Model;
 
 namespace ViewModel
 {
@@ -13,6 +14,10 @@ namespace ViewModel
     /// </summary>
     public class MainPageViewModel : ObservableObject
     {
+        #region Fields
+        private ObservableCollection<MainMenuNavigationItemData> _mainNavigationItems;
+        #endregion
+
         #region Construction
         /// <summary>
         /// Creates a new viewmodel for MainPage
@@ -20,91 +25,109 @@ namespace ViewModel
         public MainPageViewModel()
         {
             SSHService.Initialize(); // Initialize SSH for the database connection and logging in
-            MainNavigationItems = SetObservableCollection(false);
-            ViewModelMediators.UserAuthenticated += OnFinishLoggingIn;
-            ProfileDataAccess.LoadProfile(3);
+            MainNavigationItems = SetObservableCollection(false); // Initialize the default page list
+            ViewModelMediators.AuthenticationStateChanged += OnAuthenticationStateChanged;
+            ViewModelMediators.MainWindowPageChanged += OnMainWindowPageChanged;
         }
 
-        private void OnFinishLoggingIn()
-        {
-            MainNavigationItems = SetObservableCollection(true);
-        }
+        /// <summary>
+        /// On basis of the authentication state, change the Home page view that needs to be displayed.
+        /// </summary>
+        private void OnAuthenticationStateChanged() => MainNavigationItems = Account.Authenticated ? SetObservableCollection(true) : SetObservableCollection(false);
 
         #endregion
 
         #region Properties
         /// <summary>
-        /// Collection of pages for the main navigation menu
+        /// Collection of pages for the main navigation menu.
         /// </summary>
-        public ObservableCollection<MainMenuNavigationItemData> MainNavigationItems { get; set; }
-
-        private ObservableCollection<MainMenuNavigationItemData> SetObservableCollection(bool logoutPage)
+        public ObservableCollection<MainMenuNavigationItemData> MainNavigationItems
         {
-            var collection = new ObservableCollection<MainMenuNavigationItemData>();
-            if (!logoutPage)
-            {
-                collection.Add(new MainMenuNavigationItemData("Home", @"HomePages\HomePageBeforeLogin.xaml", null));
-            }
-            else
-            {
-                collection.Add(new MainMenuNavigationItemData("Home", @"HomePages\HomePageAfterLogin.xaml", null));
-            }
-            collection.Add(new MainMenuNavigationItemData("Profile", "ProfilePage.xaml", null));
-            collection.Add(new MainMenuNavigationItemData("Hobby opties", "HobbyOptionsView.xaml", null));
-            collection.Add(new MainMenuNavigationItemData("Settings", "ProfileSettings.xaml", null));
-            return collection;
-        }
-
-        private string currentVisiblePage = @"HomePages\HomePageBeforeLogin.xaml";
-        /// <summary>
-        /// Page that is currently visible on the frame
-        /// </summary>
-        public string CurrentVisiblePage
-        {
-            get => currentVisiblePage;
+            get => _mainNavigationItems;
             set
             {
-                currentVisiblePage = value;
-                RaisePropertyChanged("CurrentVisiblePage");
+                _mainNavigationItems = value;
+                RaisePropertyChanged("MainNavigationItems");
             }
         }
 
         /// <summary>
-        /// Handles the click events of the main menu buttons
+        /// Page that is currently visible on the frame.
+        /// </summary>
+        public string MainWindowPage
+        {
+            get => ViewModelMediators.MainWindowPage;
+            set => ViewModelMediators.MainWindowPage = value;
+        }
+
+        /// <summary>
+        /// Handles the click events of the main menu buttons.
         /// </summary>
         public ICommand NavigateButtonCommand => new RelayCommand(
             (parameter) =>
             {
                 if (parameter.GetType() == typeof(string))
                 {
-                    CurrentVisiblePage = (string)parameter;
+                    MainWindowPage = (string)parameter;
                 }
                 else if (parameter.GetType() == typeof(MainMenuNavigationItemData))
                 {
                     MainMenuNavigationItemData navigationData = (MainMenuNavigationItemData)parameter;
-                    CurrentVisiblePage = navigationData.Page;
+                    MainWindowPage = navigationData.Page;
                 }
                 else
                 {
                     throw new InvalidOperationException("Accepts only strings");
                 }
             },
-            (parameter) => MainNavigationItems.Count > 0
+            (parameter) => Account.Authenticated
             );
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Initializes a new ObservableCollection of MainMenuNavigationItemData.
+        /// </summary>
+        /// <param name="logoutPage">Set this to true if you want the Home page to be the logout page. Default is login page.</param>
+        /// <returns>ObservableCollection of MainMenuNavigationItemData.</returns>
+        private ObservableCollection<MainMenuNavigationItemData> SetObservableCollection(bool logoutPage)
+        {
+            var collection = new ObservableCollection<MainMenuNavigationItemData>();
+            if (logoutPage)
+            {
+                MainWindowPage = @"HomePages\HomePageAfterLogin.xaml";
+                collection.Add(new MainMenuNavigationItemData("Home", MainWindowPage, null));
+            }
+            else
+            {
+                MainWindowPage = @"HomePages\HomePageBeforeLogin.xaml";
+                collection.Add(new MainMenuNavigationItemData("Home", MainWindowPage, null));
+            }
+            collection.Add(new MainMenuNavigationItemData("Profile", "ProfilePage.xaml", null));
+            collection.Add(new MainMenuNavigationItemData("Hobby opties", "HobbyOptionsView.xaml", null));
+            collection.Add(new MainMenuNavigationItemData("Settings", "ProfileSettings.xaml", null));
+            collection.Add(new MainMenuNavigationItemData("Matches", "OverviewMatches.xaml", null));
+            return collection;
+        }
+
+        private void OnMainWindowPageChanged()
+        {
+            RaisePropertyChanged("MainWindowPage");
+        }
         #endregion
 
         #region MainMenuNavigationItemData
         /// <summary>
-        /// The data for a menu item on the main navigation menu
+        /// The data for a menu item on the main navigation menu.
         /// </summary>
         public struct MainMenuNavigationItemData
         {
             /// <summary>
-            /// Creates an item of data for the main navigation menu
+            /// Creates an item of data for the main navigation menu.
             /// </summary>
-            /// <param name="title">The title of the page shown on the top of the main page</param>
-            /// <param name="page">The page to be navigated to</param>
-            /// <param name="extraInformation">Optional extra information to be given when navigating</param>
+            /// <param name="title">The title of the page shown on the top of the main page.</param>
+            /// <param name="page">The page to be navigated to.</param>
+            /// <param name="extraInformation">Optional extra information to be given when navigating.</param>
             public MainMenuNavigationItemData(string title, string page, object extraInformation)
             {
                 Title = title;
@@ -113,15 +136,15 @@ namespace ViewModel
             }
 
             /// <summary>
-            /// The title of the page shown on the top of the main page
+            /// The title of the page shown on the top of the main page.
             /// </summary>
             public string Title { get; set; }
             /// <summary>
-            /// The page to be navigated to
+            /// The page to be navigated to.
             /// </summary>
             public string Page { get; set; }
             /// <summary>
-            /// Optional extra information to be given when navigating
+            /// Optional extra information to be given when navigating.
             /// </summary>
             public object ExtraInformation { get; set; }
         }
