@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Model
+﻿namespace Model
 {
     public class QAData
     {
 
-        public QAData(Student student)
+        public QAData(Profile student)
         {
 
         }

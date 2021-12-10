@@ -1,29 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Model
 {
     public class Profile
     {
 
+        public static Profile LoggedInProfile { get; set; }
+
+        private DateTime _dateOfBirth;
+        public int ID { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Age { get; set; }
+        public bool Sex { get; set; }
+        public string Description { get; set; }
+        public string City { get; set; }
         public QAData QAData { get; set; }
         public MoralsData MoralsData { get; set; }
         public InterestsData InterestsData { get; set; }
-        public string Description { get; set; }
-        public Media Media { get; set; }
-        public MatchList MatchList { get; set; }
-        public BlockList BlockList { get; set; }
-
-        public Profile(Student student)
+        public DateTime DateOfBirth
         {
-            QAData = new QAData(student);
-            MoralsData = new MoralsData(student);
-            InterestsData = new InterestsData(student);
-            Media = new Media(student);
-            MatchList = new MatchList(student);
-            BlockList = new BlockList(student);
-            Description = "";
+            get => _dateOfBirth;
+            set
+            {
+                _dateOfBirth = value;
+                Age = CalculateAge(value).ToString() + " Jaar";
+            }
+        }
+        public School School { get; set; }
+        public HashSet<int> Relationships { get; set; }
+        private static int CalculateAge(DateTime birthDay)
+        {
+            int years = DateTime.Now.Year - birthDay.Year;
+            if ((birthDay.Month > DateTime.Now.Month) || (birthDay.Month == DateTime.Now.Month && birthDay.Day > DateTime.Now.Day))
+            {
+                years--;
+            }
+            return years;
         }
 
     }
