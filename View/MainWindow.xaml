@@ -52,7 +52,7 @@
                                     <converters:MultiPageEqualsConverter/>
                                 </MultiBinding.Converter>
                                 <Binding Path="Page" Mode="OneWay"/>
-                                <Binding Path="DataContext.CurrentVisiblePage" RelativeSource="{RelativeSource AncestorType=Window}" Mode="OneWay"/>
+                                <Binding Path="DataContext.MainWindowPage" RelativeSource="{RelativeSource AncestorType=Window}" Mode="OneWay"/>
                             </MultiBinding>
                         </local:MainWindowNavigationItem.IsChecked>
                     </local:MainWindowNavigationItem>
@@ -61,7 +61,7 @@
             </ItemsControl>
         <TextBlock x:Name="tbContentTitle" Grid.Column="1" FontSize="22" FontWeight="Bold" Text="{Binding Content.Title, ElementName=frContent}"/>
         <ScrollViewer Grid.Column="1" Grid.Row="1" VerticalScrollBarVisibility="Auto" >
-            <Frame x:Name="frContent" Grid.Column="1" Grid.Row="1"  NavigationUIVisibility="Hidden" Source="{Binding CurrentVisiblePage, Mode=TwoWay}"/>
+            <Frame x:Name="frContent" Grid.Column="1" Grid.Row="1"  NavigationUIVisibility="Hidden" Source="{Binding MainWindowPage, Mode=TwoWay}"/>
         </ScrollViewer>
     </Grid>
 </Window>

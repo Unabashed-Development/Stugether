@@ -21,7 +21,7 @@ namespace View
         {
             NavigationStore authenticationNavigationStore = new NavigationStore(); // Create navigation store for the ViewModel
             authenticationNavigationStore.CurrentViewModel = new LoginViewModel(authenticationNavigationStore); // Set the LoginViewModel as the current view model
-            MainAuthenticationViewModel currentAuthenticationViewModel = new MainAuthenticationViewModel(authenticationNavigationStore); // Create a new MainAuthenticationViewModel
+            MainViewModel currentAuthenticationViewModel = new MainViewModel(authenticationNavigationStore); // Create a new MainAuthenticationViewModel
 
             AuthenticationWindow authenticationWindow = new AuthenticationWindow()
             { // Sets the data context for the authentiction window to MainAuthenticationViewModel.

@@ -1,9 +1,11 @@
 ﻿using Gateway;
 using Model;
 using System.ComponentModel;
+using ViewModel.Commands;
+
 namespace ViewModel
 {
-    public class ProfilePageViewModel : INotifyPropertyChanged
+    public class ProfilePageViewModel : ObservableObject
     {
         public string FirstName
         {
@@ -11,7 +13,7 @@ namespace ViewModel
             set
             {
                 _profile.FirstName = value;
-                OnPropertyChanged("FirstName");
+                RaisePropertyChanged("FirstName");
             }
         }
         public string LastName
@@ -20,7 +22,7 @@ namespace ViewModel
             set
             {
                 _profile.LastName = value;
-                OnPropertyChanged("LastName");
+                RaisePropertyChanged("LastName");
             }
         }
 
@@ -35,7 +37,7 @@ namespace ViewModel
             set
             {
                 _profile.School.SchoolName = value;
-                OnPropertyChanged("School");
+                RaisePropertyChanged("School");
             }
         }
 
@@ -45,7 +47,7 @@ namespace ViewModel
             set
             {
                 _profile.City = value;
-                OnPropertyChanged("City");
+                RaisePropertyChanged("City");
             }
         }
 
@@ -55,7 +57,7 @@ namespace ViewModel
             set
             {
                 _profile.School.Study = value;
-                OnPropertyChanged("Study");
+                RaisePropertyChanged("Study");
             }
         }
 
@@ -65,7 +67,7 @@ namespace ViewModel
             set
             {
                 _profile.Age = value;
-                OnPropertyChanged("Age");
+                RaisePropertyChanged("Age");
             }
         }
 
@@ -75,7 +77,7 @@ namespace ViewModel
             set
             {
                 _profile.Description = value;
-                OnPropertyChanged("Description");
+                RaisePropertyChanged("Description");
             }
         }
 
@@ -85,13 +87,11 @@ namespace ViewModel
             set
             {
                 _profile.InterestsData = value;
-                OnPropertyChanged("InterestsData");
+                RaisePropertyChanged("InterestsData");
             }
         }
 
         private Profile _profile;
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public ProfilePageViewModel(int userID) : this(ProfileDataAccess.LoadProfile(userID)) { }
 
@@ -104,11 +104,5 @@ namespace ViewModel
         {
             _profile = ProfileDataAccess.LoadProfile(3);
         }
-
-        private void OnPropertyChanged(string property = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-        }
-
     }
 }
