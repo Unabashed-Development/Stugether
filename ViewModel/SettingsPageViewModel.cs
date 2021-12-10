@@ -25,10 +25,16 @@ namespace ViewModel
         {
             _student = ProfileDataAccess.LoadProfile(3);
             chosenInterests = new ObservableCollection<InterestChosen>();
+            //chosenInterests.CollectionChanged += ChosenInterests_CollectionChanged;
             foreach(Interest interest in InterestsList)
             {
                 chosenInterests.Add(new InterestChosen() { Chosen = InterestsData.Interests.Contains(interest), Interest = interest });
             }
+        }
+
+        private void ChosenInterests_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            //_student.InterestsData.Interests.Clear();
         }
 
         public string FirstName

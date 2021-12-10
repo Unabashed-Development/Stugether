@@ -29,7 +29,6 @@ namespace Model
             }
         }
         public School School { get; set; }
-        public HashSet<int> Relationships { get; set; }
         private static int CalculateAge(DateTime birthDay)
         {
             int years = DateTime.Now.Year - birthDay.Year;
