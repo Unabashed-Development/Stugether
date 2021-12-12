@@ -29,8 +29,8 @@ namespace ViewModel
                                 VerificationCode = AccountHelper.GenerateVerificationCode(Email); // Generate a random verification code
                                 AccountDataAccess.CreateAccount(Email, Password, VerificationCode); // Create the account in the database with the generated verification code
                                 EmailService.SendVerificationMail(Email, VerificationCode); // Send the user an email with the verification code
-                                Account.UserID = AccountDataAccess.GetUserIDFromAccount(Email);
-                                ProfileDataAccess.CreateEmptyProfile(Account.UserID.Value);
+                                Account.UserID = AccountDataAccess.GetUserIDFromAccount(Email); // After creating the account in the database, set the UserID of Account
+                                ProfileDataAccess.CreateEmptyProfile(Account.UserID.Value); // Create an empty profile in the database
                                 CleanUpAccountData(); // Clear sensitive account data before verifying the user
                                 NavigateToVerification(); // Navigate to the verification code page
                             }

@@ -1,6 +1,5 @@
 ﻿using Gateway;
 using Model;
-using System;
 using ViewModel.Commands;
 using ViewModel.Helpers;
 using ViewModel.Mediators;
@@ -122,7 +121,7 @@ namespace ViewModel
             {
                 Account.UserID = AccountDataAccess.GetUserIDFromAccount(Email); // Get the user ID from the account and save it in the application
             }
-            Profile.LoggedInProfile = ProfileDataAccess.LoadProfile(Account.UserID.Value);
+            Profile.LoggedInProfile = ProfileDataAccess.LoadProfile(Account.UserID.Value); // Load the profile of the logged in user and set it to the static property LoggedInProfile
         }
 
         /// <summary>
