@@ -1,40 +1,36 @@
 ﻿using Gateway;
 using Model;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using ViewModel.Commands;
 
 namespace ViewModel
 {
-    public class SettingsPageViewModel : INotifyPropertyChanged
+    public class SettingsPageViewModel : ObservableObject
     {
+        #region Fields
+        private Profile _student;
+        #endregion
 
-        public struct InterestChosen
+        #region Properties
+        public struct InterestChosen : INotifyPropertyChanged
         {
-            public bool Chosen { get; set; }
-            public Interest Interest { get; set; }
-        }
+            private bool _chosen;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        private Profile _student { set; get; }
-        public ObservableCollection<Interest> InterestsList { get; } = new ObservableCollection<Interest>(ProfileDataAccess.LoadAllInterests());
-
-        public ObservableCollection<InterestChosen> chosenInterests { get; internal set; } = new ObservableCollection<InterestChosen>();
-
-        public SettingsPageViewModel()
-        {
-            _student = ProfileDataAccess.LoadProfile(3);
-            chosenInterests = new ObservableCollection<InterestChosen>();
-            //chosenInterests.CollectionChanged += ChosenInterests_CollectionChanged;
-            foreach(Interest interest in InterestsList)
-            {
-                chosenInterests.Add(new InterestChosen() { Chosen = InterestsData.Interests.Contains(interest), Interest = interest });
+            public bool Chosen
+            { 
+                get => _chosen; 
+                set 
+                {
+                    _chosen = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Chosen"));
+                }
             }
-        }
+            public Interest Interest { get; set; }
 
-        private void ChosenInterests_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            //_student.InterestsData.Interests.Clear();
+            public event PropertyChangedEventHandler PropertyChanged;
         }
 
         public string FirstName
@@ -43,7 +39,7 @@ namespace ViewModel
             set
             {
                 _student.FirstName = value;
-                OnPropertyChanged("FirstName");
+                RaisePropertyChanged("FirstName");
             }
         }
 
@@ -53,7 +49,7 @@ namespace ViewModel
             set
             {
                 _student.LastName = value;
-                OnPropertyChanged("LastName");
+                RaisePropertyChanged("LastName");
             }
         }
 
@@ -68,27 +64,27 @@ namespace ViewModel
             set
             {
                 _student.City = value;
-                OnPropertyChanged("City");
+                RaisePropertyChanged("City");
             }
         }
 
-        public DateTime DateOfBirth
+        public DateTime? DateOfBirth
         {
             get => _student.DateOfBirth;
             set
             {
                 _student.DateOfBirth = value;
-                OnPropertyChanged("DateOfBirth");
+                RaisePropertyChanged("DateOfBirth");
             }
         }
 
-        public bool Sex
+        public bool? Sex
         {
             get => _student.Sex;
             set
             {
                 _student.Sex = value;
-                OnPropertyChanged("Sex");
+                RaisePropertyChanged("Sex");
             }
         }
 
@@ -98,7 +94,7 @@ namespace ViewModel
             set
             {
                 _student.School.SchoolName = value;
-                OnPropertyChanged("SchoolName");
+                RaisePropertyChanged("SchoolName");
             }
         }
 
@@ -108,7 +104,7 @@ namespace ViewModel
             set
             {
                 _student.School.Study = value;
-                OnPropertyChanged("SchoolStudy");
+                RaisePropertyChanged("SchoolStudy");
             }
         }
 
@@ -118,7 +114,7 @@ namespace ViewModel
             set
             {
                 _student.School.SchoolCity = value;
-                OnPropertyChanged("SchoolCity");
+                RaisePropertyChanged("SchoolCity");
             }
         }
 
@@ -128,7 +124,7 @@ namespace ViewModel
             set
             {
                 _student.Description = value;
-                OnPropertyChanged("Description");
+                RaisePropertyChanged("Description");
             }
         }
 
@@ -138,7 +134,7 @@ namespace ViewModel
             set
             {
                 _student.MoralsData = value;
-                OnPropertyChanged("MoralsData");
+                RaisePropertyChanged("MoralsData");
             }
         }
 
@@ -148,7 +144,7 @@ namespace ViewModel
             set
             {
                 _student.QAData = value;
-                OnPropertyChanged("QAData");
+                RaisePropertyChanged("QAData");
             }
         }
 
@@ -158,14 +154,44 @@ namespace ViewModel
             set
             {
                 _student.InterestsData = value;
-                OnPropertyChanged("InterestsData");
+                RaisePropertyChanged("InterestsData");
             }
         }
 
-        private void OnPropertyChanged(string property = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-        }
+        public ObservableCollection<Interest> InterestsList { get; } = new ObservableCollection<Interest>(ProfileDataAccess.LoadAllInterests());
 
+        public TrulyObservableCollection<InterestChosen> ChosenInterests { get; set; }
+        #endregion
+
+        #region Construction
+        public SettingsPageViewModel()
+        {
+            _student = Profile.LoggedInProfile;
+            ChosenInterests = new TrulyObservableCollection<InterestChosen>();
+            foreach (Interest interest in InterestsList)
+            {
+                ChosenInterests.Add(new InterestChosen() { Chosen = InterestsData.Interests.Contains(interest), Interest = interest });
+            }
+            ChosenInterests.CollectionChanged += ChosenInterests_CollectionChanged;
+        }
+        #endregion
+
+        #region Methods
+        public void ChosenInterests_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            _student.InterestsData.Interests.Clear();
+            IEnumerator<InterestChosen> enumerator = ChosenInterests.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                InterestChosen interest = enumerator.Current;
+                if (!interest.Chosen)
+                {
+                    continue;
+                }
+
+                _student.InterestsData.Interests.Add(interest.Interest);
+            }
+        }
+        #endregion
     }
 }

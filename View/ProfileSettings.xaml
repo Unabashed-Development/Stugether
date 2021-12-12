@@ -50,7 +50,7 @@
                     <Label Content="Persoonlijk" FontSize="22" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="School">
+            <TabItem Header="School" Selector.Selected="TabControl_Selected">
                 <Grid Background="{StaticResource BackgroundSecundary}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="10*" MaxHeight="60"/>
@@ -73,7 +73,7 @@
                     <Label Content="School" Grid.Column="1" FontSize="22" HorizontalAlignment="Left"  VerticalAlignment="Center"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Beschrijving">
+            <TabItem Header="Beschrijving" Selector.Selected="TabControl_Selected">
                 <Grid Background="{StaticResource BackgroundSecundary}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="10*" MaxHeight="60"/>
@@ -87,11 +87,11 @@
                         <ColumnDefinition Width="25*"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Schrijf hier wat leuks over jezelf (max 420 woorden)." Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center" Height="26" Width="281"/>
-                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Description, Mode=TwoWay}" TextWrapping="Wrap" Grid.ColumnSpan="1" Background="{StaticResource BackgroundPrimary}" />
+                    <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Description, Mode=TwoWay}" TextWrapping="Wrap" Grid.ColumnSpan="1" Background="{StaticResource BackgroundPrimary}" />
                     <Label Content="Beschrijving" Grid.Column="1" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Interesses">
+            <TabItem Header="Interesses" Selector.Selected="TabControl_Selected">
                 <Grid Background="{StaticResource BackgroundSecundary}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="10*" MaxHeight="60"/>
@@ -104,7 +104,7 @@
                         <ColumnDefinition Width="25*"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Interesses" Grid.Column="1" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <ItemsControl x:Name="InterestControl" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding chosenInterests}">
+                    <ItemsControl x:Name="InterestControl" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding ChosenInterests, Mode=TwoWay}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <WrapPanel IsItemsHost="True"/>
@@ -118,7 +118,7 @@
                     </ItemsControl>
                 </Grid>
             </TabItem>
-            <TabItem Header="Profielfoto's">
+            <TabItem Header="Profielfoto's" Selector.Selected="TabControl_Selected">
                 <StackPanel Background="{StaticResource BackgroundSecundary}">
                     <StackPanel.DataContext>
                         <VM:ProfilePagePhotosViewModel/>

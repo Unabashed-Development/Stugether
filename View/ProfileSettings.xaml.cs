@@ -49,20 +49,23 @@ namespace View
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            Profile currentProfile = null; //get current profile
+            Profile currentProfile = Profile.LoggedInProfile; //get current profile
             switch (_currentTab)
             {
                 case "Persoonlijk":
-                    ProfileDataAccess.UpdateProfile(currentProfile.UserID, currentProfile);
+                    ProfileDataAccess.UpdateProfile(currentProfile);
                     break;
                 case "School":
-                    ProfileDataAccess.UpdateSchool(currentProfile.UserID, currentProfile.School);
+                    ProfileDataAccess.UpdateSchool(currentProfile.School);
                     break;
                 case "Interesses":
 
+                    ProfileDataAccess.UpdateInterestsData(currentProfile.InterestsData);
                     break;
                 case "Beschrijving":
-                    ProfileDataAccess.UpdateProfile(currentProfile.UserID, currentProfile);
+                    ProfileDataAccess.UpdateProfile(currentProfile);
+                    break;
+                default:
                     break;
             }
 

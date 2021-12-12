@@ -1,10 +1,10 @@
 ﻿using System;
 using Dapper;
 using Model;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
+using System.Linq;
 
 namespace Gateway
 {
@@ -39,6 +39,7 @@ namespace Gateway
             //MoralsData moralsData = LoadMoralsData(id);
             //studentData.MoralsData = moralsData;
             studentData.UserMedia = new List<Uri>(MediaDataAccess.GetUserMediaUris(id));
+            studentData.FirstUserMedia = studentData.UserMedia?.FirstOrDefault();
 
             return studentData;
         }
@@ -48,9 +49,11 @@ namespace Gateway
             Profile newProfile = new Profile()
             {
                 UserID = id,
+                DateOfBirth = null,
                 School = new School(id, null, null, null)
             };
-            UpdateProfile(id, newProfile);
+            UpdateProfile(newProfile);
+            UpdateSchool(newProfile.School);
         }
 
         public static School LoadSchool(int id)
@@ -67,13 +70,13 @@ namespace Gateway
             }
         }
 
-        public static bool UpdateInterestsData(int id, InterestsData interestsData)
+        public static bool UpdateInterestsData(InterestsData interestsData)
         {
             using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
             try
             {
                 //delete all existing interests
-                _ = connection.Execute($"DELETE FROM Interests WHERE UserID = {id}");
+                _ = connection.Execute($"DELETE FROM Interests WHERE UserID = {interestsData.UserID}");
 
                 //insert the new interests
                 StringBuilder sb = new StringBuilder();
@@ -86,7 +89,7 @@ namespace Gateway
                 interests.ForEach(interest =>
                 {
                     sb.Append("(");
-                    sb.Append(id);
+                    sb.Append(interestsData.UserID);
                     sb.Append(",");
                     sb.Append(interest.InterestID);
                     sb.Append(")");
@@ -100,23 +103,24 @@ namespace Gateway
             return false;
         }
 
-        public static bool UpdateProfile(int id, Profile profile)
+        public static bool UpdateProfile(Profile profile)
         {
             using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
             try
             {
-                return connection.Execute($"UPDATE Profile SET Description = '{profile.Description}', FirstName = '{profile.FirstName}', LastName = '{profile.LastName}', DateOfBirth = '{profile.DateOfBirth}', City = '{profile.City}', Sex = {Convert.ToByte(profile.Sex)} WHERE UserID = {id};") != 0 || connection.Execute($"INSERT INTO Profile(UserID, Description, FirstName, LastName, DateOfBirth, City, Sex) VALUES ({id}, '{profile.Description}', '{profile.FirstName}', '{profile.LastName}', '{profile.DateOfBirth}', '{profile.City}', {Convert.ToByte(profile.Sex)});") > 0;
+                return connection.Execute($"UPDATE Profile SET Description = @Description, FirstName = @FirstName, LastName = @LastName, DateOfBirth = @DateOfBirth, City = @City, Sex = @Sex WHERE UserID = @UserID", profile) != 0 ||
+                       connection.Execute($"INSERT INTO Profile(UserID, Description, FirstName, LastName, DateOfBirth, City, Sex) VALUES (@UserID, @Description, @FirstName, @LastName, @DateOfBirth, @City, @Sex);", profile) > 0;
             }
             catch (Exception) { }
             return false;
         }
 
-        public static bool UpdateSchool(int id, School school)
+        public static bool UpdateSchool(School school)
         {
             using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
             try
             {
-                return connection.Execute($"UPDATE School SET SchoolName = '{school.SchoolName}', SchoolCity = '{school.SchoolCity}', Study = '{school.Study}' WHERE UserID = {id};") != 0 || connection.Execute($"INSERT INTO School(UserID, SchoolName, SchoolCity, Study) VALUES ({id}, '{school.SchoolName}', '{school.SchoolCity}', '{school.Study}');") > 0;
+                return connection.Execute($"UPDATE School SET SchoolName = '{school.SchoolName}', SchoolCity = '{school.SchoolCity}', Study = '{school.Study}' WHERE UserID = {school.UserID};") != 0 || connection.Execute($"INSERT INTO School(UserID, SchoolName, SchoolCity, Study) VALUES ({school.UserID}, '{school.SchoolName}', '{school.SchoolCity}', '{school.Study}');") > 0;
             }
             catch (Exception) { }
             return false;
