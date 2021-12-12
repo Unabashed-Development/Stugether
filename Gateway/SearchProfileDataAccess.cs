@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 using Dapper;
 using Model;
 
 namespace Gateway
 {
-    public static class SearchProfileDataAcces
+    public static class SearchProfileDataAccess
     {
         #region Methods
 
@@ -35,9 +34,6 @@ namespace Gateway
 
             return pfs;
         }
-
-
         #endregion
-
     }
 }
