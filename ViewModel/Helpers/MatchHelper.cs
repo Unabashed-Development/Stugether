@@ -18,12 +18,5 @@ namespace ViewModel.Helpers
             return (from int id in matchedIDs
                     select ProfileDataAccess.LoadProfile(id)).ToList();
         }
-
-        /// <summary>
-        /// Removes a match from a specific user.
-        /// </summary>
-        /// <param name="userID">The user ID to remove the match from.</param>
-        /// <param name="toRemoveMatchUserID">The user ID of the user that needs to be removed from the match.</param>
-        public static void RemoveMatch(int userID, int toRemoveMatchUserID) => MatchDataAccess.RemoveMatchFromUser(userID, toRemoveMatchUserID);
     }
 }

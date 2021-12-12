@@ -6,6 +6,11 @@ namespace Gateway.Test
 {
     public class Gateway_MatchDataAccess_AddLikeToUserIDs
     {
+        static void CleanUp(int id1, int id2)
+        {
+            MatchDataAccess.RemoveMatchFromUser(id1, id2);
+        }
+
         [Test]
         public void AddLikeToUserIDs_NonExistingMatch_ThrowsNoError()
         {
@@ -27,14 +32,9 @@ namespace Gateway.Test
                 
             }
 
-            void CleanUp()
-            {
-                MatchDataAccess.RemoveMatchFromUser(userID1, userID2);
-            }
-
             // Assert
             Assert.DoesNotThrow(() => AddLike(), "AddLikeToUserIDs");
-            Assert.DoesNotThrow(() => CleanUp(), "RemoveMatchFromUser");
+            Assert.DoesNotThrow(() => CleanUp(userID1, userID2), "RemoveMatchFromUser");
         }
 
         [Test]
@@ -58,15 +58,10 @@ namespace Gateway.Test
 
             }
 
-            void CleanUp()
-            {
-                MatchDataAccess.RemoveMatchFromUser(userID1, userID2);
-            }
-
             // Assert
             Assert.DoesNotThrow(() => AddLike(), "Should not throw exception");
             Assert.Throws<System.Data.SqlClient.SqlException>(() => AddLike(), "Should throw exception");
-            Assert.DoesNotThrow(() => CleanUp(), "RemoveMatchFromUser");
+            Assert.DoesNotThrow(() => CleanUp(userID1, userID2), "RemoveMatchFromUser");
         }
     }
 }
