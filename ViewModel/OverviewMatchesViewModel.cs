@@ -1,9 +1,8 @@
 ﻿using Model;
+using System;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 using ViewModel.Commands;
 using ViewModel.Helpers;
-using ViewModel.Mediators;
 
 namespace ViewModel
 {

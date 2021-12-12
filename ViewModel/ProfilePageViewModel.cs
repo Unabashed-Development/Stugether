@@ -10,6 +10,12 @@ namespace ViewModel
 {
     public class ProfilePageViewModel : ObservableObject
     {
+        #region Fields
+        private Profile _profile;
+        private int _selectedImage = 0;
+        #endregion
+
+        #region Properties
         public string FirstName
         {
             get => _profile.FirstName;
@@ -29,10 +35,7 @@ namespace ViewModel
             }
         }
 
-        public string Name
-        {
-            get => _profile.FirstName + " " + _profile.LastName;
-        }
+        public string Name => _profile.FirstName + " " + _profile.LastName;
 
         public string School
         {
@@ -94,7 +97,6 @@ namespace ViewModel
             }
         }
 
-
         /// <summary>
         /// Gives the image index currently selected to show on the profile page
         /// </summary>
@@ -105,10 +107,15 @@ namespace ViewModel
                 if (Images.Count > 0)
                 {
                     if (_selectedImage > 0 && _selectedImage < Images.Count)
+                    {
                         return Images[_selectedImage];
+                    }
                     else
-                        if (_selectedImage < 0) _selectedImage += Images.Count;
-                        return Images[_selectedImage % Images.Count];
+                        if (_selectedImage < 0)
+                    {
+                        _selectedImage += Images.Count;
+                    }
+                    return Images[_selectedImage % Images.Count];
                 }
                 else
                 {
@@ -116,18 +123,14 @@ namespace ViewModel
                 }
             }
         }
-        private int _selectedImage = 0;
 
         /// <summary>
         /// Gives the list with media on the users profile
         /// </summary>
-        public List<Uri> Images
-        {
-            get
-            {
-                return _profile.UserMedia;
-            }
-        }
+        public List<Uri> Images => _profile.UserMedia;
+        #endregion
+
+        #region Commands
 
         /// <summary>
         /// Handles the next and previous buttons for the photos on the profile page
@@ -152,10 +155,9 @@ namespace ViewModel
             },
             () => true
             );
+        #endregion
 
-
-        private Profile _profile;
-
+        #region Construction
         public ProfilePageViewModel(int userID) : this(ProfileDataAccess.LoadProfile(userID)) { }
 
         public ProfilePageViewModel(Profile profile)
@@ -167,5 +169,6 @@ namespace ViewModel
         {
             _profile = ProfileDataAccess.LoadProfile(3);
         }
+        #endregion
     }
 }

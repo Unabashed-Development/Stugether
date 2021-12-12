@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Model
 {
@@ -39,6 +40,12 @@ namespace Model
             return years;
         }
 
-        public List<Uri> UserMedia { get; set; } = new List<Uri>();
+        public Profile()
+        {
+            UserMedia = new List<Uri>();
+        }
+
+        public List<Uri> UserMedia { get; set; }
+        public Uri FirstUserMedia { get; set; }
     }
 }
