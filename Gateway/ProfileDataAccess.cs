@@ -108,7 +108,8 @@ namespace Gateway
             using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
             try
             {
-                return connection.Execute($"UPDATE Profile SET Description = '{profile.Description}', FirstName = '{profile.FirstName}', LastName = '{profile.LastName}', DateOfBirth = '{profile.DateOfBirth}', City = '{profile.City}', Sex = {Convert.ToByte(profile.Sex)} WHERE UserID = {id};") != 0 || connection.Execute($"INSERT INTO Profile(UserID, Description, FirstName, LastName, DateOfBirth, City, Sex) VALUES ({id}, '{profile.Description}', '{profile.FirstName}', '{profile.LastName}', '{profile.DateOfBirth}', '{profile.City}', {Convert.ToByte(profile.Sex)});") > 0;
+                return connection.Execute($"UPDATE Profile SET Description = @Description, FirstName = @FirstName, LastName = @LastName, DateOfBirth = @DateOfBirth, City = @City, Sex = @Sex WHERE UserID = @UserID", profile) != 0 ||
+                       connection.Execute($"INSERT INTO Profile(UserID, Description, FirstName, LastName, DateOfBirth, City, Sex) VALUES (@UserID, @Description, @FirstName, @LastName, @DateOfBirth, @City, @Sex);", profile) > 0;
             }
             catch (Exception) { }
             return false;

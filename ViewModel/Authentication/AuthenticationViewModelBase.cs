@@ -122,6 +122,7 @@ namespace ViewModel
             {
                 Account.UserID = AccountDataAccess.GetUserIDFromAccount(Email); // Get the user ID from the account and save it in the application
             }
+            Profile.LoggedInProfile = ProfileDataAccess.LoadProfile(Account.UserID.Value);
         }
 
         /// <summary>

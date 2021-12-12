@@ -1,8 +1,6 @@
-﻿using Gateway;
-using Model;
+﻿using Model;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Windows.Input;
 using ViewModel.Commands;
 
@@ -158,8 +156,6 @@ namespace ViewModel
         #endregion
 
         #region Construction
-        public ProfilePageViewModel(int userID) : this(ProfileDataAccess.LoadProfile(userID)) { }
-
         public ProfilePageViewModel(Profile profile)
         {
             _profile = profile;
@@ -167,7 +163,7 @@ namespace ViewModel
 
         public ProfilePageViewModel()
         {
-            _profile = ProfileDataAccess.LoadProfile(Account.UserID.Value);
+            _profile = Profile.LoggedInProfile;
         }
         #endregion
     }
