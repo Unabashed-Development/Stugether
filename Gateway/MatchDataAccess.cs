@@ -50,9 +50,7 @@ namespace Gateway
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB")))
             {
-                connection.Execute(
-                    $"INSERT INTO Matches(UserID, UserID2, RelationshipTypeID, Liked) " +
-                    $"VALUES ({userID}, {likedUserID}, {relationshipTypeID}, 1");
+                connection.Execute($"INSERT INTO Matches VALUES({userID}, {likedUserID}, {relationshipTypeID}, 0, 1)");
             }
         }
 
@@ -66,9 +64,9 @@ namespace Gateway
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB")))
             {
                 connection.Execute(
-                    $"UPDATE Matches" +
-                    $"SET Matched = 1" +
-                    $"WHERE UserID = {userID} AND UserID2 = {matchedUserID}" +
+                    $"UPDATE Matches " +
+                    $"SET Matched = 1 " +
+                    $"WHERE UserID = {userID} AND UserID2 = {matchedUserID} " +
                     $"OR UserID = {matchedUserID} AND UserID2 = {userID}");
             }
         }
@@ -90,7 +88,7 @@ namespace Gateway
                         $"WHERE UserID = {likedUserID} AND UserID2 = {userID}");
                 }
             }
-            catch (Exception) // If the key could not be found, always return false, because there was no like in the first place
+            catch (InvalidOperationException) // If the key could not be found, always return false, because there was no like in the first place
             {
                 return false;
             }
