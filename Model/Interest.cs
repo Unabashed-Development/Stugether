@@ -16,11 +16,7 @@
 
         public override bool Equals(object obj)
         {
-            if (obj.GetType() == typeof(Interest))
-            {
-                return ((Interest)obj).InterestID == InterestID;
-            }
-            return false;
+            return obj.GetType() == typeof(Interest) && ((Interest)obj).InterestID == InterestID;
         }
 
         public override string ToString()

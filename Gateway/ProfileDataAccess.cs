@@ -52,8 +52,8 @@ namespace Gateway
                 DateOfBirth = null,
                 School = new School(id, null, null, null)
             };
-            UpdateProfile(id, newProfile);
-            UpdateSchool(id, newProfile.School);
+            UpdateProfile(newProfile);
+            UpdateSchool(newProfile.School);
         }
 
         public static School LoadSchool(int id)
@@ -70,13 +70,13 @@ namespace Gateway
             }
         }
 
-        public static bool UpdateInterestsData(int id, InterestsData interestsData)
+        public static bool UpdateInterestsData(InterestsData interestsData)
         {
             using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
             try
             {
                 //delete all existing interests
-                _ = connection.Execute($"DELETE FROM Interests WHERE UserID = {id}");
+                _ = connection.Execute($"DELETE FROM Interests WHERE UserID = {interestsData.UserID}");
 
                 //insert the new interests
                 StringBuilder sb = new StringBuilder();
@@ -89,7 +89,7 @@ namespace Gateway
                 interests.ForEach(interest =>
                 {
                     sb.Append("(");
-                    sb.Append(id);
+                    sb.Append(interestsData.UserID);
                     sb.Append(",");
                     sb.Append(interest.InterestID);
                     sb.Append(")");
@@ -103,7 +103,7 @@ namespace Gateway
             return false;
         }
 
-        public static bool UpdateProfile(int id, Profile profile)
+        public static bool UpdateProfile(Profile profile)
         {
             using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
             try
@@ -115,12 +115,12 @@ namespace Gateway
             return false;
         }
 
-        public static bool UpdateSchool(int id, School school)
+        public static bool UpdateSchool(School school)
         {
             using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
             try
             {
-                return connection.Execute($"UPDATE School SET SchoolName = '{school.SchoolName}', SchoolCity = '{school.SchoolCity}', Study = '{school.Study}' WHERE UserID = {id};") != 0 || connection.Execute($"INSERT INTO School(UserID, SchoolName, SchoolCity, Study) VALUES ({id}, '{school.SchoolName}', '{school.SchoolCity}', '{school.Study}');") > 0;
+                return connection.Execute($"UPDATE School SET SchoolName = '{school.SchoolName}', SchoolCity = '{school.SchoolCity}', Study = '{school.Study}' WHERE UserID = {school.UserID};") != 0 || connection.Execute($"INSERT INTO School(UserID, SchoolName, SchoolCity, Study) VALUES ({school.UserID}, '{school.SchoolName}', '{school.SchoolCity}', '{school.Study}');") > 0;
             }
             catch (Exception) { }
             return false;
