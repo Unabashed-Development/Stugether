@@ -11,12 +11,18 @@
         <Border Background="{StaticResource BackgroundPrimary}" CornerRadius="10" Margin="10">
             <StackPanel Margin="10">
                 <Label Content="E-mailadres van je schoolaccount" FontSize="14"/>
-                <TextBox Margin="5 0" FontSize="14"
-                    Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Margin="5 0" FontSize="14" Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}">
+                    <TextBox.InputBindings>
+                        <KeyBinding Command="{Binding LoginCommand}" Key="Enter"/>
+                    </TextBox.InputBindings>
+                </TextBox>
 
                 <Label Content="Je wachtwoord van StudentMatcher" FontSize="14"/>
-                <components:BindablePasswordBox Margin="5 0" FontSize="14"
-                    Password="{Binding Password}"/>
+                <components:BindablePasswordBox Margin="5 0" FontSize="14" Password="{Binding Password}">
+                    <components:BindablePasswordBox.InputBindings>
+                        <KeyBinding Command="{Binding LoginCommand}" Key="Enter"/>
+                    </components:BindablePasswordBox.InputBindings>
+                </components:BindablePasswordBox>
 
                 <Button Content="Inloggen" Margin="100 10" Background="{StaticResource BackgroundTertiary}" Foreground="White" FontSize="14" Command="{Binding LoginCommand}"/>
 
