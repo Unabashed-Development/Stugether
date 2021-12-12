@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:ViewModel="clr-namespace:ViewModel;assembly=ViewModel"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="OverviewMatches">
+      Title="Je matches">
 
     <Page.DataContext>
         <ViewModel:OverviewMatchesViewModel/>
@@ -21,6 +21,7 @@
                     <models:Profile FirstName="Bas" LastName="Castogne" Description="Ik woon niet in Barneveld."/>
                 </x:Array>
             </d:ItemsControl.ItemsSource>
+            <!-- End of sample data-->
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel IsItemsHost="True"/>
@@ -30,7 +31,7 @@
                 <ItemContainerTemplate>
                     <Grid>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source=""/>
+                            <Image Source="{Binding FirstUserMedia}" Height="52" Width="52"/>
                             <StackPanel Orientation="Vertical">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
@@ -42,6 +43,7 @@
                                 </StackPanel>
                             </StackPanel>
                             <Button Content="Profiel" Margin="3,3,3,3" Click="Profile_Click"/>
+                            <Button Content="Unmatch" Margin="3,3,3,3" Command="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.UnmatchCommand}" CommandParameter="{Binding UserID}"/>
                         </StackPanel>
                     </Grid>
                 </ItemContainerTemplate>
