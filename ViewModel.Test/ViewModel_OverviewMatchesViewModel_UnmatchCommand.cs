@@ -4,45 +4,29 @@ using NUnit.Framework;
 
 namespace ViewModel.Test
 {
-    public class ViewModel_Authentication_VerificationViewModel_VerifyCommand
+    public class ViewModel_OverviewMatchesViewModel_UnmatchCommand
     {
         [Test]
-        public void VerifyCommand_VerificationCodeDoesNotMatch_SetsCorrectErrorMessage()
+        public void UnmatchCommand_UnmatchOneExistingMatch_NoMatchesLeft()
         {
             // Arrange
-            InitialSetupForTests.ClearFieldsInAccount();
-            VerificationViewModel verificationViewModel = new VerificationViewModel(new Stores.NavigationStore())
-            {
-                Email = "ThisAccountDoesExist@wafoe.nl",
-                VerificationCode = "654321" // The verification code in the database is "123456"
-            };
+            const int userID1 = 1; // ThisAccountDoesExist@wafoe.nl
+            const int userID2 = 12; // ThisUnverifiedAccountDoesExist@wafoe.nl
+            Account.UserID = userID1;
+            MatchDataAccess.AddLikeToUserIDs(userID1, userID2, 1); // Set the RelationshipTypeID to a random value, 1 in this case
+            OverviewMatchesViewModel viewModel = new OverviewMatchesViewModel();
 
             // Act
-            verificationViewModel.VerifyCommand.Execute(null);
-
-            // Assert
-            Assert.IsNotNull(verificationViewModel.ErrorMessage);
-            Assert.AreEqual("De verificatie code klopt niet.", verificationViewModel.ErrorMessage);
-        }
-
-        [Test]
-        public void VerifyCommand_VerificationCodeMatches_LogsUserInAndSetsCorrectOutput()
-        {
-            // Arrange
-            InitialSetupForTests.ClearFieldsInAccount();
-            VerificationViewModel verificationViewModel = new VerificationViewModel(new Stores.NavigationStore())
+            void Unmatch()
             {
-                Email = "ThisAccountDoesExist@wafoe.nl",
-                VerificationCode = "123456" // The verification code in the database is "123456"
-            };
+                viewModel.UnmatchCommand.Execute(userID2); // We want to unmatch userID2
+            }
 
-            // Act
-            verificationViewModel.VerifyCommand.Execute(null);
+            bool CheckIfNoMatches() => MatchDataAccess.GetAllMatchesFromUser(userID1).Count != 1;
 
             // Assert
-            Assert.IsNull(verificationViewModel.ErrorMessage);
-            Assert.IsTrue(Account.Authenticated);
-            Assert.AreEqual(AccountDataAccess.GetUserIDFromAccount(verificationViewModel.Email), Account.UserID);
+            Assert.DoesNotThrow(() => Unmatch(), "Unmatch userID2 from userID1");
+            Assert.IsTrue(CheckIfNoMatches(), "There are no matches left for userID1");
         }
     }
 }
