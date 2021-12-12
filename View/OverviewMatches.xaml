@@ -43,6 +43,7 @@
                                 </StackPanel>
                             </StackPanel>
                             <Button Content="Profiel" Margin="3,3,3,3" Click="Profile_Click"/>
+                            <Button Content="Unmatch" Margin="3,3,3,3" Command="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.UnmatchCommand}" CommandParameter="{Binding UserID}"/>
                         </StackPanel>
                     </Grid>
                 </ItemContainerTemplate>

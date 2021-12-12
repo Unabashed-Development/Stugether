@@ -1,6 +1,6 @@
 ﻿using Model;
-using System;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 using ViewModel.Commands;
 using ViewModel.Helpers;
 
@@ -25,7 +25,28 @@ namespace ViewModel
         #endregion
 
         #region Construction
-        public OverviewMatchesViewModel()
+        public OverviewMatchesViewModel() => GetMatches();
+        #endregion
+
+        #region Commands
+        public ICommand UnmatchCommand => new RelayCommand((parameter) => UnmatchParameterUserID((int)parameter), () => true);
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Unmatch the given userID from the logged in user and update the ObservableCollection.
+        /// </summary>
+        /// <param name="userID">The ID of the user that needs to be unmatched from the logged in user.</param>
+        private void UnmatchParameterUserID(int userID)
+        {
+            MatchHelper.RemoveMatch(Account.UserID.Value, userID);
+            GetMatches();
+        }
+
+        /// <summary>
+        /// Gets the matches from the database for the logged in user and sets the ObservableCollection.
+        /// </summary>
+        private void GetMatches()
         {
             Account.Matches = MatchHelper.LoadProfilesOfMatches(Account.UserID.Value);
             Matches = new ObservableCollection<Profile>(Account.Matches);
