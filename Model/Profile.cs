@@ -9,7 +9,7 @@ namespace Model
 
         public static Profile LoggedInProfile { get; set; }
 
-        private DateTime _dateOfBirth;
+        private DateTime? _dateOfBirth; // Nullable
         public int UserID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -20,17 +20,17 @@ namespace Model
         public QAData QAData { get; set; }
         public MoralsData MoralsData { get; set; }
         public InterestsData InterestsData { get; set; }
-        public DateTime DateOfBirth
+        public DateTime? DateOfBirth // Nullable
         {
             get => _dateOfBirth;
             set
             {
                 _dateOfBirth = value;
-                Age = CalculateAge(value).ToString() + " Jaar";
+                Age = (value == null) ? "0 jaar" : CalculateAge(value.Value).ToString() + " Jaar";
             }
         }
         public School School { get; set; }
-        private static int CalculateAge(DateTime birthDay)
+        private int CalculateAge(DateTime birthDay)
         {
             int years = DateTime.Now.Year - birthDay.Year;
             if ((birthDay.Month > DateTime.Now.Month) || (birthDay.Month == DateTime.Now.Month && birthDay.Day > DateTime.Now.Day))

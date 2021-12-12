@@ -23,7 +23,7 @@ namespace ViewModel
 
         public SettingsPageViewModel()
         {
-            _student = ProfileDataAccess.LoadProfile(3);
+            _student = ProfileDataAccess.LoadProfile(Account.UserID.Value);
             chosenInterests = new ObservableCollection<InterestChosen>();
             //chosenInterests.CollectionChanged += ChosenInterests_CollectionChanged;
             foreach(Interest interest in InterestsList)
@@ -74,7 +74,7 @@ namespace ViewModel
 
         public DateTime DateOfBirth
         {
-            get => _student.DateOfBirth;
+            get => _student.DateOfBirth.Value;
             set
             {
                 _student.DateOfBirth = value;

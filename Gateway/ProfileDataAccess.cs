@@ -49,9 +49,11 @@ namespace Gateway
             Profile newProfile = new Profile()
             {
                 UserID = id,
+                DateOfBirth = null,
                 School = new School(id, null, null, null)
             };
             UpdateProfile(id, newProfile);
+            UpdateSchool(id, newProfile.School);
         }
 
         public static School LoadSchool(int id)

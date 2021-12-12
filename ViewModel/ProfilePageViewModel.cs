@@ -167,7 +167,7 @@ namespace ViewModel
 
         public ProfilePageViewModel()
         {
-            _profile = ProfileDataAccess.LoadProfile(3);
+            _profile = ProfileDataAccess.LoadProfile(Account.UserID.Value);
         }
         #endregion
     }

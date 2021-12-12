@@ -118,7 +118,10 @@ namespace ViewModel
         protected void LogUserIn()
         {
             ViewModelMediators.Authenticated = true; // Set the authentication state of the application to true (which invokes an event)
-            Account.UserID = AccountDataAccess.GetUserIDFromAccount(Email); // Get the user ID from the account and save it in the application
+            if (Account.UserID == null)
+            {
+                Account.UserID = AccountDataAccess.GetUserIDFromAccount(Email); // Get the user ID from the account and save it in the application
+            }
         }
 
         /// <summary>
