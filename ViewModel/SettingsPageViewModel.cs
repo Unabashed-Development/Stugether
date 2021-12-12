@@ -1,9 +1,10 @@
 ﻿using Gateway;
 using Model;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using ViewModel.Commands;
+using ViewModel.Helpers;
 
 namespace ViewModel
 {
@@ -14,12 +15,6 @@ namespace ViewModel
         #endregion
 
         #region Properties
-        public struct InterestChosen
-        {
-            public bool Chosen { get; set; }
-            public Interest Interest { get; set; }
-        }
-
         public string FirstName
         {
             get => _student.FirstName;
@@ -147,26 +142,38 @@ namespace ViewModel
 
         public ObservableCollection<Interest> InterestsList { get; } = new ObservableCollection<Interest>(ProfileDataAccess.LoadAllInterests());
 
-        public ObservableCollection<InterestChosen> ChosenInterests { get; internal set; } = new ObservableCollection<InterestChosen>();
+        public FullyObservableCollection<InterestChosenHelper> ChosenInterests { get; set; }
         #endregion
 
         #region Construction
         public SettingsPageViewModel()
         {
             _student = Profile.LoggedInProfile;
-            ChosenInterests = new ObservableCollection<InterestChosen>();
-            //chosenInterests.CollectionChanged += ChosenInterests_CollectionChanged;
-            foreach(Interest interest in InterestsList)
+            List<InterestChosenHelper> chosenInterestsList = new List<InterestChosenHelper>();
+            foreach (Interest interest in InterestsList)
             {
-                ChosenInterests.Add(new InterestChosen() { Chosen = InterestsData.Interests.Contains(interest), Interest = interest });
+                chosenInterestsList.Add(new InterestChosenHelper() { Chosen = InterestsData.Interests.Contains(interest), Interest = interest });
             }
+            ChosenInterests = new FullyObservableCollection<InterestChosenHelper>(chosenInterestsList);
+            ChosenInterests.ItemPropertyChanged += ChosenInterests_CollectionChanged;
         }
         #endregion
 
         #region Methods
-        private void ChosenInterests_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        public void ChosenInterests_CollectionChanged(object sender, ItemPropertyChangedEventArgs e)
         {
-            //_student.InterestsData.Interests.Clear();
+            _student.InterestsData.Interests.Clear();
+            IEnumerator<InterestChosenHelper> enumerator = ChosenInterests.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                InterestChosenHelper interest = enumerator.Current;
+                if (!interest.Chosen)
+                {
+                    continue;
+                }
+
+                _student.InterestsData.Interests.Add(interest.Interest);
+            }
         }
         #endregion
     }
