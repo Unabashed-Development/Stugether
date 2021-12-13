@@ -17,7 +17,7 @@ namespace Gateway.Test
             int? matchedUserID = null;
 
             // Act
-            List<int> listOfMatches = MatchDataAccess.GetAllMatchesFromUser(userID1);
+            List<int> listOfMatches = MatchDataAccess.GetAllMatchesFromUser(userID1, MatchOrLike.Matched);
 
             List<int> GetListOfMatches()
             {
@@ -25,7 +25,7 @@ namespace Gateway.Test
                 {
                     MatchDataAccess.AddLikeToUserIDs(userID1, userID2, 1); // First add the match to the database
                     MatchDataAccess.SetMatchToUserIDs(userID2, userID1); // Set them to the matching state and turn them around just to test
-                    List<int> result = MatchDataAccess.GetAllMatchesFromUser(userID1);
+                    List<int> result = MatchDataAccess.GetAllMatchesFromUser(userID1, MatchOrLike.Matched);
                     matchedUserID = result.First();
                     return result;
                 }

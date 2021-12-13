@@ -30,7 +30,7 @@ namespace Gateway.Test
 
             List<int> CheckIfNoMatches(int id)
             {
-                return MatchDataAccess.GetAllMatchesFromUser(userID1);
+                return MatchDataAccess.GetAllMatchesFromUser(userID1, MatchOrLike.Matched);
             }
 
             // Assert
