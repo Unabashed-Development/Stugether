@@ -3,9 +3,12 @@
                     xmlns:local="clr-namespace:View"
                     xmlns:converters="clr-namespace:View.Converters"
                     xmlns:components="clr-namespace:View.Components">
-    
-    <SolidColorBrush x:Key="BackgroundPrimary" Color="#94d2e6"/>
-    <SolidColorBrush x:Key="BackgroundSecundary" Color="#c1224f"/>
+
+    <!--<SolidColorBrush x:Key="BackgroundPrimary" Color="#94d2e6"/>-->
+    <SolidColorBrush x:Key="BackgroundPrimary" Color="#c1224f"/>
+
+    <!--<SolidColorBrush x:Key="BackgroundSecundary" Color="#c1224f"/>-->
+    <SolidColorBrush x:Key="BackgroundSecundary" Color="#94d2e6"/>
     <SolidColorBrush x:Key="BackgroundTertiary" Color="#f16f6f"/>
     <SolidColorBrush x:Key="BackgroundQuaternary" Color="#fff78f"/>
 

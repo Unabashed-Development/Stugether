@@ -35,11 +35,11 @@
                     <ColumnDefinition Width="25*" />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
-                <Image Source="{Binding SelectedImage}" Stretch="Uniform" Grid.ColumnSpan="3"/>
-                <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderBrush="Transparent" Background="Transparent" Padding="25" Command="{Binding PhotoNavigationButtonCommand, Mode=OneWay}" CommandParameter="-">
+                <Image Source="{Binding SelectedImage}" Stretch="Uniform" Grid.ColumnSpan="3" MaxHeight="350"/>
+                <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderBrush="Transparent" Background="Transparent" Padding="50" Command="{Binding PhotoNavigationButtonCommand, Mode=OneWay}" CommandParameter="-">
                     <Path Margin="0,0,2,0" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 16 0 L 0 16 L 16 32 Z" Fill="#FF444444"/>
                 </Button>
-                <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2" BorderBrush="Transparent" Background="Transparent" Padding="25" Command="{Binding PhotoNavigationButtonCommand, Mode=OneWay}" CommandParameter="+">
+                <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2" BorderBrush="Transparent" Background="Transparent" Padding="50" Command="{Binding PhotoNavigationButtonCommand, Mode=OneWay}" CommandParameter="+">
                     <Path Margin="0,0,2,0" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 16 16 L 0 32 Z" Fill="#FF444444"/>
                 </Button>
             </Grid>
