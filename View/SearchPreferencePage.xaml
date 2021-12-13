@@ -1,0 +1,42 @@
+﻿<Page x:Class="View.SearchPreferencePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:View"
+      xmlns:vm="clr-namespace:ViewModel;assembly=ViewModel"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="SearchPreferencePage">
+
+    <Page.Resources>
+        <vm:SearchPreferencePageViewModel x:Key="vm"/>
+    </Page.Resources>
+
+    <Grid Background="{StaticResource BackgroundSecundary}" DataContext="{StaticResource vm}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*" MaxHeight="60"/>
+            <RowDefinition Height="80*"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="70*"/>
+            <ColumnDefinition Width="25*"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Zoekvoorkeuren" Grid.Column="1" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <StackPanel DataContext="{StaticResource vm}" Grid.Column="1" Grid.Row="1">
+            <ToggleButton x:Name = "cb1" Content = "Vrienden"
+                          Margin = "5" Width = "100" HorizontalAlignment = "Left" IsChecked="{Binding Friend}" />
+            <ToggleButton x:Name = "cb2" Content = "zakelijk"
+                          Margin = "5" Width = "100" HorizontalAlignment = "Left" IsChecked="{Binding Business}"/>
+            <ToggleButton x:Name = "cb3" Content = "Liefde"
+                          Margin = "5" Width = "100" HorizontalAlignment = "Left" IsChecked="{Binding Love}"/>
+            <ToggleButton x:Name = "cb4" Content = "studymaatje"
+                          Margin = "5" Width = "100" HorizontalAlignment = "Left" IsChecked="{Binding StudyBuddy}"/>
+
+        </StackPanel>
+        <Button Grid.Column="3" Content="Opslaan" Command="{Binding SaveCommand}"  HorizontalAlignment="Right" Grid.Row="1" VerticalAlignment="Bottom" MinHeight="50" MinWidth="150" Margin="10"/>
+
+    </Grid>
+</Page>
