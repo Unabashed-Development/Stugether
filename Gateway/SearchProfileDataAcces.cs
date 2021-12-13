@@ -10,7 +10,39 @@ namespace Gateway
 {
     public static class SearchProfileDataAcces
     {
+
+        
         #region Methods
+
+        #region ReturnListMethod
+
+        /// <summary>
+        /// executes the sql query and te turned a list
+        /// </summary>
+        /// <param name="sqlQuery">the sql query that you want to execute must be a stored presedure</param>
+        /// <param name="id">The user_id</param>
+        /// <returns>Return a list of profiles that matcht the query result</returns>
+        private static List<Profile> ReturnProfileList(string sqlQuery, int id)
+        {
+            List<Profile> pfList = new List<Profile>();
+            try
+            {
+                IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
+                pfList = connection.Query<Profile>(sqlQuery).ToList();
+                pfList.RemoveAll(i => i.UserID == id);
+                return pfList;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+
+        }
+
+        #endregion
+
+
 
         /// <summary>
         /// Search in the databse for all profiles that have the same relationtype
@@ -19,21 +51,22 @@ namespace Gateway
         /// <returns>Return a list of profiles that match the loggedin user relationtypes</returns>
         public static List<Profile> GetProfileBasedOnRelationType(int user_id)
         {
-            List<Profile> pfs = new List<Profile>();
-            try
-            {
-                IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
-                pfs = connection.Query<Profile>($"exec GetProfileBasedOnRelationType {user_id}").ToList();
-                pfs.RemoveAll(i => i.UserID == user_id);
-                
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                
-            }
+            string query = $"exec GetProfileBasedOnRelationType {user_id}";
+            return ReturnProfileList(query,user_id);
+        }
 
-            return pfs;
+
+
+
+        /// <summary>
+        /// Search in the databse for all profiles that have the same relationtype
+        /// </summary>
+        /// <param name="id">The user_id</param>
+        /// <returns>Return a list of profiles that match the loggedin user relationtypes</returns>
+        public static List<Profile> GetProfileBasedOnIntrest(int id)
+        {
+            string query = $"exec GetProfileBasedOnInterests {id}";
+            return ReturnProfileList(query,id);
         }
 
 
