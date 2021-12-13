@@ -3,9 +3,6 @@ using Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text;
 using System.Windows.Input;
 using ViewModel.Commands;
 
@@ -17,28 +14,6 @@ namespace ViewModel
     public class ProfilePagePhotosViewModel : ObservableObject
     {
         #region Viewing images
-        /// <summary>
-        /// Gives the image index currently selected to show on the profile page
-        /// </summary>
-        public Uri SelectedImage
-        {
-            get
-            {
-                if (Images.Count > 0)
-                {
-                    if (_selectedImage > 0 && _selectedImage < Images.Count)
-                        return Images[_selectedImage];
-                    else
-                        return Images[_selectedImage % Images.Count];
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-        private int _selectedImage = 0;
-
         /// <summary>
         /// Gives the list with media on the users profile
         /// </summary>
@@ -53,30 +28,6 @@ namespace ViewModel
             Images = new ObservableCollection<Uri>(imageStrings.ConvertAll((str) => new Uri(str, UriKind.RelativeOrAbsolute)));
             RaisePropertyChanged("Images");
         }
-
-        /// <summary>
-        /// Handles the next and previous buttons for the photos on the profile page
-        /// </summary>
-        public ICommand PhotoNavigationButtonCommand => new RelayCommand(
-            (parameter) =>
-            {
-                if (Images.Count > 0)
-                {
-                    if ((string)parameter == "+")
-                    {
-                        _selectedImage++;
-                        _selectedImage %= Images.Count;
-                    }
-                    else if ((string)parameter == "-")
-                    {
-                        _selectedImage--;
-                        _selectedImage %= Images.Count;
-                    }
-                }
-                RaisePropertyChanged("SelectedImage");
-            },
-            () => true
-            );
         #endregion
 
         #region Delete image
@@ -154,7 +105,6 @@ namespace ViewModel
             }
         }
         #endregion
-
 
         public ProfilePagePhotosViewModel()
         {

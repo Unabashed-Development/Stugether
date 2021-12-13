@@ -1,17 +1,26 @@
-﻿using Gateway;
-using Model;
-using System.ComponentModel;
+﻿using Model;
+using System;
+using System.Collections.Generic;
+using System.Windows.Input;
+using ViewModel.Commands;
+
 namespace ViewModel
 {
-    public class ProfilePageViewModel : INotifyPropertyChanged
+    public class ProfilePageViewModel : ObservableObject
     {
+        #region Fields
+        private Profile _profile;
+        private int _selectedImage = 0;
+        #endregion
+
+        #region Properties
         public string FirstName
         {
             get => _profile.FirstName;
             set
             {
                 _profile.FirstName = value;
-                OnPropertyChanged("FirstName");
+                RaisePropertyChanged("FirstName");
             }
         }
         public string LastName
@@ -20,14 +29,11 @@ namespace ViewModel
             set
             {
                 _profile.LastName = value;
-                OnPropertyChanged("LastName");
+                RaisePropertyChanged("LastName");
             }
         }
 
-        public string Name
-        {
-            get => _profile.FirstName + " " + _profile.LastName;
-        }
+        public string Name => _profile.FirstName + " " + _profile.LastName;
 
         public string School
         {
@@ -35,7 +41,7 @@ namespace ViewModel
             set
             {
                 _profile.School.SchoolName = value;
-                OnPropertyChanged("School");
+                RaisePropertyChanged("School");
             }
         }
 
@@ -45,7 +51,7 @@ namespace ViewModel
             set
             {
                 _profile.City = value;
-                OnPropertyChanged("City");
+                RaisePropertyChanged("City");
             }
         }
 
@@ -55,7 +61,7 @@ namespace ViewModel
             set
             {
                 _profile.School.Study = value;
-                OnPropertyChanged("Study");
+                RaisePropertyChanged("Study");
             }
         }
 
@@ -65,7 +71,7 @@ namespace ViewModel
             set
             {
                 _profile.Age = value;
-                OnPropertyChanged("Age");
+                RaisePropertyChanged("Age");
             }
         }
 
@@ -75,7 +81,7 @@ namespace ViewModel
             set
             {
                 _profile.Description = value;
-                OnPropertyChanged("Description");
+                RaisePropertyChanged("Description");
             }
         }
 
@@ -85,16 +91,71 @@ namespace ViewModel
             set
             {
                 _profile.InterestsData = value;
-                OnPropertyChanged("InterestsData");
+                RaisePropertyChanged("InterestsData");
             }
         }
 
-        private Profile _profile;
+        /// <summary>
+        /// Gives the image index currently selected to show on the profile page
+        /// </summary>
+        public Uri SelectedImage
+        {
+            get
+            {
+                if (Images.Count > 0)
+                {
+                    if (_selectedImage > 0 && _selectedImage < Images.Count)
+                    {
+                        return Images[_selectedImage];
+                    }
+                    else
+                        if (_selectedImage < 0)
+                    {
+                        _selectedImage += Images.Count;
+                    }
+                    return Images[_selectedImage % Images.Count];
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// Gives the list with media on the users profile
+        /// </summary>
+        public List<Uri> Images => _profile.UserMedia;
+        #endregion
 
-        public ProfilePageViewModel(int userID) : this(ProfileDataAccess.LoadProfile(userID)) { }
+        #region Commands
 
+        /// <summary>
+        /// Handles the next and previous buttons for the photos on the profile page
+        /// </summary>
+        public ICommand PhotoNavigationButtonCommand => new RelayCommand(
+            (parameter) =>
+            {
+                if (Images.Count > 0)
+                {
+                    if ((string)parameter == "+")
+                    {
+                        _selectedImage++;
+                        _selectedImage %= Images.Count;
+                    }
+                    else if ((string)parameter == "-")
+                    {
+                        _selectedImage--;
+                        _selectedImage %= Images.Count;
+                    }
+                }
+                RaisePropertyChanged("SelectedImage");
+            },
+            () => true
+            );
+        #endregion
+
+        #region Construction
         public ProfilePageViewModel(Profile profile)
         {
             _profile = profile;
@@ -102,13 +163,8 @@ namespace ViewModel
 
         public ProfilePageViewModel()
         {
-            _profile = ProfileDataAccess.LoadProfile(3);
+            _profile = Profile.LoggedInProfile;
         }
-
-        private void OnPropertyChanged(string property = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-        }
-
+        #endregion
     }
 }

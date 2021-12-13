@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Gateway.Services;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using WinSCP;
@@ -21,6 +22,13 @@ namespace Gateway
                 return connection.Query<string>("SELECT Path FROM UserMedia WHERE UserID = @uid", new { uid = userID });
             }
         }
+
+        /// <summary>
+        /// Gets all media for userID from the database and returns it as a list of System.Uri
+        /// </summary>
+        /// <param name="userID">The userID to get the media for</param>
+        /// <returns>IEnumerable with paths to the media</returns>
+        public static IEnumerable<Uri> GetUserMediaUris(int userID) => new List<Uri>(new List<string>(GetUserMedia(userID)).ConvertAll((str) => new Uri(str, UriKind.RelativeOrAbsolute)));
 
         /// <summary>
         /// Uploads media to the server and adds its record to the database

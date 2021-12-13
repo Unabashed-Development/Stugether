@@ -14,6 +14,11 @@
             CategoryID = categoryID;
         }
 
+        public override bool Equals(object obj)
+        {
+            return obj.GetType() == typeof(Interest) && ((Interest)obj).InterestID == InterestID;
+        }
+
         public override string ToString()
         {
             return InterestName;
