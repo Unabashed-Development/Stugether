@@ -23,7 +23,7 @@
                     Binding="{Binding 
                         Path=ActualWidth,
                         RelativeSource={RelativeSource Self},
-                        Converter={x:Static converters:isLessThanConverter.Instance},
+                        Converter={x:Static converters:IsLessThanConverter.Instance},
                         ConverterParameter=100}"
                     Value="True">
                 <Setter Property="HorizontalContentAlignment" Value="Left"/>
@@ -44,7 +44,7 @@
                     Binding="{Binding
                     Path=ActualHeight,
                     RelativeSource={RelativeSource Self},
-                    Converter={x:Static converters:isLessThanConverter.Instance},
+                    Converter={x:Static converters:IsLessThanConverter.Instance},
                     ConverterParameter=400}"
                     Value="True">
                 <Setter Property="FontSize" Value="19"/>
@@ -53,6 +53,15 @@
     </Style>
 
     <Style TargetType="Button">
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="CornerRadius" Value="10"/>
+            </Style>
+        </Style.Resources>
+        <Setter Property="Background" Value="{StaticResource BackgroundTertiary}"/>
+    </Style>
+
+    <Style TargetType="ToggleButton">
         <Style.Resources>
             <Style TargetType="Border">
                 <Setter Property="CornerRadius" Value="10"/>

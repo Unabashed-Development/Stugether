@@ -16,7 +16,7 @@ namespace View
         }
 
         /// <summary>
-        /// Initialize a new window with the profile from the RoutedEventArgs.
+        /// Initialize a new window with the profile from the RoutedEventArgs and the constructor of ProfileWindow.
         /// </summary>
         private void Profile_Click(object sender, RoutedEventArgs e)
         {
