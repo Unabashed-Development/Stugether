@@ -8,6 +8,9 @@ using ViewModel.Helpers;
 
 namespace ViewModel
 {
+    /// <summary>
+    /// ViewModel class for the profilesettings page according to MVVM
+    /// </summary>
     public class SettingsPageViewModel : ObservableObject
     {
         #region Fields
@@ -35,10 +38,7 @@ namespace ViewModel
             }
         }
 
-        public string Name
-        {
-            get => _student.FirstName + " " + _student.LastName;
-        }
+        public string Name => _student.FirstName + " " + _student.LastName;
 
         public string City
         {
@@ -149,20 +149,37 @@ namespace ViewModel
         public SettingsPageViewModel()
         {
             _student = Profile.LoggedInProfile;
+            LoadInterests();
+        }
+        #endregion
+
+        #region Methods
+
+        private void LoadInterests()
+        {
+            //add all the interests to a list
             List<InterestChosenHelper> chosenInterestsList = new List<InterestChosenHelper>();
             foreach (Interest interest in InterestsList)
             {
                 chosenInterestsList.Add(new InterestChosenHelper() { Chosen = InterestsData.Interests.Contains(interest), Interest = interest });
             }
             ChosenInterests = new FullyObservableCollection<InterestChosenHelper>(chosenInterestsList);
+            
+            //add action listener
             ChosenInterests.ItemPropertyChanged += ChosenInterests_CollectionChanged;
         }
-        #endregion
 
-        #region Methods
+        /// <summary>
+        /// Translates the ChosenInterests to a Interest object. The Interest object is added to the current profile
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void ChosenInterests_CollectionChanged(object sender, ItemPropertyChangedEventArgs e)
         {
+            //clear the interests first
             _student.InterestsData.Interests.Clear();
+            
+            //loop through all the chosenInterests, if its chosen (selected) the interest will be added to the profile
             IEnumerator<InterestChosenHelper> enumerator = ChosenInterests.GetEnumerator();
             while (enumerator.MoveNext())
             {

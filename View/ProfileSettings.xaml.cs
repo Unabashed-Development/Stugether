@@ -1,17 +1,7 @@
 ﻿using Gateway;
 using Model;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace View
 {
@@ -21,12 +11,19 @@ namespace View
     public partial class ProfileSettings : Page
     {
 
+        #region fields
         private string _currentTab { get; set; }
+        #endregion
+
+        #region constructors
         public ProfileSettings()
         {
             InitializeComponent();
             _currentTab = "Persoonlijk";
         }
+        #endregion
+
+        #region methods
 
         // TODO: Can this be MVVM'd?
         /// <summary>
@@ -47,9 +44,18 @@ namespace View
             }
         }
 
+        //TODO: MVVM, return if action is successful
+        /// <summary>
+        /// Saves the data of the current selected tab to the database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            Profile currentProfile = Profile.LoggedInProfile; //get current profile
+            //get current profile
+            Profile currentProfile = Profile.LoggedInProfile;
+
+            //do action according to the right tab
             switch (_currentTab)
             {
                 case "Persoonlijk":
@@ -59,7 +65,6 @@ namespace View
                     ProfileDataAccess.UpdateSchool(currentProfile.School);
                     break;
                 case "Interesses":
-
                     ProfileDataAccess.UpdateInterestsData(currentProfile.InterestsData);
                     break;
                 case "Beschrijving":
@@ -71,10 +76,17 @@ namespace View
 
         }
 
+        /// <summary>
+        /// Sets the current active settings tab
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TabControl_Selected(object sender, RoutedEventArgs e)
         {
             TabItem tabItem = (TabItem)sender;
             _currentTab = tabItem.Header.ToString();
         }
+
+        #endregion
     }
 }

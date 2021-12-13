@@ -104,10 +104,11 @@ namespace ViewModel
                 collection.Add(new MainMenuNavigationItemData("Home", MainWindowPage, null));
             }
             collection.Add(new MainMenuNavigationItemData("Profile", "ProfilePage.xaml", null));
-            collection.Add(new MainMenuNavigationItemData("Matching", "MatchingProfilePage.xaml", null));
-            collection.Add(new MainMenuNavigationItemData("Hobby opties", "HobbyOptionsView.xaml", null));
+            collection.Add(new MainMenuNavigationItemData("Zoeken naar matches", "MatchingProfilePage.xaml", null));
+            collection.Add(new MainMenuNavigationItemData("Mijn matches", "OverviewMatches.xaml", null));
+            collection.Add(new MainMenuNavigationItemData("Zoekvoorkeuren", "SearchPreferencePage.xaml", null));
             collection.Add(new MainMenuNavigationItemData("Settings", "ProfileSettings.xaml", null));
-            collection.Add(new MainMenuNavigationItemData("Matches", "OverviewMatches.xaml", null));
+
             return collection;
         }
 
