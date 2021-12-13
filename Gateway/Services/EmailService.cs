@@ -1,7 +1,7 @@
 ﻿using MailKit.Net.Smtp;
 using MimeKit;
 
-namespace Gateway
+namespace Gateway.Services
 {
     public static class EmailService
     {

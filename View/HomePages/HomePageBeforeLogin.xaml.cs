@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using View.Authentication;
 using ViewModel;
+using ViewModel.Authentication;
 using ViewModel.Mediators;
 using ViewModel.Stores;
 

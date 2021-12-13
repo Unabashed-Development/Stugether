@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using System.Data;
 using System;
+using Gateway.Helpers;
 
 namespace Gateway
 {

@@ -5,7 +5,7 @@ using ViewModel.Helpers;
 using ViewModel.Mediators;
 using ViewModel.Stores;
 
-namespace ViewModel
+namespace ViewModel.Authentication
 {
     public abstract class AuthenticationViewModelBase : ObservableObject
     {

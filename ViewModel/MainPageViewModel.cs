@@ -1,11 +1,10 @@
 ﻿using System;
-using Gateway;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using ViewModel.Commands;
 using ViewModel.Mediators;
-using System.Linq;
 using Model;
+using Gateway.Services;
 
 namespace ViewModel
 {

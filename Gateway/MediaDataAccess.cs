@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Gateway.Helpers;
 using Gateway.Services;
 using System;
 using System.Collections.Generic;

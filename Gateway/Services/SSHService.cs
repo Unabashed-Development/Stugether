@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Gateway
+namespace Gateway.Services
 {
 	public static class SSHService // Source: https://mysqlconnector.net/tutorials/connect-ssh/
 	{

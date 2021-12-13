@@ -1,6 +1,6 @@
 ﻿using System.Configuration;
 
-namespace Gateway
+namespace Gateway.Helpers
 {
     public static class FiddleHelper
     {

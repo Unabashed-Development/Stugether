@@ -2,10 +2,10 @@
 using System.Windows.Input;
 using ViewModel.Commands;
 using ViewModel.Helpers;
-using Model;
 using ViewModel.Stores;
+using Gateway.Services;
 
-namespace ViewModel
+namespace ViewModel.Authentication
 {
     public class LoginViewModel : AuthenticationViewModelBase
     {

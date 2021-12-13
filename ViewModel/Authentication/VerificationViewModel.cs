@@ -4,7 +4,7 @@ using System.Windows.Input;
 using ViewModel.Commands;
 using ViewModel.Stores;
 
-namespace ViewModel
+namespace ViewModel.Authentication
 {
     public class VerificationViewModel : AuthenticationViewModelBase
     {

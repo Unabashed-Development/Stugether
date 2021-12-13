@@ -1,3 +1,4 @@
+using Gateway.Helpers;
 using NUnit.Framework;
 
 namespace Gateway.Test

@@ -1,3 +1,4 @@
+using Gateway.Services;
 using NUnit.Framework;
 using System;
 

@@ -1,6 +1,6 @@
 using Model;
 using NUnit.Framework;
-using ViewModel.HomePages;
+using ViewModel.Authentication;
 
 namespace ViewModel.Test
 {
