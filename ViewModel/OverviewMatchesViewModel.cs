@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using Gateway;
+using Model;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using ViewModel.Commands;
@@ -39,7 +40,7 @@ namespace ViewModel
         /// <param name="userID">The ID of the user that needs to be unmatched from the logged in user.</param>
         private void UnmatchParameterUserID(int userID)
         {
-            MatchHelper.RemoveMatch(Account.UserID.Value, userID);
+            MatchDataAccess.RemoveMatchFromUser(Account.UserID.Value, userID);
             GetMatches();
         }
 

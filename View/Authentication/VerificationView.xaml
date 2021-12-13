@@ -11,7 +11,11 @@
             <StackPanel Margin="10">
                 <Label Content="Je hebt een mail ontvangen!" FontSize="14"/>
                 <Label Content="Vul je verificatiecode in:" FontSize="14"/>
-                <TextBox Margin="5 0" FontSize="14" Text="{Binding VerificationCode, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Margin="5 0" FontSize="14" Text="{Binding VerificationCode, UpdateSourceTrigger=PropertyChanged}">
+                    <TextBox.InputBindings>
+                        <KeyBinding Command="{Binding VerifyCommand}" Key="Enter"/>
+                    </TextBox.InputBindings>
+                </TextBox>
 
                 <Button Name="VerifySubmit" Content="Verifiëren" Margin="100 10" Background="{StaticResource BackgroundTertiary}" Foreground="White" FontSize="14" Command="{Binding VerifyCommand}"/>
 
