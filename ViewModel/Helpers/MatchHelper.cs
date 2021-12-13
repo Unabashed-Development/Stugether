@@ -14,7 +14,7 @@ namespace ViewModel.Helpers
         /// <returns>A list of matched profiles.</returns>
         public static List<Profile> LoadProfilesOfMatches(int userID)
         {
-            List<int> matchedIDs = MatchDataAccess.GetAllMatchesFromUser(userID);
+            List<int> matchedIDs = MatchDataAccess.GetAllMatchesFromUser(userID, MatchOrLike.Matched);
             return (from int id in matchedIDs
                     select ProfileDataAccess.LoadProfile(id)).ToList();
         }

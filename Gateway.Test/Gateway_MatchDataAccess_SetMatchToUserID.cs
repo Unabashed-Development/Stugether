@@ -16,7 +16,7 @@ namespace Gateway.Test
             const int userID2 = 12; // ThisUnverifiedAccountDoesExist@wafoe.nl
 
             // Act
-            List<int> listOfMatches = MatchDataAccess.GetAllMatchesFromUser(userID1);
+            List<int> listOfMatches = MatchDataAccess.GetAllMatchesFromUser(userID1, MatchOrLike.Matched);
 
             void MakeMatch()
             {

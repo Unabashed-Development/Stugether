@@ -22,7 +22,7 @@ namespace ViewModel.Test
                 viewModel.UnmatchCommand.Execute(userID2); // We want to unmatch userID2
             }
 
-            bool CheckIfNoMatches() => MatchDataAccess.GetAllMatchesFromUser(userID1).Count != 1;
+            bool CheckIfNoMatches() => MatchDataAccess.GetAllMatchesFromUser(userID1, MatchOrLike.Matched).Count != 1;
 
             // Assert
             Assert.DoesNotThrow(() => Unmatch(), "Unmatch userID2 from userID1");

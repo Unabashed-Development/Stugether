@@ -6,20 +6,27 @@ using System.Linq;
 
 namespace Gateway
 {
+    public enum MatchOrLike
+    {
+        Matched,
+        Liked
+    }
+
     public static class MatchDataAccess
     {
         /// <summary>
         /// Gets all the matches from a specific user.
         /// </summary>
         /// <param name="userID">The user ID to get the matches from.</param>
+        /// <param name="searchType">The type that needs to be searched for. Can be either "Matched" or "Liked".</param>
         /// <returns>A list of matches in the form of user IDs.</returns>
-        public static List<int> GetAllMatchesFromUser(int userID)
+        public static List<int> GetAllMatchesFromUser(int userID, MatchOrLike searchType)
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB")))
             {
                 List<int> matches = new List<int>();
-                matches.AddRange(connection.Query<int>($"SELECT UserID2 FROM Matches WHERE UserID = {userID} AND Matched = 1").ToList());
-                matches.AddRange(connection.Query<int>($"SELECT UserID FROM Matches WHERE UserID2 = {userID} AND Matched = 1").ToList());
+                matches.AddRange(connection.Query<int>($"SELECT UserID2 FROM Matches WHERE UserID = {userID} AND {searchType} = 1").ToList());
+                matches.AddRange(connection.Query<int>($"SELECT UserID FROM Matches WHERE UserID2 = {userID} AND {searchType} = 1").ToList());
                 return matches;
             }
         }

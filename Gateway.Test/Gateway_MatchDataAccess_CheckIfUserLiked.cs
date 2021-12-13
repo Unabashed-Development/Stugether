@@ -17,7 +17,7 @@ namespace Gateway.Test
             bool? result = null;
 
             // Act
-            List<int> listOfMatches = MatchDataAccess.GetAllMatchesFromUser(userID1);
+            List<int> listOfMatches = MatchDataAccess.GetAllMatchesFromUser(userID1, MatchOrLike.Matched);
 
             void CheckLike()
             {
@@ -52,7 +52,7 @@ namespace Gateway.Test
             bool? result = null;
 
             // Act
-            List<int> listOfMatches = MatchDataAccess.GetAllMatchesFromUser(userID1);
+            List<int> listOfMatches = MatchDataAccess.GetAllMatchesFromUser(userID1, MatchOrLike.Matched);
 
             void CheckLike()
             {
