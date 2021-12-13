@@ -9,7 +9,7 @@
       xmlns:components="clr-namespace:View.Components"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="ProfileSettings">
+      Title="{Binding SelectedItem.Header, ElementName=SettingsTabs}">
 
     <Page.DataContext>
         <VM:SettingsPageViewModel/>
@@ -24,7 +24,7 @@
             <RowDefinition Height="85*"/>
             <RowDefinition Height="15*"/>
         </Grid.RowDefinitions>
-        <TabControl TabStripPlacement="Top" Padding="0" BorderThickness="0" Grid.RowSpan="2">
+        <TabControl x:Name="SettingsTabs" TabStripPlacement="Top" Padding="0" BorderThickness="0" Grid.RowSpan="2">
             <TabItem Header="Persoonlijk" Selector.Selected="TabControl_Selected">
                 <Grid Background="{StaticResource BackgroundSecundary}">
                     <Grid.RowDefinitions>
@@ -52,7 +52,7 @@
                     <DatePicker Grid.Column="2" HorizontalAlignment="Left" Grid.Row="4" VerticalAlignment="Center" Width="220" Text="{Binding DateOfBirth, Mode=TwoWay}"/>
                     <RadioButton Content="Man" IsChecked="{Binding Sex, Mode=TwoWay}" Grid.Column="2" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Center"/>
                     <RadioButton Content="Vrouw" IsChecked="{Binding Sex, Mode=TwoWay, ConverterParameter=true, Converter={StaticResource InvertBoolConverter}}" Grid.Column="2" HorizontalAlignment="Left" Margin="80,0,0,0" Grid.Row="5" VerticalAlignment="Center"/>
-                    <Label Content="Persoonlijk" FontSize="22" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <!--<Label Content="Persoonlijk" FontSize="22" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>-->
                 </Grid>
             </TabItem>
             <TabItem Header="School" Selector.Selected="TabControl_Selected">
@@ -75,7 +75,7 @@
                     <TextBox Grid.Column="2" HorizontalAlignment="Left" Grid.Row="1" Text="{Binding SchoolName, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="220" Height="18"/>
                     <TextBox Grid.Column="2" HorizontalAlignment="Left" Grid.Row="2" Text="{Binding Study, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="220" Height="18"/>
                     <TextBox Grid.Column="2" HorizontalAlignment="Left" Grid.Row="3" Text="{Binding SchoolCity, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="220" Height="18"/>
-                    <Label Content="School" Grid.Column="1" FontSize="22" HorizontalAlignment="Left"  VerticalAlignment="Center"/>
+                    <!--<Label Content="School" Grid.Column="1" FontSize="22" HorizontalAlignment="Left"  VerticalAlignment="Center"/>-->
                 </Grid>
             </TabItem>
             <TabItem Header="Beschrijving" Selector.Selected="TabControl_Selected">
@@ -93,7 +93,7 @@
                     </Grid.ColumnDefinitions>
                     <Label Content="Schrijf hier wat leuks over jezelf (max 420 woorden)." Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center" Height="26" Width="281"/>
                     <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Description, Mode=TwoWay}" TextWrapping="Wrap" Grid.ColumnSpan="1" />
-                    <Label Content="Beschrijving" Grid.Column="1" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <!--<Label Content="Beschrijving" Grid.Column="1" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Center"/>-->
                 </Grid>
             </TabItem>
             <TabItem Header="Interesses" Selector.Selected="TabControl_Selected">
@@ -108,7 +108,7 @@
                         <ColumnDefinition Width="70*"/>
                         <ColumnDefinition Width="25*"/>
                     </Grid.ColumnDefinitions>
-                    <Label Content="Interesses" Grid.Column="1" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <!--<Label Content="Interesses" Grid.Column="1" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Center"/>-->
                     <ItemsControl x:Name="InterestControl" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding ChosenInterests, Mode=TwoWay}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -128,6 +128,7 @@
                     <StackPanel.DataContext>
                         <VM:ProfilePagePhotosViewModel/>
                     </StackPanel.DataContext>
+                    <!--<Label Content="Profielfoto's" Grid.Column="1" FontSize="22" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="20"/>-->
                     <ItemsControl ItemsSource="{Binding Images}" Margin="20">
                         <!-- Example array for design -->
                         <!--<d:ItemsControl.ItemsSource>

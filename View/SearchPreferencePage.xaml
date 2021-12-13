@@ -7,7 +7,7 @@
       xmlns:vm="clr-namespace:ViewModel;assembly=ViewModel"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="SearchPreferencePage">
+      Title="Zoekvoorkeuren">
 
     <Page.Resources>
         <vm:SearchPreferencePageViewModel x:Key="vm"/>
@@ -24,7 +24,6 @@
             <ColumnDefinition Width="70*"/>
             <ColumnDefinition Width="25*"/>
         </Grid.ColumnDefinitions>
-        <Label Content="Zoekvoorkeuren" Grid.Column="1" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Center"/>
         <StackPanel DataContext="{StaticResource vm}" Grid.Column="1" Grid.Row="1">
             <ToggleButton x:Name = "cb1" Content = "Vrienden"
                           Margin = "5" Width = "100" HorizontalAlignment = "Left" IsChecked="{Binding Friend}" />
