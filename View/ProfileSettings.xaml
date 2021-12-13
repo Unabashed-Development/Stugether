@@ -92,7 +92,7 @@
                         <ColumnDefinition Width="25*"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Schrijf hier wat leuks over jezelf (max 420 woorden)." Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center" Height="26" Width="281"/>
-                    <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Description, Mode=TwoWay}" TextWrapping="Wrap" Grid.ColumnSpan="1" Background="{StaticResource BackgroundPrimary}" />
+                    <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Description, Mode=TwoWay}" TextWrapping="Wrap" Grid.ColumnSpan="1" />
                     <Label Content="Beschrijving" Grid.Column="1" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 </Grid>
             </TabItem>
