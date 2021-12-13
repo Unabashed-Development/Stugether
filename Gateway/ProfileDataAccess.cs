@@ -140,10 +140,7 @@ namespace Gateway
 
                 //delete all existing interests
                 string sqlDelete = "DELETE FROM Interests WHERE UserID = @UserID";
-                if (connection.Execute(sqlDelete, interestsData) == 0)
-                {
-                    return false;
-                }
+                connection.Execute(sqlDelete, interestsData);
 
                 //insert the new interests
                 StringBuilder sb = new StringBuilder();
