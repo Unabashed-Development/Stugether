@@ -18,5 +18,24 @@ namespace ViewModel.Helpers
             return (from int id in matchedIDs
                     select ProfileDataAccess.LoadProfile(id)).ToList();
         }
+
+        /// <summary>
+        /// Handles whether the likedUser is liked in the data base or gets matched, based on whether the user has already been liked by the likedUser
+        /// </summary>
+        /// <param name="userID">UserID from the person whos liking.</param>
+        /// <param name="likedUserID">UserID from the person whos getting liked.</param>
+        /// <param name="relationshipTypeID">The relationshipTypeID from the relationshipType the likeduser is getting liked on.</param>
+        public static void LikeHandler(int userID, int likedUserID, int relationshipTypeID)
+        {
+            if (MatchDataAccess.CheckIfUserLiked(userID, likedUserID))
+            {
+                MatchDataAccess.SetMatchToUserIDs(userID, likedUserID);
+            }
+            else
+            {
+                MatchDataAccess.AddLikeToUserIDs(userID, likedUserID, relationshipTypeID);
+            }
+
+        }
     }
 }
