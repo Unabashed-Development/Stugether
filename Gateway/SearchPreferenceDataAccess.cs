@@ -8,7 +8,7 @@ using Model;
 
 namespace Gateway
 {
-    public static class SearchPreferenceAccesData
+    public static class SearchPreferenceDataAccess
     {
 
         public static RelationType GetRelationType(int id)

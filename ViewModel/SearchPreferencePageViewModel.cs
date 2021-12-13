@@ -78,7 +78,7 @@ namespace ViewModel
 
         public RelayCommand SaveCommand => new RelayCommand(parameter =>
         {
-            SearchPreferenceAccesData.SaveRelationPreference(RelationType,(int)Account.UserID);
+            SearchPreferenceDataAccess.SaveRelationPreference(RelationType,(int)Account.UserID);
         }, ()=>true);
         
 
@@ -87,7 +87,7 @@ namespace ViewModel
 
         public SearchPreferencePageViewModel()
         {
-            RelationType = SearchPreferenceAccesData.GetRelationType((int)Account.UserID);
+            RelationType = SearchPreferenceDataAccess.GetRelationType((int)Account.UserID);
         }
 
 
