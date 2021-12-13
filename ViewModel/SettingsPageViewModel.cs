@@ -38,10 +38,7 @@ namespace ViewModel
             }
         }
 
-        public string Name
-        {
-            get => _student.FirstName + " " + _student.LastName;
-        }
+        public string Name => _student.FirstName + " " + _student.LastName;
 
         public string City
         {

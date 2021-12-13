@@ -57,6 +57,11 @@ namespace Model
         /// <returns>age in int</returns>
         private int CalculateAge(DateTime birthDay)
         {
+            if (birthDay == null)
+            {
+                return 0;
+            }
+
             int years = DateTime.Now.Year - birthDay.Year;
             if ((birthDay.Month > DateTime.Now.Month) || (birthDay.Month == DateTime.Now.Month && birthDay.Day > DateTime.Now.Day))
             {

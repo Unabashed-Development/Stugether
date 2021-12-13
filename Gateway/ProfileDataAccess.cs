@@ -65,7 +65,13 @@ namespace Gateway
             {
                 using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
                 string sql = $"SELECT * FROM Profile WHERE UserID = {id};";
+
                 Profile studentData = connection.QuerySingle<Profile>(sql);
+                if (studentData == null)
+                {
+                    return null;
+                }
+
                 School school = LoadSchool(id);
                 studentData.School = school;
                 InterestsData interestData = LoadInterestsData(id);

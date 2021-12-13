@@ -10,7 +10,10 @@ namespace Gateway.Test
         [Test]
         public void CheckIfInterestsExists()
         {
+            //data
             List<Interest> list = ProfileDataAccess.LoadAllInterests();
+
+            //expected value is not empty list
             Assert.IsNotEmpty(list);
         }
 
