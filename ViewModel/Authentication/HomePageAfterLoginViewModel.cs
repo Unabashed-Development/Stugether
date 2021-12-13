@@ -7,10 +7,7 @@ namespace ViewModel.HomePages
 {
     public class HomePageAfterLoginViewModel : ObservableObject
     {
-        public string Email
-        {
-            get => Account.Email;
-        }
+        public string Email => Account.Email;
 
         /// <summary>
         /// Logs the user out by clearing the Account properties.

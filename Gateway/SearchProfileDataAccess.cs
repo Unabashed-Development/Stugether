@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 using Dapper;
 using Model;
 
 namespace Gateway
 {
-    public static class SearchProfileDataAcces
+    public static class SearchProfileDataAccess
     {
 
         
@@ -68,9 +67,6 @@ namespace Gateway
             string query = $"exec GetProfileBasedOnInterests {id}";
             return ReturnProfileList(query,id);
         }
-
-
         #endregion
-
     }
 }
