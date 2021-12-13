@@ -8,9 +8,17 @@ using System.Linq;
 
 namespace Gateway
 {
+    /// <summary>
+    /// Class that helps to load data for profiles from the database
+    /// </summary>
     public class ProfileDataAccess
     {
 
+        #region methods
+        /// <summary>
+        /// Loads all existing interests from the database
+        /// </summary>
+        /// <returns>List of Interest obj</returns>
         public static List<Interest> LoadAllInterests()
         {
             try
@@ -19,12 +27,18 @@ namespace Gateway
                 string sql = "SELECT * FROM InterestType";
                 List<Interest> result = (List<Interest>)connection.Query<Interest>(sql);
                 return result;
-            } catch(Exception) 
+            }
+            catch (Exception)
             {
                 return null;
             }
         }
 
+        /// <summary>
+        /// Loads all the Interests that's linked to the profile with userid id
+        /// </summary>
+        /// <param name="id">id of the user</param>
+        /// <returns>InterestsData</returns>
         public static InterestsData LoadInterestsData(int id)
         {
             try
@@ -34,12 +48,17 @@ namespace Gateway
                 List<Interest> result = (List<Interest>)connection.Query<Interest>(sql);
                 return new InterestsData(id, result);
             }
-            catch (Exception) 
+            catch (Exception)
             {
                 return null;
             }
         }
 
+        /// <summary>
+        /// Loads the profile with userid id, the profile loads here the basic data from profile, school, interestsData and usermedia
+        /// </summary>
+        /// <param name="id">userid of the profile</param>
+        /// <returns>Profile</returns>
         public static Profile LoadProfile(int id)
         {
             try
@@ -58,12 +77,18 @@ namespace Gateway
                 studentData.UserMedia = new List<Uri>(MediaDataAccess.GetUserMediaUris(id));
                 studentData.FirstUserMedia = studentData.UserMedia?.FirstOrDefault();
                 return studentData;
-            } catch (Exception) 
+            }
+            catch (Exception)
             {
                 return null;
             }
         }
 
+        /// <summary>
+        /// Loads the school object from the database
+        /// </summary>
+        /// <param name="id">userid of the profile</param>
+        /// <returns>School</returns>
         public static School LoadSchool(int id)
         {
             try
@@ -79,6 +104,10 @@ namespace Gateway
             }
         }
 
+        /// <summary>
+        /// On creating an account, an empty profile has to be inserted into the database
+        /// </summary>
+        /// <param name="id">userid of the new profile</param>
         public static void CreateEmptyProfile(int id)
         {
             Profile newProfile = new Profile()
@@ -87,10 +116,15 @@ namespace Gateway
                 DateOfBirth = null,
                 School = new School(id, null, null, null)
             };
-            UpdateProfile(newProfile);
-            UpdateSchool(newProfile.School);
+            _ = UpdateProfile(newProfile);
+            _ = UpdateSchool(newProfile.School);
         }
 
+        /// <summary>
+        /// Updates or inserts InterestsData in the database
+        /// </summary>
+        /// <param name="interestsData"></param>
+        /// <returns>bool, false if failed to submit to the db</returns>
         public static bool UpdateInterestsData(InterestsData interestsData)
         {
             try
@@ -130,12 +164,17 @@ namespace Gateway
                 string sqlInsert = $"Insert INTO Interests VALUES {values};";
                 return connection.Execute(sqlInsert) > 0;
             }
-            catch (Exception) 
+            catch (Exception)
             {
                 return false;
             }
         }
 
+        /// <summary>
+        /// Updates or loads the profile in the database
+        /// </summary>
+        /// <param name="profile"></param>
+        /// <returns>bool, false if failed to submit to the db</returns>
         public static bool UpdateProfile(Profile profile)
         {
             try
@@ -151,6 +190,11 @@ namespace Gateway
             }
         }
 
+        /// <summary>
+        /// Updates or loads the school in the database
+        /// </summary>
+        /// <param name="school"></param>
+        /// <returns></returns>
         public static bool UpdateSchool(School school)
         {
             try
@@ -166,6 +210,7 @@ namespace Gateway
             }
         }
 
+        //reserved for sprint 3
         public static QAData LoadQAData(int id)
         {
             using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
@@ -173,11 +218,13 @@ namespace Gateway
             return null;
         }
 
+        //reserved for sprint 3
         public static MoralsData LoadMoralsData(int id)
         {
             using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
             //string studentData = connection.QuerySingle<string>("SELECT * FROM Student");
             return null;
         }
+        #endregion
     }
 }

@@ -6,6 +6,9 @@ using ViewModel.Commands;
 
 namespace ViewModel
 {
+    /// <summary>
+    /// ViewModel class for the profile page according to MVVM
+    /// </summary>
     public class ProfilePageViewModel : ObservableObject
     {
         #region Fields

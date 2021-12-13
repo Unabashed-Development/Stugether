@@ -8,7 +8,7 @@
     public class School
     {
 
-        #region fields
+        #region properties
         public int UserID { get; set; }
         public string SchoolName { get; set; }
         public string SchoolCity { get; set; }

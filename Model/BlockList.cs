@@ -7,7 +7,7 @@ namespace Model
     public class BlockList
     {
 
-        #region fields
+        #region properties
         public List<int> BlockedStudents { get; set; }
         #endregion
 

@@ -8,7 +8,7 @@ namespace Model
     public class InterestsData
     {
 
-        #region fields
+        #region properties
         public int UserID { get; set; }
         public List<Interest> Interests { get; set; }
         #endregion

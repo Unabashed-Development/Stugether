@@ -9,11 +9,15 @@ namespace Model
     public class Profile
     {
 
-        #region static fields
+        #region fields
+        private DateTime? _dateOfBirth;
+        #endregion
+
+        #region static properties
         public static Profile LoggedInProfile { get; set; }
         #endregion
 
-        #region fields
+        #region properties
         public int UserID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -24,8 +28,6 @@ namespace Model
         public QAData QAData { get; set; }
         public MoralsData MoralsData { get; set; }
         public InterestsData InterestsData { get; set; }
-
-        private DateTime? _dateOfBirth;
         public DateTime? DateOfBirth
         {
             get => _dateOfBirth;
