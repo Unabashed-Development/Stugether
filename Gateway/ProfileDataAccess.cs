@@ -120,7 +120,8 @@ namespace Gateway
             {
                 UserID = id,
                 DateOfBirth = null,
-                School = new School(id, null, null, null)
+                School = new School(id, null, null, null),
+                Sex = true
             };
             _ = UpdateProfile(newProfile);
             _ = UpdateSchool(newProfile.School);
@@ -206,12 +207,13 @@ namespace Gateway
             try
             {
                 using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
-                string sqlUpdate = "UPDATE School SET SchoolName = @SchoolName, SchoolCity = @SchoolStudy, Study = @Study WHERE UserID = @UserID;";
+                string sqlUpdate = "UPDATE School SET SchoolName = @SchoolName, SchoolCity = @SchoolCity, Study = @Study WHERE UserID = @UserID;";
                 string sqlInsert = "INSERT INTO School(UserID, SchoolName, SchoolCity, Study) VALUES (@UserID, @SchoolName, @SchoolCity, @Study);";
                 return (connection.Execute(sqlUpdate, school) > 0) || connection.Execute(sqlInsert, school) > 0;
             }
-            catch (Exception) 
+            catch (Exception e)
             {
+                _ = e.Message;
                 return false;
             }
         }
