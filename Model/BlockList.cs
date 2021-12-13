@@ -3,17 +3,23 @@
 namespace Model
 {
     /*This class contains the list of all blocked students for the current user*/
+    /*Reserved for sprint 3*/
     public class BlockList
     {
 
+        #region properties
         public List<int> BlockedStudents { get; set; }
+        #endregion
 
+        #region constructors
         public BlockList()
         {
             BlockedStudents = new List<int>();
             //update list according to database
         }
+        #endregion
 
+        #region methods
         /*Adds arg student to blocked list*/
         public void AddBlock(int student)
         {
@@ -33,6 +39,6 @@ namespace Model
         {
             return BlockedStudents.Contains(student);
         }
-
+        #endregion
     }
 }

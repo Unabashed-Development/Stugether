@@ -1,6 +1,0 @@
-﻿namespace Model
-{
-    class Picture
-    {
-    }
-}

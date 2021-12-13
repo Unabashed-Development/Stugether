@@ -8,6 +8,11 @@ namespace View
     /// </summary>
     public partial class ProfilePage : Page
     {
+
+
+        #region constructors
+
+        //TODO call the other constructor instead??
         /// <summary>
         /// The default constructor for ProfilePageViewModel.
         /// </summary>
@@ -26,5 +31,6 @@ namespace View
             DataContext = viewModel;
             InitializeComponent();
         }
+        #endregion
     }
 }
