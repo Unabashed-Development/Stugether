@@ -103,11 +103,11 @@ namespace ViewModel
                 MainWindowPage = @"HomePages\HomePageBeforeLogin.xaml";
                 collection.Add(new MainMenuNavigationItemData("Home", MainWindowPage, null));
             }
-            collection.Add(new MainMenuNavigationItemData("Profile", "ProfilePage.xaml", null));
+            collection.Add(new MainMenuNavigationItemData("Profiel", "ProfilePage.xaml", null));
             collection.Add(new MainMenuNavigationItemData("Zoeken naar matches", "MatchingProfilePage.xaml", null));
             collection.Add(new MainMenuNavigationItemData("Mijn matches", "OverviewMatches.xaml", null));
             collection.Add(new MainMenuNavigationItemData("Zoekvoorkeuren", "SearchPreferencePage.xaml", null));
-            collection.Add(new MainMenuNavigationItemData("Settings", "ProfileSettings.xaml", null));
+            collection.Add(new MainMenuNavigationItemData("Instellingen", "ProfileSettings.xaml", null));
 
             return collection;
         }

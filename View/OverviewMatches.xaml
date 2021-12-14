@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:ViewModel="clr-namespace:ViewModel;assembly=ViewModel"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Je matches">
+      Title="Jouw matches">
 
     <Page.DataContext>
         <ViewModel:OverviewMatchesViewModel/>
