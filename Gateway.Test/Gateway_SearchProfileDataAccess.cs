@@ -16,7 +16,7 @@ namespace Gateway.Test
         [Test]
         public void GetListBasedOnIntrest_GetNotNull_ThrowExeption()
         {
-            Assert.NotNull(SearchProfileDataAccess.GetProfileBasedOnIntrest(3));
+            Assert.NotNull(SearchProfileDataAccess.GetProfileBasedOnInterest(3));
         }
     }
 }
