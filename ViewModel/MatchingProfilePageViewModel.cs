@@ -105,6 +105,7 @@ namespace ViewModel
         /// <summary>
         /// Gives the Users and Matched UserID to the method LikeHandler, were after it deletes the matched UserID from the list of potential matches.
         /// </summary>
+        //todo add the right relationshiptype
         public RelayCommand LikeMatchCommand => new RelayCommand(
             () =>
             {
@@ -120,6 +121,7 @@ namespace ViewModel
         public RelayCommand DislikeMatchCommand => new RelayCommand(
             () =>
             {
+                BlockedDataAccess.BlockUserID(Account.UserID.Value, MatchProfiles[0].UserID, BlockReason.Disliked);
                 MatchProfiles.RemoveAt(0);
             },
             () => MatchProfiles.Count != 0);

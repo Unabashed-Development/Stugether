@@ -35,12 +35,13 @@ namespace ViewModel
 
         #region Methods
         /// <summary>
-        /// Unmatch the given userID from the logged in user and update the ObservableCollection.
+        /// Unmatch the given userID from the logged in user, adds the given userId to the blocklist and update the ObservableCollection.
         /// </summary>
         /// <param name="userID">The ID of the user that needs to be unmatched from the logged in user.</param>
         private void UnmatchParameterUserID(int userID)
         {
             MatchDataAccess.RemoveMatchFromUser(Account.UserID.Value, userID);
+            BlockedDataAccess.BlockUserID(Account.UserID.Value, userID, BlockReason.Unmatched);
             GetMatches();
         }
 

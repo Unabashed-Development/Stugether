@@ -62,7 +62,7 @@ namespace Gateway
         /// </summary>
         /// <param name="id">The user_id</param>
         /// <returns>Return a list of profiles that match the loggedin user relationtypes</returns>
-        public static List<Profile> GetProfileBasedOnIntrest(int id)
+        public static List<Profile> GetProfileBasedOnInterest(int id)
         {
             string query = $"exec GetProfileBasedOnInterests {id}";
             return ReturnProfileList(query,id);
