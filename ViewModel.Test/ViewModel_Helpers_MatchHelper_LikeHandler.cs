@@ -1,9 +1,6 @@
 ﻿using NUnit.Framework;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using Gateway;
-using Model;
 using ViewModel.Helpers;
 
 
@@ -12,8 +9,6 @@ namespace ViewModel.Test
     public class ViewModel_Helpers_MatchHelper_LikeHandler
     {
         [Test]
-                    
-        
         public void AddLikeToMatch()
         {
             //act

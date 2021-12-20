@@ -28,7 +28,7 @@ namespace Gateway
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB")))
             {
                 List<int> Blocked = new List<int>();
-                Blocked.AddRange(connection.Query<int>($"SELECT BlockUserID FROM BlockList WHERE UserID = {userID} AND BlockReasonID = (Select BlockReasonID FROM BlockReason WHERE BlockReasonDescription = '{blockReason}')").ToList());
+                Blocked.AddRange(connection.Query<int>($"SELECT BlockedUserID FROM BlockList WHERE UserID = {userID} AND BlockReasonID = (Select BlockReasonID FROM BlockReason WHERE BlockReasonDescription = '{blockReason}')").ToList());
                 return Blocked;
             }
         }
