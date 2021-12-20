@@ -39,7 +39,19 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <ItemContainerTemplate>
-                        <local:MainWindowNavigationItem Content="{Binding Title}" Page="{Binding Page}" ExtraNavigationInformation="{Binding ExtraInformation}" Command="{Binding Path=DataContext.NavigateButtonCommand, RelativeSource={RelativeSource AncestorType=Window},Mode=Default}" CommandParameter="{Binding Mode=OneWay}"/>
+                    <local:MainWindowNavigationItem 
+                            Content="{Binding Title}" Page="{Binding Page}" ExtraNavigationInformation="{Binding ExtraInformation}" 
+                            Command="{Binding Path=DataContext.NavigateButtonCommand, RelativeSource={RelativeSource AncestorType=Window},Mode=Default}" CommandParameter="{Binding Mode=OneWay}">
+                        <local:MainWindowNavigationItem.IsChecked>
+                            <MultiBinding Mode="OneWay">
+                                <MultiBinding.Converter>
+                                    <converters:MultiPageEqualsConverter/>
+                                </MultiBinding.Converter>
+                                <Binding Path="Page" Mode="OneWay"/>
+                                <Binding Path="DataContext.MainWindowPage" RelativeSource="{RelativeSource AncestorType=Window}" Mode="OneWay"/>
+                            </MultiBinding>
+                        </local:MainWindowNavigationItem.IsChecked>
+                    </local:MainWindowNavigationItem>
                     </ItemContainerTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
@@ -47,7 +59,7 @@
         </StackPanel>
         <TextBlock x:Name="tbContentTitle" Grid.Column="1" FontSize="22" FontWeight="Bold" Text="{Binding Title}"/>
         <ScrollViewer Grid.Column="1" Grid.Row="1" VerticalScrollBarVisibility="Auto" >
-            <Frame x:Name="frContent" Grid.Column="1" Grid.Row="1"  NavigationUIVisibility="Hidden" Navigated="frContent_Navigated" Source="{Binding CurrentVisiblePage}"/>
+            <Frame x:Name="frContent" Grid.Column="1" Grid.Row="1"  NavigationUIVisibility="Hidden" Source="{Binding MainWindowPage, Mode=TwoWay}"/>
         </ScrollViewer>
     </Grid>
 </Window>

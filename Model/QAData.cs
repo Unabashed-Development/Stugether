@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Model
+﻿namespace Model
 {
+    /// <summary>
+    /// Holds the data for all the QA of a profile
+    /// Reserverd for sprint 3
+    /// </summary>
     public class QAData
     {
 
-        public QAData(Student student)
+        #region constructors
+        public QAData(Profile student)
         {
 
         }
-
+        #endregion
 
     }
 }

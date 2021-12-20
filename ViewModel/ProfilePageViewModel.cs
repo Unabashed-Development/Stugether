@@ -1,93 +1,173 @@
-﻿using System;
-using System.ComponentModel;
-using Model;
+﻿using Model;
+using System;
+using System.Collections.Generic;
+using System.Windows.Input;
+using ViewModel.Commands;
+
 namespace ViewModel
 {
-    public class ProfilePageViewModel : INotifyPropertyChanged
+    /// <summary>
+    /// ViewModel class for the profile page according to MVVM
+    /// </summary>
+    public class ProfilePageViewModel : ObservableObject
     {
-        public string Name
+        #region Fields
+        private Profile _profile;
+        private int _selectedImage = 0;
+        #endregion
+
+        #region Properties
+        public string FirstName
         {
-            get => _student.Name;
+            get => _profile.FirstName;
             set
             {
-                _student.Name = value;
-                OnPropertyChanged("Name");
+                _profile.FirstName = value;
+                RaisePropertyChanged("FirstName");
+            }
+        }
+        public string LastName
+        {
+            get => _profile.LastName;
+            set
+            {
+                _profile.LastName = value;
+                RaisePropertyChanged("LastName");
             }
         }
 
+        public string Name => _profile.FirstName + " " + _profile.LastName;
+
         public string School
         {
-            get => _student.School.Name;
+            get => _profile.School.SchoolName;
             set
             {
-                _student.School.Name = value;
-                OnPropertyChanged("School");
+                _profile.School.SchoolName = value;
+                RaisePropertyChanged("School");
             }
         }
 
         public string City
         {
-            get => _student.City;
+            get => _profile.City;
             set
             {
-                _student.City = value;
-                OnPropertyChanged("Address");
+                _profile.City = value;
+                RaisePropertyChanged("City");
             }
         }
 
         public string Study
         {
-            get => _student.School.Study;
+            get => _profile.School.Study;
             set
             {
-                _student.School.Study = value;
-                OnPropertyChanged("Study");
+                _profile.School.Study = value;
+                RaisePropertyChanged("Study");
             }
         }
 
         public string Age
         {
-            get => _student.Age;
+            get => _profile.Age;
             set
             {
-                _student.Age = value;
-                OnPropertyChanged("Age");
+                _profile.Age = value;
+                RaisePropertyChanged("Age");
             }
         }
 
         public string Description
         {
-            get => _student.Profile.Description;
+            get => _profile.Description;
             set
             {
-                _student.Profile.Description = value;
-                OnPropertyChanged("Description");
+                _profile.Description = value;
+                RaisePropertyChanged("Description");
             }
         }
 
-        private Student _student;
+        public InterestsData InterestsData
+        {
+            get => _profile.InterestsData;
+            set
+            {
+                _profile.InterestsData = value;
+                RaisePropertyChanged("InterestsData");
+            }
+        }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// Gives the image index currently selected to show on the profile page
+        /// </summary>
+        public Uri SelectedImage
+        {
+            get
+            {
+                if (Images.Count > 0)
+                {
+                    if (_selectedImage > 0 && _selectedImage < Images.Count)
+                    {
+                        return Images[_selectedImage];
+                    }
+                    else
+                        if (_selectedImage < 0)
+                    {
+                        _selectedImage += Images.Count;
+                    }
+                    return Images[_selectedImage % Images.Count];
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gives the list with media on the users profile
+        /// </summary>
+        public List<Uri> Images => _profile.UserMedia;
+        #endregion
+
+        #region Commands
+
+        /// <summary>
+        /// Handles the next and previous buttons for the photos on the profile page
+        /// </summary>
+        public ICommand PhotoNavigationButtonCommand => new RelayCommand(
+            (parameter) =>
+            {
+                if (Images.Count > 0)
+                {
+                    if ((string)parameter == "+")
+                    {
+                        _selectedImage++;
+                        _selectedImage %= Images.Count;
+                    }
+                    else if ((string)parameter == "-")
+                    {
+                        _selectedImage--;
+                        _selectedImage %= Images.Count;
+                    }
+                }
+                RaisePropertyChanged("SelectedImage");
+            },
+            () => true
+            );
+        #endregion
+
+        #region Construction
+        public ProfilePageViewModel(Profile profile)
+        {
+            _profile = profile;
+        }
 
         public ProfilePageViewModel()
         {
-            _student = new Student
-            {
-                Name = "Henk Pitjes",
-                School = new School("Windesheim", "Zwolle", "HBO-ICT"),
-                Age = "25 jaar",
-                City = "Leeuwarden",
-                Email = "Foo@bar.com",
-                ID = 1,
-                Profile = new Profile(_student)
-            };
-            _student.Profile.Description = "Laat me raden... Je hebt al de nodige bagage. Dit hele online daten is niet wat je wilt, omdat je liever iemand in de supermarkt ontmoet. Dat begrijp ik. En eerlijk gezegd? Ik ook. Hoi, ik ben Jack. Ik lijk niet op Ryan Gosling. Ik heb geen vrijwilligerswerk gedaan in Madagaskar. En heel eerlijk? Grote vissen vind té eng om mee te poseren. Wat ik wil zeggen is… dat ik niet perfect ben. En dat verwacht ik ook niet van jou. Wat ik wel ben? Doordeweeks ga ik door het leven als datingconsulent. Het geeft me een fijn gevoel om te zien hoe eenzame mensen veranderen in stralende levensgenieters. Mensen vragen me weleens wat ik doe.En dan zeg ik: “Ik voorspel de toekomst“. Als datingconsulent heb ik geen glazen bol nodig. Ik leg foto’s van mensen naast elkaar op tafel, geen tarot kaarten.Maar wat ik van maandag tot vrijdag vooral doe, is uitkijken naar zaterdag en zondag. Want dan gaan de serieuze kleren uit en spring ik in het diepe. Letterlijk, want ik zwem graag. Het liefst met een duikfles op mijn rug om de verloren schatten van de Rijn te ontdekken. Tot nu toe zijn het alleen halve fietswrakken geweest en verroeste auto-onderdelen, maar hey… ik geef de moed niet op. Een andere schat waar ik naar op zoek ben is intelligent, creatief en een familiemens. Klinkt dat als jou? Ik geef eerlijk toe dat ik soms met een beetje geluk de toekomst van anderen kan voorspellen, maar ik ben geen helderziende.Dus, als je denkt dat wij een klik kunnen hebben… Stuur me een bericht!"; //get description from db
+            _profile = Profile.LoggedInProfile;
         }
-
-        private void OnPropertyChanged(string property = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-        }
-
+        #endregion
     }
 }

@@ -1,15 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows.Controls;
+using ViewModel;
 
 namespace View
 {
@@ -18,9 +8,29 @@ namespace View
     /// </summary>
     public partial class ProfilePage : Page
     {
+
+
+        #region constructors
+
+        //TODO call the other constructor instead??
+        /// <summary>
+        /// The default constructor for ProfilePageViewModel.
+        /// </summary>
         public ProfilePage()
         {
+            DataContext = new ProfilePageViewModel();
             InitializeComponent();
         }
+
+        /// <summary>
+        /// Initialize another DataContext for ProfilePageViewModel.
+        /// </summary>
+        /// <param name="viewModel">The viewmodel to be set as DataContext.</param>
+        public ProfilePage(ProfilePageViewModel viewModel)
+        {
+            DataContext = viewModel;
+            InitializeComponent();
+        }
+        #endregion
     }
 }

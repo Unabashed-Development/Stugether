@@ -6,9 +6,9 @@ using System.Windows.Data;
 
 namespace View.StylingHelperTools
 {
-    public class isLessThanConverter : IValueConverter
+    public class IsLessThanConverter : IValueConverter
     {
-        public static readonly IValueConverter Instance = new isLessThanConverter();
+        public static readonly IValueConverter Instance = new IsLessThanConverter();
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

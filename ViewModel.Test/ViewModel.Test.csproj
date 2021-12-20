@@ -7,10 +7,38 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ViewModel_ProfilePagePhotosViewModel_Files\Perfect.bin" />
+    <None Remove="ViewModel_ProfilePagePhotosViewModel_Files\TooBig.bin" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ViewModel_ProfilePagePhotosViewModel_Files\Perfect.bin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ViewModel_ProfilePagePhotosViewModel_Files\TooBig.bin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
     <PackageReference Include="NUnit" Version="3.13.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
     <PackageReference Include="coverlet.collector" Version="3.0.2" />
+    <PackageReference Include="Prism.Core" Version="8.1.97" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ViewModel\ViewModel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ReSharperTestRunner.dll.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="testhost.dll.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
