@@ -102,17 +102,26 @@ namespace ViewModel
 
         #region Commands
         
+        /// <summary>
+        /// Gives the Users and Matched UserID to the method LikeHandler, were after it deletes the matched UserID from the list of potential matches.
+        /// </summary>
+        //todo add the right relationshiptype
         public RelayCommand LikeMatchCommand => new RelayCommand(
             () =>
             {
                 MatchHelper.LikeHandler(Account.UserID.Value, MatchProfiles[0].UserID, 1);
                 MatchProfiles.RemoveAt(0);
             },
-            () => true);
+            () => MatchProfiles.Count != 0);
 
+
+        /// <summary>
+        /// Deletes the matched userID from the list of potential matches.
+        /// </summary>
         public RelayCommand DislikeMatchCommand => new RelayCommand(
             () =>
             {
+                BlockedDataAccess.BlockUserID(Account.UserID.Value, MatchProfiles[0].UserID, BlockReason.Disliked);
                 MatchProfiles.RemoveAt(0);
             },
             () => MatchProfiles.Count != 0);
@@ -140,9 +149,7 @@ namespace ViewModel
 
         public MatchingProfilePageViewModel()
         {
-            //for testing
-            //MatchProfiles = new ObservableCollection<Profile>(SearchProfileDataAccess.GetProfileBasedOnRelationType(1));
-
+            
             var l = SearchProfileDataAccess.GetProfileBasedOnRelationType(Account.UserID.Value);
            
             MatchProfiles = new ObservableCollection<Profile>();
