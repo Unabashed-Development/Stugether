@@ -1,8 +1,4 @@
-﻿using Gateway;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Navigation;
-using View.Authentication;
+﻿using System.Windows;
 
 namespace View
 {
@@ -14,7 +10,6 @@ namespace View
         public MainWindow()
         {
             InitializeComponent();
-            SSHConnection.InitializeSsh(); // TODO: Not MVVM, this needs to be moved somewhere soon
         }
 
 

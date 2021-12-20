@@ -3,41 +3,44 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:View.Authentication" xmlns:ViewModel="clr-namespace:ViewModel;assembly=ViewModel" xmlns:components="clr-namespace:View.Components"
+      xmlns:components="clr-namespace:View.Components" xmlns:viewmodel="clr-namespace:ViewModel;assembly=ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:RegisterViewModel}"
       mc:Ignorable="d" 
       Title="RegisterView">
 
-    <Page.DataContext>
-        <ViewModel:AuthenticationViewModel/>
-    </Page.DataContext>
-    
     <Grid>
         <Border Background="{StaticResource BackgroundPrimary}" CornerRadius="10" Margin="10">
             <StackPanel Margin="10">
                 <Label Content="E-mailadres van je schoolaccount" FontSize="14"/>
-                <TextBox Margin="5 0" FontSize="14"
-                    Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Margin="5 0" FontSize="14" Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}">
+                    <TextBox.InputBindings>
+                        <KeyBinding Command="{Binding RegisterCommand}" Key="Enter"/>
+                    </TextBox.InputBindings>
+                </TextBox>
 
                 <Label Content="Je wachtwoord van StudentMatcher" FontSize="14"/>
-                <components:BindablePasswordBox Margin="5 0" FontSize="14"
-                    Password="{Binding Password}"/>
+                <components:BindablePasswordBox Margin="5 0" FontSize="14" Password="{Binding Password}">
+                    <components:BindablePasswordBox.InputBindings>
+                        <KeyBinding Command="{Binding RegisterCommand}" Key="Enter"/>
+                    </components:BindablePasswordBox.InputBindings>
+                </components:BindablePasswordBox>
+                
+                <Label Content="Herhaal je wachtwoord" FontSize="14"/>
+                <components:BindablePasswordBox Margin="5 0" FontSize="14" Password="{Binding VerifyPassword}">
+                    <components:BindablePasswordBox.InputBindings>
+                        <KeyBinding Command="{Binding RegisterCommand}" Key="Enter"/>
+                    </components:BindablePasswordBox.InputBindings>
+                </components:BindablePasswordBox>
 
                 <Label Content="Wachtwoordsterkte:" FontSize="14" HorizontalAlignment="Center" Margin="0,0,-5,0"/>
                 <ProgressBar Maximum="5" Value="{Binding PasswordStrength}" Height="7" Background="{StaticResource BackgroundTertiary}" Foreground="{StaticResource BackgroundQuaternary}"/>
 
-                <Button Name="registerSubmit" Content="Registreren" Margin="100 10" Background="{StaticResource BackgroundTertiary}" Foreground="White" FontSize="14" Command="{Binding RegisterCommand}">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="10"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-                
+                <Button Name="registerSubmit" Content="Registreren" Margin="100 10" Background="{StaticResource BackgroundTertiary}" Foreground="White" FontSize="14" Command="{Binding RegisterCommand}"/>
+
                 <Separator/>
                 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Label Content="Terug naar inloggen?" FontSize="14" HorizontalAlignment="Center" Margin="0,0,-5,0"/>
-                    <Label Content="Klik hier!" FontSize="14" HorizontalAlignment="Center" FontWeight="Bold" MouseLeftButtonDown="LoginClick"/>
+                    <Label Content="Terug naar inloggen?" FontSize="14" HorizontalAlignment="Center"/>
+                    <Button Content="Klik hier!" FontSize="14" Background="{StaticResource BackgroundTertiary}" Foreground="White" Command="{Binding NavigateToLoginCommand}"/>
                 </StackPanel>
 
                 <Label Content="{Binding ErrorMessage}" Foreground="Red" FontSize="14" HorizontalAlignment="Center"/>

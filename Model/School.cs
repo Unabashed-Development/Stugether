@@ -1,22 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Model
+﻿namespace Model
 {
+    /// <summary>
+    /// Holds the data for School that is binded to an user with userID
+    /// It holds the name, city of the school and the study that user follows
+    /// Reserverd for sprint 3
+    /// </summary>
     public class School
     {
 
-        public string Name { get; set; }
-        public string City { get; set; }
+        #region properties
+        public int UserID { get; set; }
+        public string SchoolName { get; set; }
+        public string SchoolCity { get; set; }
         public string Study { get; set; }
+        #endregion
 
-        public School(string name, string city, string study)
+        #region constuctors
+        /// <summary>
+        /// constructor for the school class, it's linked to the user with "userID"
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="schoolName"></param>
+        /// <param name="schoolCity"></param>
+        /// <param name="study"></param>
+        public School(int userId, string schoolName, string schoolCity, string study)
         {
-            Name = name;
-            City = city;
+            UserID = userId;
+            SchoolName = schoolName;
+            SchoolCity = schoolCity;
             Study = study;
         }
+        #endregion
 
     }
 }

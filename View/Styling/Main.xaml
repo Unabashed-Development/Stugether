@@ -1,10 +1,14 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:View"
-                    xmlns:stylingHelperTools="clr-namespace:View.StylingHelperTools">
-    
-    <SolidColorBrush x:Key="BackgroundPrimary" Color="#94d2e6"/>
-    <SolidColorBrush x:Key="BackgroundSecundary" Color="#c1224f"/>
+                    xmlns:converters="clr-namespace:View.Converters"
+                    xmlns:components="clr-namespace:View.Components">
+
+    <!--<SolidColorBrush x:Key="BackgroundPrimary" Color="#94d2e6"/>-->
+    <SolidColorBrush x:Key="BackgroundPrimary" Color="#c1224f"/>
+
+    <!--<SolidColorBrush x:Key="BackgroundSecundary" Color="#c1224f"/>-->
+    <SolidColorBrush x:Key="BackgroundSecundary" Color="#94d2e6"/>
     <SolidColorBrush x:Key="BackgroundTertiary" Color="#f16f6f"/>
     <SolidColorBrush x:Key="BackgroundQuaternary" Color="#fff78f"/>
 
@@ -19,7 +23,7 @@
                     Binding="{Binding 
                         Path=ActualWidth,
                         RelativeSource={RelativeSource Self},
-                        Converter={x:Static stylingHelperTools:isLessThanConverter.Instance},
+                        Converter={x:Static converters:IsLessThanConverter.Instance},
                         ConverterParameter=100}"
                     Value="True">
                 <Setter Property="HorizontalContentAlignment" Value="Left"/>
@@ -40,7 +44,7 @@
                     Binding="{Binding
                     Path=ActualHeight,
                     RelativeSource={RelativeSource Self},
-                    Converter={x:Static stylingHelperTools:isLessThanConverter.Instance},
+                    Converter={x:Static converters:IsLessThanConverter.Instance},
                     ConverterParameter=400}"
                     Value="True">
                 <Setter Property="FontSize" Value="19"/>
@@ -56,5 +60,22 @@
         </Style.Resources>
         <Setter Property="Background" Value="{StaticResource BackgroundTertiary}"/>
     </Style>
+
+    <Style TargetType="ToggleButton">
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="CornerRadius" Value="10"/>
+            </Style>
+        </Style.Resources>
+        <Setter Property="Background" Value="{StaticResource BackgroundTertiary}"/>
+    </Style>
+
+    <Style TargetType="TabItem">
+        <Setter Property="Background" Value="{StaticResource BackgroundTertiary}"/>
+        <Setter Property="MinHeight" Value="50px"/>
+        <Setter Property="MinWidth" Value="150px"/>
+    </Style>
+
+    <Style TargetType="components:YesNoButton" BasedOn="{StaticResource {x:Type Button}}"/>
 
 </ResourceDictionary>
