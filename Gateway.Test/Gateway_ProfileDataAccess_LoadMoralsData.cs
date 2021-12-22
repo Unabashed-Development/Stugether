@@ -1,8 +1,5 @@
 ﻿using Model;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Gateway.Test
 {
@@ -25,7 +22,7 @@ namespace Gateway.Test
             //data
             MoralsData data = ProfileDataAccess.LoadMoralsData(3);
 
-            //expected value is not null, User with id 3 has always a school
+            //expected value is not null, User with id 3 has always morals data
             Assert.IsNotEmpty(data.Morals);
         }
 
