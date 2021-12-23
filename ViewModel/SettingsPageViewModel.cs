@@ -178,7 +178,7 @@ namespace ViewModel
         {
             //clear the interests first
             _student.InterestsData.Interests.Clear();
-            
+
             //loop through all the chosenInterests, if its chosen (selected) the interest will be added to the profile
             IEnumerator<InterestChosenHelper> enumerator = ChosenInterests.GetEnumerator();
             while (enumerator.MoveNext())

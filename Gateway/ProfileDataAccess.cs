@@ -78,8 +78,8 @@ namespace Gateway
                 studentData.InterestsData = interestData;
                 //QAData qaData = LoadQAData(id);
                 //studentData.QAData = qaData;
-                //MoralsData moralsData = LoadMoralsData(id);
-                //studentData.MoralsData = moralsData;
+                MoralsData moralsData = LoadMoralsData(id);
+                studentData.MoralsData = moralsData;
                 studentData.UserMedia = new List<Uri>(MediaDataAccess.GetUserMediaUris(id));
                 studentData.FirstUserMedia = studentData.UserMedia?.FirstOrDefault();
                 return studentData;
@@ -111,6 +111,27 @@ namespace Gateway
         }
 
         /// <summary>
+        /// Loads the moralasdata object from the database
+        /// </summary>
+        /// <param name="id">userid of the profile</param>
+        /// <returns>School</returns>
+        public static MoralsData LoadMoralsData(int id)
+        {
+            try
+            {
+                using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
+                string sql = $"SELECT m.moralID, mt.moralName, m.percentage FROM Morals m JOIN MoralType mt ON mt.moralID = m.moralID WHERE UserID = {id};";
+                List<Moral> result = (List<Moral>)connection.Query<Moral>(sql);
+                result.OrderBy(moral => moral.MoralID);
+                return new MoralsData(id, result);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
         /// On creating an account, an empty profile has to be inserted into the database
         /// </summary>
         /// <param name="id">userid of the new profile</param>
@@ -121,10 +142,21 @@ namespace Gateway
                 UserID = id,
                 DateOfBirth = null,
                 School = new School(id, null, null, null),
+                MoralsData = new MoralsData(id, new List<Moral>() 
+                { 
+                    new Moral(1, "Intelligentie", 50 ), 
+                    new Moral(2, "Fysieke activiteiten", 50),
+                    new Moral(3, "Uitgaansleven", 50),
+                    new Moral(4, "Natuur", 50),
+                    new Moral(5, "Politiek", 50),
+                    new Moral(6, "Werk", 50),
+                    new Moral(7, "Klimaat", 50),
+                }),
                 Sex = true
             };
             _ = UpdateProfile(newProfile);
             _ = UpdateSchool(newProfile.School);
+            _ = UpdateMoralsData(newProfile.MoralsData);
         }
 
         /// <summary>
@@ -215,6 +247,47 @@ namespace Gateway
             }
         }
 
+        /// <summary>
+        /// Updates or loads the moralsdata in the database
+        /// </summary>
+        /// <param name="MoralsData"></param>
+        /// <returns></returns>
+        public static bool UpdateMoralsData(MoralsData moralsData)
+        {
+            using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
+            
+            //delete current values in morals
+            string sqlDelete = "DELETE FROM Morals WHERE UserID = @UserID;";
+            connection.Execute(sqlDelete, moralsData);
+
+            //insert new values in morals
+            StringBuilder sb = new StringBuilder();
+            List<Moral> morals = moralsData.Morals;
+            if (morals.Count == 0)
+            {
+                return true;
+            }
+
+            //creates a string with all the values like: (UserID, MoralID, MoralPercentage), (UserID, MoralID, MoralPercentage)
+            morals.ForEach(moral =>
+            {
+                _ = sb.Append("(");
+                _ = sb.Append(moralsData.UserID);
+                _ = sb.Append(",");
+                _ = sb.Append(moral.MoralID);
+                _ = sb.Append(",");
+                _ = sb.Append(moral.Percentage);
+                _ = sb.Append(")");
+                _ = sb.Append(",");
+            });
+
+            //remove the final , as its not necesarry
+            string values = sb.ToString().TrimEnd(',');
+
+            string sqlInsert = $"INSERT INTO Morals VALUES {values};";
+            return (connection.Execute(sqlInsert, moralsData) > 0);
+        }
+
         //reserved for sprint 3
         public static QAData LoadQAData(int id)
         {
@@ -223,13 +296,6 @@ namespace Gateway
             return null;
         }
 
-        //reserved for sprint 3
-        public static MoralsData LoadMoralsData(int id)
-        {
-            using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
-            //string studentData = connection.QuerySingle<string>("SELECT * FROM Student");
-            return null;
-        }
         #endregion
     }
 }
