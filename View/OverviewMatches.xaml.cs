@@ -25,5 +25,12 @@ namespace View
 
             profileWindow.Show(); // Show the authentication window
         }
+
+        private void Chat_Click(object sender, RoutedEventArgs e)
+        {
+            ChatWindow chatWindow = new ChatWindow();
+            chatWindow.DataContext = new ChatWindowViewModel(((Button)sender).DataContext as Profile);
+            chatWindow.Show();
+        }
     }
 }
