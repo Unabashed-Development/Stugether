@@ -13,5 +13,6 @@ namespace Model
         public static bool Authenticated { get; set; }
         public static int? UserID { get; set; } // Nullable
         public static List<Profile> Matches { get; set; }
+        public static Dictionary<string, System.Threading.Timer> BackgroundThreads { get; } = new Dictionary<string, System.Threading.Timer>();
     }
 }
