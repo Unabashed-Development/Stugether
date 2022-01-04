@@ -6,6 +6,7 @@ using ViewModel.Commands;
 using ViewModel.Mediators;
 using System.Linq;
 using Model;
+using ViewModel.Helpers;
 
 namespace ViewModel
 {
@@ -28,13 +29,13 @@ namespace ViewModel
             MainNavigationItems = SetObservableCollection(false); // Initialize the default page list
             ViewModelMediators.AuthenticationStateChanged += OnAuthenticationStateChanged;
             ViewModelMediators.MainWindowPageChanged += OnMainWindowPageChanged;
+            ViewModelMediators.AuthenticationStateChanged += NotificationHelper.InitializeNotificationThreads;
         }
 
         /// <summary>
         /// On basis of the authentication state, change the Home page view that needs to be displayed.
         /// </summary>
         private void OnAuthenticationStateChanged() => MainNavigationItems = Account.Authenticated ? SetObservableCollection(true) : SetObservableCollection(false);
-
         #endregion
 
         #region Properties

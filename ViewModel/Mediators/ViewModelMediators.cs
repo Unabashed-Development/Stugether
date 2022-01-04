@@ -5,7 +5,7 @@ namespace ViewModel.Mediators
 {
     public static class ViewModelMediators
     {
-        #region fields
+        #region Fields
         private static string _mainWindowPage;
         #endregion
 
