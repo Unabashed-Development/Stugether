@@ -1,5 +1,6 @@
 ﻿using Model;
 using System;
+using System.Collections.Generic;
 
 namespace ViewModel.Mediators
 {
@@ -12,6 +13,7 @@ namespace ViewModel.Mediators
         #region Events
         public static event Action AuthenticationStateChanged;
         public static event Action MainWindowPageChanged;
+        public static event Action MatchesChanged;
         #endregion
 
         #region Properties
@@ -32,6 +34,16 @@ namespace ViewModel.Mediators
             {
                 _mainWindowPage = value;
                 MainWindowPageChanged?.Invoke();
+            }
+        }
+
+        public static List<Profile> Matches
+        {
+            get => Account.Matches;
+            set
+            {
+                Account.Matches = value;
+                MatchesChanged?.Invoke();
             }
         }
         #endregion

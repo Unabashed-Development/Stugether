@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using ViewModel.Commands;
 using ViewModel.Helpers;
+using ViewModel.Mediators;
 
 namespace ViewModel
 {
@@ -26,7 +27,12 @@ namespace ViewModel
         #endregion
 
         #region Construction
-        public OverviewMatchesViewModel() => GetMatches();
+        public OverviewMatchesViewModel()
+        {
+            ViewModelMediators.MatchesChanged += GetMatches;
+            GetMatches();
+        }
+
         #endregion
 
         #region Commands
@@ -46,13 +52,9 @@ namespace ViewModel
         }
 
         /// <summary>
-        /// Gets the matches from the database for the logged in user and sets the ObservableCollection.
+        /// Sets the ObservableCollection for Matches.
         /// </summary>
-        private void GetMatches()
-        {
-            Account.Matches = MatchHelper.LoadProfilesOfMatches(Account.UserID.Value);
-            Matches = new ObservableCollection<Profile>(Account.Matches);
-        }
+        private void GetMatches() => Matches = new ObservableCollection<Profile>(Account.Matches);
         #endregion
     }
 }
