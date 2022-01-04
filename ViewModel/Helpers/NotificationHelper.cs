@@ -40,7 +40,7 @@ namespace ViewModel.Helpers
         {
             ViewModelMediators.AuthenticationStateChanged += InitializeNotificationThreads;
             new ToastContentBuilder()
-            .AddArgument("NewMatch")
+            .AddArgument("OverviewMatches.xaml")
             .AddText("Je hebt een nieuwe Stugether match!")
             .AddText("Wat leuk! Kijk snel wie!")
             .Show();

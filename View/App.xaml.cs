@@ -19,6 +19,7 @@ namespace View
                 // Need to dispatch to UI thread if performing UI operations
                 Current.Dispatcher.Invoke(delegate
                 {
+                    // Open the main window when a notification is clicked
                     MainWindow.Activate();
                 });
             };

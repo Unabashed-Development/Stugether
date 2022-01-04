@@ -7,6 +7,7 @@ using ViewModel.Mediators;
 using System.Linq;
 using Model;
 using ViewModel.Helpers;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace ViewModel
 {
@@ -30,12 +31,8 @@ namespace ViewModel
             ViewModelMediators.AuthenticationStateChanged += OnAuthenticationStateChanged;
             ViewModelMediators.MainWindowPageChanged += OnMainWindowPageChanged;
             ViewModelMediators.AuthenticationStateChanged += NotificationHelper.InitializeNotificationThreads;
+            ToastNotificationManagerCompat.OnActivated += OnNotificationOpened;
         }
-
-        /// <summary>
-        /// On basis of the authentication state, change the Home page view that needs to be displayed.
-        /// </summary>
-        private void OnAuthenticationStateChanged() => MainNavigationItems = Account.Authenticated ? SetObservableCollection(true) : SetObservableCollection(false);
         #endregion
 
         #region Properties
@@ -117,6 +114,16 @@ namespace ViewModel
         {
             RaisePropertyChanged("MainWindowPage");
         }
+
+        private void OnNotificationOpened(ToastNotificationActivatedEventArgsCompat toastArgs)
+        {
+            MainWindowPage = ToastArguments.Parse(toastArgs.Argument).ToString();
+        }
+
+        /// <summary>
+        /// On basis of the authentication state, change the Home page view that needs to be displayed.
+        /// </summary>
+        private void OnAuthenticationStateChanged() => MainNavigationItems = Account.Authenticated ? SetObservableCollection(true) : SetObservableCollection(false);
         #endregion
 
         #region MainMenuNavigationItemData
