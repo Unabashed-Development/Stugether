@@ -29,8 +29,8 @@ namespace ViewModel
         #region Construction
         public OverviewMatchesViewModel()
         {
-            ViewModelMediators.MatchesChanged += GetMatches;
-            GetMatches();
+            ViewModelMediators.MatchesChanged += LoadCollectionOfMatchedProfiles;
+            LoadCollectionOfMatchedProfiles();
         }
 
         #endregion
@@ -48,13 +48,13 @@ namespace ViewModel
         {
             MatchDataAccess.RemoveMatchFromUser(Account.UserID.Value, userID);
             BlockedDataAccess.BlockUserID(Account.UserID.Value, userID, BlockReason.Unmatched);
-            GetMatches();
+            ViewModelMediators.Matches = MatchHelper.LoadProfilesOfMatches(Account.UserID.Value); // Reload the profiles of the matches 
         }
 
         /// <summary>
         /// Sets the ObservableCollection for Matches.
         /// </summary>
-        private void GetMatches() => Matches = new ObservableCollection<Profile>(Account.Matches);
+        private void LoadCollectionOfMatchedProfiles() => Matches = new ObservableCollection<Profile>(Account.Matches);
         #endregion
     }
 }
