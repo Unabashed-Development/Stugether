@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using ViewModel.Commands;
 using ViewModel.Mediators;
-using System.Linq;
 using Model;
 using ViewModel.Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
@@ -28,9 +27,11 @@ namespace ViewModel
         {
             SSHService.Initialize(); // Initialize SSH for the database connection and logging in
             MainNavigationItems = SetObservableCollection(false); // Initialize the default page list
+
+            // Subscribe a bunch of events to make certain other functions work
             ViewModelMediators.AuthenticationStateChanged += OnAuthenticationStateChanged;
             ViewModelMediators.MainWindowPageChanged += OnMainWindowPageChanged;
-            ViewModelMediators.AuthenticationStateChanged += NotificationHelper.InitializeNotificationThreads;
+            ViewModelMediators.AuthenticationStateChanged += NotificationHelper.InitializeNotifications;
             ToastNotificationManagerCompat.OnActivated += OnNotificationOpened;
         }
         #endregion
@@ -101,11 +102,12 @@ namespace ViewModel
                 MainWindowPage = @"HomePages\HomePageBeforeLogin.xaml";
                 collection.Add(new MainMenuNavigationItemData("Home", MainWindowPage, null));
             }
-            collection.Add(new MainMenuNavigationItemData("Profiel", "ProfilePage.xaml", null));
-            collection.Add(new MainMenuNavigationItemData("Zoeken naar matches", "MatchingProfilePage.xaml", null));
+            collection.Add(new MainMenuNavigationItemData("Mijn profiel", "ProfilePage.xaml", null));
+            collection.Add(new MainMenuNavigationItemData("Matches zoeken", "MatchingProfilePage.xaml", null));
             collection.Add(new MainMenuNavigationItemData("Mijn matches", "OverviewMatches.xaml", null));
             collection.Add(new MainMenuNavigationItemData("Zoekvoorkeuren", "SearchPreferencePage.xaml", null));
-            collection.Add(new MainMenuNavigationItemData("Instellingen", "ProfileSettings.xaml", null));
+            collection.Add(new MainMenuNavigationItemData("Profiel bewerken", "ProfileSettings.xaml", null));
+            collection.Add(new MainMenuNavigationItemData("Notificaties", "NotificationSettings.xaml", null));
 
             return collection;
         }

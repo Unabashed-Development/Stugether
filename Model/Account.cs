@@ -14,5 +14,6 @@ namespace Model
         public static int? UserID { get; set; } // Nullable
         public static List<Profile> Matches { get; set; }
         public static Dictionary<string, Timer> BackgroundThreads { get; set; } = new Dictionary<string, Timer>();
+        public static NotificationSettings NotificationSettings { get; set; }
     }
 }
