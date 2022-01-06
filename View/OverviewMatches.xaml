@@ -2,7 +2,10 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:ViewModel="clr-namespace:ViewModel;assembly=ViewModel"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:ViewModel="clr-namespace:ViewModel;assembly=ViewModel"
+      xmlns:Model="clr-namespace:Model;assembly=Model"
+      xmlns:system="clr-namespace:System;assembly=mscorlib"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Jouw matches">
@@ -46,6 +49,7 @@
                                         </StackPanel>
                                         <Button Content="Profiel" Margin="3,3,3,3" Click="Profile_Click"/>
                                         <Button Content="Unmatch" Margin="3,3,3,3" Command="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.UnmatchCommand}" CommandParameter="{Binding UserID}"/>
+                                        <Button Margin="3" Click="Chat_Click" Content="Chat"/>
                                     </StackPanel>
                                 </Grid>
                             </ItemContainerTemplate>
@@ -56,6 +60,7 @@
             <TabItem Header="Likes">
                 <Grid>
                     <ItemsControl ItemsSource="{Binding Likes}">
+                        <!-- Sample data -->
                         <d:ItemsControl.ItemsSource>
                             <x:Array Type="models:Profile" xmlns:models="clr-namespace:Model;assembly=Model">
                                 <models:Profile FirstName="Henque" LastName="de Botervogel" Description="Hoi, ik ben een spontane jongen uit het noorden van het land."/>
@@ -63,7 +68,7 @@
                                 <models:Profile FirstName="Bas" LastName="Castogne" Description="Ik woon niet in Barneveld."/>
                             </x:Array>
                         </d:ItemsControl.ItemsSource>
-                        
+                        <!-- End of sample data-->
                         <ItemsControl.ItemTemplate>
                             <ItemContainerTemplate>
                                 <Grid>
@@ -85,7 +90,6 @@
                                 </Grid>
                             </ItemContainerTemplate>
                         </ItemsControl.ItemTemplate>
-
                     </ItemsControl>
                 </Grid>
             </TabItem>

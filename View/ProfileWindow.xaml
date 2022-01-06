@@ -6,7 +6,7 @@
         xmlns:viewmodels="clr-namespace:ViewModel;assembly=ViewModel" xmlns:view="clr-namespace:View" d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         mc:Ignorable="d"
         Title="Profiel van je match" Height="600" Width="800">
-    <Grid>
+    <ScrollViewer>
         <Frame Content="{Binding CurrentViewModel}" NavigationUIVisibility="Hidden" x:Name="ProfileWindowFrame" x:FieldModifier="public"/>
-    </Grid>
+    </ScrollViewer>
 </Window>

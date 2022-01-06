@@ -70,6 +70,9 @@ namespace View
                 case "Beschrijving":
                     ProfileDataAccess.UpdateProfile(currentProfile);
                     break;
+                case "Moraal":
+                    ProfileDataAccess.UpdateMoralsData(currentProfile.MoralsData);
+                    break;
                 default:
                     break;
             }

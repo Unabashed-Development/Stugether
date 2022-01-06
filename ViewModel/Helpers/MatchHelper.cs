@@ -42,7 +42,6 @@ namespace ViewModel.Helpers
             {
                 MatchDataAccess.AddLikeToUserIDs(userID, likedUserID, relationshipTypeID);
             }
-
         }
     }
 }

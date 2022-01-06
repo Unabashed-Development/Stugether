@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using ViewModel.Commands;
 using ViewModel.Helpers;
+using ViewModel.Mediators;
 
 namespace ViewModel
 {
@@ -39,6 +40,7 @@ namespace ViewModel
         #region Construction
         public OverviewMatchesViewModel() 
         {
+            ViewModelMediators.MatchesChanged += GetMatches;
             GetMatches();
             GetLikes();
         }
@@ -58,7 +60,7 @@ namespace ViewModel
         {
             MatchDataAccess.RemoveMatchFromUser(Account.UserID.Value, userID);
             BlockedDataAccess.BlockUserID(Account.UserID.Value, userID, BlockReason.Unmatched);
-            GetMatches();
+            ViewModelMediators.Matches = MatchHelper.LoadProfilesOfMatches(Account.UserID.Value); // Reload the profiles of the matches 
         }
 
         private void MatchParameterUserID(int userID)
@@ -69,7 +71,7 @@ namespace ViewModel
         }
 
         /// <summary>
-        /// Gets the matches from the database for the logged in user and sets the ObservableCollection.
+        /// Sets the ObservableCollection for Matches.
         /// </summary>
         private void GetMatches()
         {

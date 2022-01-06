@@ -98,6 +98,16 @@ namespace ViewModel
             }
         }
 
+        public MoralsData MoralsData
+        {
+            get => _profile.MoralsData;
+            set
+            {
+                _profile.MoralsData = value;
+                RaisePropertyChanged("MoralsData");
+            }
+        }
+
         /// <summary>
         /// Gives the image index currently selected to show on the profile page
         /// </summary>
