@@ -3,6 +3,7 @@ using Model;
 using System;
 using System.Windows.Input;
 using ViewModel.Commands;
+using ViewModel.Helpers;
 
 namespace ViewModel
 {
@@ -61,6 +62,7 @@ namespace ViewModel
             {
                 NotificationDataAccess.SetNotificationSettings(Account.NotificationSettings, Account.UserID.Value);
                 ErrorMessage = "Opslaan gelukt!";
+                NotificationHelper.SetAllNotificationTimers(true, true);
             }
             catch (Exception)
             {

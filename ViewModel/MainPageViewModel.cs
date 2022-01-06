@@ -31,7 +31,7 @@ namespace ViewModel
             // Subscribe a bunch of events to make certain other functions work
             ViewModelMediators.AuthenticationStateChanged += OnAuthenticationStateChanged;
             ViewModelMediators.MainWindowPageChanged += OnMainWindowPageChanged;
-            ViewModelMediators.AuthenticationStateChanged += NotificationHelper.InitializeNotifications;
+            ViewModelMediators.AuthenticationStateChanged += NotificationHelper.InitializeAllNotifications;
             ToastNotificationManagerCompat.OnActivated += OnNotificationOpened;
         }
         #endregion
