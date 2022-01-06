@@ -32,6 +32,21 @@ namespace Gateway
         }
 
         /// <summary>
+        /// Gets all the userIDs from whom a specific user received Likes from.
+        /// </summary>
+        /// <param name="userID">The user ID to get the received likes from</param>
+        /// <returns></returns>
+        public static List<int> GetReceivedLikesFromUser(int userID)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB")))
+            {
+                List<int> matches = new List<int>();
+                matches.AddRange(connection.Query<int>($"SELECT UserID FROM Matches WHERE UserID2 = {userID} AND Matched = 0 AND Liked = 1").ToList());
+                return matches;
+            }
+        }
+
+        /// <summary>
         /// Removes a match from a specific user.
         /// </summary>
         /// <param name="userID">The user ID to remove the match from.</param>

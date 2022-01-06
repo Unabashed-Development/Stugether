@@ -10,44 +10,85 @@
     <Page.DataContext>
         <ViewModel:OverviewMatchesViewModel/>
     </Page.DataContext>
-    
-    <Grid>
-        <ItemsControl ItemsSource="{Binding Matches}">
-            <!-- Sample data -->
-            <d:ItemsControl.ItemsSource>
-                <x:Array Type="models:Profile" xmlns:models="clr-namespace:Model;assembly=Model">
-                    <models:Profile FirstName="Henque" LastName="de Botervogel" Description="Hoi, ik ben een spontane jongen uit het noorden van het land."/>
-                    <models:Profile FirstName="Erick" LastName="Oldenzaahl" Description="Mijn naam is Erick en ik wil kaas."/>
-                    <models:Profile FirstName="Bas" LastName="Castogne" Description="Ik woon niet in Barneveld."/>
-                </x:Array>
-            </d:ItemsControl.ItemsSource>
-            <!-- End of sample data-->
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel IsItemsHost="True"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <ItemContainerTemplate>
-                    <Grid>
-                        <StackPanel Orientation="Horizontal">
-                            <Image Source="{Binding FirstUserMedia}" Height="52" Width="52"/>
-                            <StackPanel Orientation="Vertical">
-                                <StackPanel>
+    <Grid Background="{StaticResource BackgroundSecundary}">
+        <TabControl x:Name="MatchesTab" TabStripPlacement="Top">
+            <TabItem Header="Matches">
+                <Grid>
+                    <ItemsControl ItemsSource="{Binding Matches}">
+                        <!-- Sample data -->
+                        <d:ItemsControl.ItemsSource>
+                            <x:Array Type="models:Profile" xmlns:models="clr-namespace:Model;assembly=Model">
+                                <models:Profile FirstName="Henque" LastName="de Botervogel" Description="Hoi, ik ben een spontane jongen uit het noorden van het land."/>
+                                <models:Profile FirstName="Erick" LastName="Oldenzaahl" Description="Mijn naam is Erick en ik wil kaas."/>
+                                <models:Profile FirstName="Bas" LastName="Castogne" Description="Ik woon niet in Barneveld."/>
+                            </x:Array>
+                        </d:ItemsControl.ItemsSource>
+                        <!-- End of sample data-->
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel IsItemsHost="True"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <ItemContainerTemplate>
+                                <Grid>
                                     <StackPanel Orientation="Horizontal">
-                                        <Label Content="{Binding FirstName}" FontSize="18" FontWeight="Bold" Padding="5,0,0,0"/>
-                                        <Label Content=" " FontSize="18" FontWeight="Bold" Padding="0,0,0,0"/>
-                                        <Label Content="{Binding LastName}" FontSize="18" FontWeight="Bold" Padding="0,0,0,0"/>
+                                        <Image Source="{Binding FirstUserMedia}" Height="52" Width="52"/>
+                                        <StackPanel Orientation="Vertical">
+                                            <StackPanel ToolTip="{Binding FirstName}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="{Binding FirstName}" FontSize="18" FontWeight="Bold" Padding="5,0,0,0"/>
+                                                    <Label Content=" " FontSize="18" FontWeight="Bold" Padding="0,0,0,0"/>
+                                                    <Label Content="{Binding LastName}" FontSize="18" FontWeight="Bold" Padding="0,0,0,0"/>
+                                                </StackPanel>
+                                                <Label Content="{Binding Description}" VerticalAlignment="Stretch" Width="300" FontSize="14"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                        <Button Content="Profiel" Margin="3,3,3,3" Click="Profile_Click"/>
+                                        <Button Content="Unmatch" Margin="3,3,3,3" Command="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.UnmatchCommand}" CommandParameter="{Binding UserID}"/>
                                     </StackPanel>
-                                    <Label Content="{Binding Description}" VerticalAlignment="Stretch" Width="300" FontSize="14"/>
-                                </StackPanel>
-                            </StackPanel>
-                            <Button Content="Profiel" Margin="3,3,3,3" Click="Profile_Click"/>
-                            <Button Content="Unmatch" Margin="3,3,3,3" Command="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.UnmatchCommand}" CommandParameter="{Binding UserID}"/>
-                        </StackPanel>
-                    </Grid>
-                </ItemContainerTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+                                </Grid>
+                            </ItemContainerTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Likes">
+                <Grid>
+                    <ItemsControl ItemsSource="{Binding Likes}">
+                        <d:ItemsControl.ItemsSource>
+                            <x:Array Type="models:Profile" xmlns:models="clr-namespace:Model;assembly=Model">
+                                <models:Profile FirstName="Henque" LastName="de Botervogel" Description="Hoi, ik ben een spontane jongen uit het noorden van het land."/>
+                                <models:Profile FirstName="Erick" LastName="Oldenzaahl" Description="Mijn naam is Erick en ik wil kaas."/>
+                                <models:Profile FirstName="Bas" LastName="Castogne" Description="Ik woon niet in Barneveld."/>
+                            </x:Array>
+                        </d:ItemsControl.ItemsSource>
+                        
+                        <ItemsControl.ItemTemplate>
+                            <ItemContainerTemplate>
+                                <Grid>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding FirstUserMedia}" Height="52" Width="52"/>
+                                        <StackPanel Orientation="Vertical">
+                                            <StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="{Binding FirstName}" FontSize="18" FontWeight="Bold" Padding="5,0,0,0"/>
+                                                    <Label Content=" " FontSize="18" FontWeight="Bold" Padding="0,0,0,0"/>
+                                                    <Label Content="{Binding LastName}" FontSize="18" FontWeight="Bold" Padding="0,0,0,0"/>
+                                                </StackPanel>
+                                                <Label Content="{Binding Description}" VerticalAlignment="Stretch" Width="300" FontSize="14"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                        <Button Content="Profiel" Margin="3,3,3,3" Click="Profile_Click"/>
+                                        <Button Content="Match" Margin="3,3,3,3" Command="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.MatchCommand}" CommandParameter="{Binding UserID}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </ItemContainerTemplate>
+                        </ItemsControl.ItemTemplate>
+
+                    </ItemsControl>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Page>
