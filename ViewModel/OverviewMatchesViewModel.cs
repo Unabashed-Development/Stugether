@@ -38,9 +38,10 @@ namespace ViewModel
         #endregion
 
         #region Construction
-        public OverviewMatchesViewModel() 
+        public OverviewMatchesViewModel()
         {
             ViewModelMediators.MatchesChanged += GetMatches;
+            ViewModelMediators.LikesChanged += GetLikes;
             GetMatches();
             GetLikes();
         }
@@ -81,7 +82,8 @@ namespace ViewModel
 
         private void GetLikes()
         {
-            Likes = new ObservableCollection<Profile>(MatchHelper.LoadProfilesOfLikes(Account.UserID.Value));
+            Account.Likes = MatchHelper.LoadProfilesOfLikes(Account.UserID.Value);
+            Likes = new ObservableCollection<Profile>(Account.Likes);
         }
         #endregion
     }

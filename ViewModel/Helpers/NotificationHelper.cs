@@ -19,7 +19,7 @@ namespace ViewModel.Helpers
                 SetAccountNotificationSettings(true);
                 SetAllNotificationTimers(true, false);
             }
-            else // If logged out, set the timeouts to infinite (they don't execute) and clear the notification settings
+            else // If logged out, disable timers and clear the notification settings
             {
                 SetAccountNotificationSettings(false);
                 SetAllNotificationTimers(false, false);
@@ -55,7 +55,7 @@ namespace ViewModel.Helpers
                 }
                 if (Account.NotificationSettings.Likes)
                 {
-                    // Implement
+                    Account.BackgroundThreads[keyArray[1]] = new Timer(new TimerCallback(LikeNotification), null, 3000, 3000);
                 }
                 if (Account.NotificationSettings.Chat)
                 {
@@ -106,22 +106,57 @@ namespace ViewModel.Helpers
                 // If the current matches are more (so there is a new match instead of an unmatch), execute
                 if (currentMatchCount > loadedMatchCount)
                 {
-                    ThrowMatchNotification(); // Throw new match notification 
+                    ThrowMatchOrLikeNotification(MatchOrLike.Matched); // Throw new match notification 
+                }
+            }
+        }
+
+        private static void LikeNotification(object state)
+        {
+            // Load the current received likes from the database and the likes loaded at the start of the application.
+            int currentLikeCount = MatchDataAccess.GetReceivedLikesFromUser(Account.UserID.Value).Count;
+            int loadedLikeCount = Account.Likes.Count;
+
+            // If the amount of likes are the different, execute
+            if (currentLikeCount != loadedLikeCount)
+            {
+                // Reload the profiles of the likes, so if there are less likes, the profiles get reloaded too
+                ViewModelMediators.Likes = MatchHelper.LoadProfilesOfLikes(Account.UserID.Value);
+
+                // If the current likes are more (so there is a new likes instead of an unlike), execute
+                if (currentLikeCount > loadedLikeCount)
+                {
+                    ThrowMatchOrLikeNotification(MatchOrLike.Liked); // Throw new match notification 
                 }
             }
         }
 
         /// <summary>
-        /// Throws a new match notification to Windows using Toast.
+        /// /// Throws a new match or like notification to Windows using Toast.
         /// Requires Microsoft.Toolkit.Uwp.Notifications NuGet package version 7.0 or greater
         /// https://docs.microsoft.com/en-us/windows/apps/design/shell/tiles-and-notifications/send-local-toast?tabs=desktop#step-4-implement-the-activator
         /// </summary>
-        private static void ThrowMatchNotification()
+        /// <param name="matchOrLike">Determines if a match or a like notification needs to be shown.</param>
+        private static void ThrowMatchOrLikeNotification(MatchOrLike matchOrLike)
         {
+            string topText;
+            string bottomText;
+
+            if (matchOrLike == MatchOrLike.Matched)
+            {
+                topText = "Je hebt een nieuwe Stugether match!";
+                bottomText = "Wat leuk! Kijk snel wie!";
+            }
+            else
+            {
+                topText = "Je hebt een nieuwe Stugether like!";
+                bottomText = "Interessant... wie zou dat zijn?";
+            }
+
             new ToastContentBuilder()
             .AddArgument("OverviewMatches.xaml") // Arguments gets used to open this page if notification is clicked on
-            .AddText("Je hebt een nieuwe Stugether match!")
-            .AddText("Wat leuk! Kijk snel wie!")
+            .AddText(topText)
+            .AddText(bottomText)
             .Show();
         }
         #endregion
