@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ViewModel;
+using Windows.UI.ViewManagement.Core;
 
 namespace View
 {
@@ -40,20 +41,22 @@ namespace View
         {
             if (e.ExtentHeightChange == 0)
             {
-                if(ChatScrollViewer.VerticalOffset == ChatScrollViewer.ScrollableHeight)
-                {
-                    AutoScroll = true;
-                }
-                else
-                {
-                    AutoScroll = false;
-                }
+                AutoScroll = ChatScrollViewer.VerticalOffset == ChatScrollViewer.ScrollableHeight;
             }
 
             if (AutoScroll && e.ExtentHeightChange != 0)
             {
                 ChatScrollViewer.ScrollToVerticalOffset(ChatScrollViewer.ExtentHeight);
             }
+        }
+
+        /// <summary>
+        /// Opens the Windows emoji panel.
+        /// </summary>
+        private void Emoji_Click(object sender, RoutedEventArgs e)
+        {
+            CoreInputView.GetForCurrentView().TryShow(CoreInputViewKind.Emoji);
+            ChatMessageInput.Focus();
         }
     }
 }
