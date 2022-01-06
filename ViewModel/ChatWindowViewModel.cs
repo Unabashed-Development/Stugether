@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
+using System.Windows.Input;
 using ViewModel.Commands;
 
 namespace ViewModel
@@ -31,7 +32,7 @@ namespace ViewModel
         public Profile Receiver
         {
             get => receiver;
-            internal set
+            set
             {
                 receiver = value;
                 RaisePropertyChanged("Receiver");
@@ -104,6 +105,37 @@ namespace ViewModel
                 }
             }
         }
+
+
+        private string sendMessageContent = "";
+
+        /// <summary>
+        /// The text presented in the textbox for sending a new message
+        /// </summary>
+        public string SendMessageContent
+        {
+            get { return sendMessageContent; }
+            set
+            {
+                sendMessageContent = value;
+                RaisePropertyChanged("SendMessageContent");
+            }
+        }
+
+        /// <summary>
+        /// When initiated, it pushes a new message to the database, so the message is sent
+        /// </summary>
+        public ICommand SendChatMessageCommand => new RelayCommand(
+            () =>
+        {
+            if (!string.IsNullOrEmpty(SendMessageContent) && !string.IsNullOrWhiteSpace(SendMessageContent))
+            {
+                ChatDataAccess.SendMessage(Sender.UserID, Receiver.UserID, SendMessageContent);
+                SendMessageContent = "";
+            }
+        },
+            () => true);
+
 
         /// <summary>
         /// Creates an empty conversation

@@ -34,5 +34,26 @@ namespace View
             };
             
         }
+
+        private bool AutoScroll = true;
+        private void ChatScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            if (e.ExtentHeightChange == 0)
+            {
+                if(ChatScrollViewer.VerticalOffset == ChatScrollViewer.ScrollableHeight)
+                {
+                    AutoScroll = true;
+                }
+                else
+                {
+                    AutoScroll = false;
+                }
+            }
+
+            if (AutoScroll && e.ExtentHeightChange != 0)
+            {
+                ChatScrollViewer.ScrollToVerticalOffset(ChatScrollViewer.ExtentHeight);
+            }
+        }
     }
 }
