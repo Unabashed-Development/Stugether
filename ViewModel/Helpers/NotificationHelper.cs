@@ -44,7 +44,7 @@ namespace ViewModel.Helpers
             {
                 foreach (string s in keyArray)
                 {
-                    DisposeOfTimerFromBackgroundThreads(s);
+                    DisposeTimersFromBackgroundThreads(s);
                 }
             }
             if (set)
@@ -62,23 +62,13 @@ namespace ViewModel.Helpers
                     // Implement
                 }
             }
-
-            // Unused dynamic code
-            //PropertyInfo[] properties = typeof(NotificationSettings).GetProperties();
-            //foreach (PropertyInfo p in properties)
-            //{
-            //    if ((bool)p.GetValue(Account.NotificationSettings, null))
-            //    {
-            //        Account.BackgroundThreads[$"{p.Name}Notifications"] = new Timer(new TimerCallback(), null, 3000, 3000);
-            //    }
-            //}
         }
 
         /// <summary>
         /// Tries to dispose and remove a key/value pair of timer from BackgroundThreads.
         /// </summary>
         /// <param name="key">The key the timer needs to be stopped and removed for.</param>
-        private static void DisposeOfTimerFromBackgroundThreads(string key)
+        private static void DisposeTimersFromBackgroundThreads(string key)
         {
             if (Account.BackgroundThreads.ContainsKey(key))
             {

@@ -40,7 +40,7 @@ namespace ViewModel
         #region Construction
         public OverviewMatchesViewModel() 
         {
-            ViewModelMediators.MatchesChanged += GetMatches();
+            ViewModelMediators.MatchesChanged += GetMatches;
             GetMatches();
             GetLikes();
         }
