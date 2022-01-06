@@ -7,6 +7,9 @@ using System.Linq;
 
 namespace Gateway
 {
+    /// <summary>
+    /// This enum is a copy of the blockreasons from the tabel in the database.
+    /// </summary>
     public enum BlockReason
     {
         Disliked,

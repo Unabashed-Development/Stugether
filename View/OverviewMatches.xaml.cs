@@ -28,9 +28,12 @@ namespace View
 
         private void Chat_Click(object sender, RoutedEventArgs e)
         {
-            ChatWindow chatWindow = new ChatWindow();
-            chatWindow.DataContext = new ChatWindowViewModel(((Button)sender).DataContext as Profile);
+            ChatWindow chatWindow = new ChatWindow
+            {
+                DataContext = new ChatWindowViewModel(((Button)sender).DataContext as Profile)
+            };
             chatWindow.SetDataContextDispatcher();
+
             chatWindow.Show();
         }
     }
