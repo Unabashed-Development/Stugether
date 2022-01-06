@@ -116,7 +116,7 @@ namespace ViewModel
 
 
         /// <summary>
-        /// Deletes the matched userID from the list of potential matches.
+        /// Deletes the matched userID from the list of potential matches. And adds it to the blocklist.
         /// </summary>
         public RelayCommand DislikeMatchCommand => new RelayCommand(
             () =>
@@ -146,6 +146,10 @@ namespace ViewModel
 
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// First, a list with profiles is being stored in var l, were after the full profile is being accessed by using the userID from those profiles.
+        /// </summary>
 
         public MatchingProfilePageViewModel()
         {
