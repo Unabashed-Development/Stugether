@@ -8,6 +8,7 @@
         xmlns:model="clr-namespace:Model;assembly=Model"
         xmlns:Converters="clr-namespace:View.Converters" x:Class="View.ChatWindow"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Style="{StaticResource {x:Type Window}}"
         Title="{Binding Title}" Height="450" Width="200" MinWidth="200" MinHeight="200"
         Icon="{Binding Receiver.FirstUserMedia}"
