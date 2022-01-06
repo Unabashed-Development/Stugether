@@ -51,11 +51,11 @@ namespace ViewModel.Helpers
             {
                 if (Account.NotificationSettings.Matches)
                 {
-                    Account.BackgroundThreads[keyArray[0]] = new Timer(new TimerCallback(MatchNotification), null, 3000, 3000);
+                    Account.BackgroundThreads[keyArray[0]] = new Timer(new TimerCallback(MatchNotification), null, 5000, 5000);
                 }
                 if (Account.NotificationSettings.Likes)
                 {
-                    Account.BackgroundThreads[keyArray[1]] = new Timer(new TimerCallback(LikeNotification), null, 3000, 3000);
+                    Account.BackgroundThreads[keyArray[1]] = new Timer(new TimerCallback(LikeNotification), null, 5000, 5000);
                 }
                 if (Account.NotificationSettings.Chat)
                 {
@@ -132,7 +132,7 @@ namespace ViewModel.Helpers
         }
 
         /// <summary>
-        /// /// Throws a new match or like notification to Windows using Toast.
+        /// Throws a new match or like notification to Windows using Toast.
         /// Requires Microsoft.Toolkit.Uwp.Notifications NuGet package version 7.0 or greater
         /// https://docs.microsoft.com/en-us/windows/apps/design/shell/tiles-and-notifications/send-local-toast?tabs=desktop#step-4-implement-the-activator
         /// </summary>
