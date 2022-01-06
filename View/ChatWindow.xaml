@@ -10,7 +10,8 @@
         mc:Ignorable="d"
         Style="{StaticResource {x:Type Window}}"
         Title="{Binding Title}" Height="450" Width="200" MinWidth="200" MinHeight="200"
-        Icon="{Binding Receiver.FirstUserMedia}">
+        Icon="{Binding Receiver.FirstUserMedia}"
+    FocusManager.FocusedElement="{Binding ElementName=ChatMessageInput}">
     <Window.Resources>
         <Converters:UtcToLocalDateTimeConverter x:Key="UtcToLocalDateTimeConverter"/>
         <Converters:MessageDirectionToHorizontalAlignment x:Key="MessageDirectionToHorizontalAlignment"/>
@@ -40,10 +41,10 @@
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
-            <TextBox/>
-            <Button Grid.Column="1" Content="Send"/>
+            <TextBox x:Name="ChatMessageInput" Text="{Binding SendMessageContent, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Grid.Column="1" Content="Send" Command="{Binding SendChatMessageCommand, Mode=OneWay}" IsDefault="True"/>
         </Grid>
-        <ScrollViewer BorderBrush="Black" BorderThickness="2,2,2,2">
+        <ScrollViewer x:Name="ChatScrollViewer" BorderBrush="Black" BorderThickness="2,2,2,2" CanContentScroll="True" ScrollChanged="ChatScrollViewer_ScrollChanged">
             <ItemsControl VerticalAlignment="Bottom" ItemsSource="{Binding ChatMessages,Mode=TwoWay}">
                 <!-- Sample data -->
                 <d:ItemsControl.ItemsSource>

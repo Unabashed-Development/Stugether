@@ -58,5 +58,17 @@ namespace Gateway
             using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
             return connection.QuerySingle<int>("SELECT COUNT(Seen) FROM ChatMessage WHERE FromUserId=@other AND ToUserId=@own AND Seen=1", new { own = ownUserId, other = otherUserId });
         }
+
+        /// <summary>
+        /// Creates a new chat message on the database, which can be seen as a sent message
+        /// </summary>
+        /// <param name="ownUserId">The user who sends the message</param>
+        /// <param name="receiverUserId">The user to whom the message is sent</param>
+        /// <param name="messageContent">The content of the message</param>
+        public static void SendMessage(int ownUserId, int receiverUserId, string messageContent)
+        {
+            using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
+            connection.Query("INSERT INTO ChatMessage (SentTime, FromUserId, ToUserId, Content, Seen) VALUES(DEFAULT, @from, @to, @content, DEFAULT)", new { from = ownUserId, to = receiverUserId, content = messageContent });
+        }
     }
 }
