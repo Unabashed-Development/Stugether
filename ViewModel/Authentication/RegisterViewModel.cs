@@ -4,11 +4,16 @@ using ViewModel.Commands;
 using ViewModel.Helpers;
 using Model;
 using ViewModel.Stores;
+using System.Collections.Generic;
 
 namespace ViewModel
 {
     public class RegisterViewModel : AuthenticationViewModelBase
     {
+        #region Fields
+        private readonly List<string> _allowedSchoolRootDomains;
+        #endregion
+
         #region Methods
         /// <summary>
         /// Makes an account for the user in database. Throws error messages if something is wrong.
@@ -17,7 +22,7 @@ namespace ViewModel
         {
             if (Email != null && Password != null && VerifyPassword != null && Email.Length > 0 && Password.Length > 0 && VerifyPassword.Length > 0)
             {
-                if (AccountHelper.IsValidEmail(Email) && AccountHelper.IsSchoolEmail(Email))
+                if (AccountHelper.IsValidEmail(Email) && AccountHelper.IsSchoolEmail(Email, _allowedSchoolRootDomains))
                 {
                     if (PasswordHelper.IsStrongPassword(Password))
                     {
@@ -68,7 +73,14 @@ namespace ViewModel
         #endregion
 
         #region Construction
-        public RegisterViewModel(NavigationStore navigationStore) => base.navigationStore = navigationStore;
+        public RegisterViewModel(NavigationStore navigationStore)
+        {
+            IEnumerable<AllowedSchool> _allowedSchools = AllowedSchoolsDataAccess.APICallAllowedSchools();
+            _allowedSchoolRootDomains = AccountHelper.RetrieveAllDomainNamesFromAllowedSchools(_allowedSchools);
+            _allowedSchoolRootDomains.Add("wafoe.nl"); // This is only for testing purposes! In a production environment, this needs to be removed.
+
+            base.navigationStore = navigationStore;
+        }
         #endregion
 
         #region Commands

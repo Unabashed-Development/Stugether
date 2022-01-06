@@ -1,5 +1,7 @@
-﻿using Model.Enumerations;
+﻿using Model;
+using Model.Enumerations;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ViewModel.Helpers
@@ -44,22 +46,44 @@ namespace ViewModel.Helpers
         }
 
         /// <summary>
-        /// Checks if the given email is a school email and compares it against the model enum. Assumes the email has at least '@' and '.' chars.
+        /// Checks if the given email is a school email and compares it against a given list of email root domains. Assumes the email has at least '@' character.
         /// </summary>
         /// <param name="email">The e-mail to be checked.</param>
+        /// <param name="allowedSchoolRootDomains">The list of school root domains.</param>
         /// <returns>True if the email is a valid school email and false if not.</returns>
-        public static bool IsSchoolEmail(string email)
+        public static bool IsSchoolEmail(string email, List<string> allowedSchoolRootDomains)
         {
-            if (email.Contains('@') && email.Contains('.'))
+            if (email.Contains('@'))
             {
-                string[] fullDomainOfEmail = email.Split('@')[1].Split("."); // Split the domain in two halves. Example: hello@main.test.com > main.test.com
-                string mainDomainOfEmail = fullDomainOfEmail[^2]; // Get the main domain of the email. Example: main & test & com > test
-                return Enum.TryParse(mainDomainOfEmail, true, out SchoolEmails _); // Case insensitive check in the enum if the domain exists there, returns true if it does
+                string[] emailSplitAtAmpersand = email.Split('@'); // Split the domain in two halves. Example: hello@main.test.com > hello & main.test.com
+                string rootDomainOfEmail = emailSplitAtAmpersand[1].ToLower();
+                foreach (string s in allowedSchoolRootDomains)
+                {
+                    if (rootDomainOfEmail.EndsWith(s))
+                    {
+                        return true;
+                    }
+                }
             }
-            else
+            return false;
+        }
+
+        /// <summary>
+        /// Gets all domain names from an IEnumerable of AllowedSchool domain arrays.
+        /// </summary>
+        /// <param name="allowedSchools">The IEnumerable of AllowedSchool classes.</param>
+        /// <returns>A list of all domain names (root domain).</returns>
+        public static List<string> RetrieveAllDomainNamesFromAllowedSchools(IEnumerable<AllowedSchool> allowedSchools)
+        {
+            List<string> list = new List<string>();
+            foreach (AllowedSchool c in allowedSchools)
             {
-                return false;
+                foreach (string s in c.Domains)
+                {
+                    list.Add(s);
+                }
             }
+            return list;
         }
 
         /// <summary>
