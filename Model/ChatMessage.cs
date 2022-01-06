@@ -49,5 +49,25 @@ namespace Model
             Send,
             Received
         }
+
+        /// <summary>
+        /// Determines whether the specified chat message is equal to the current chat message.
+        /// </summary>
+        /// <param name="obj">The object to compare with the current chat message.</param>
+        /// <returns>true if the specified object is equal to the current object; otherwise, false.</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj.GetType() != typeof(ChatMessage))
+                return false;
+            ChatMessage otherMsg = (ChatMessage)obj;
+            if (MessageId != otherMsg.MessageId) return false;
+            if (SentTime != otherMsg.SentTime) return false;
+            if (FromUserId != otherMsg.FromUserId) return false;
+            if (ToUserId != otherMsg.ToUserId) return false;
+            if (Content != otherMsg.Content) return false;
+            if (Seen != otherMsg.Seen) return false;
+            if (Direction != otherMsg.Direction) return false;
+            return true;
+        }
     }
 }

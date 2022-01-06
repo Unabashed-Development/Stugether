@@ -30,6 +30,7 @@ namespace View
         {
             ChatWindow chatWindow = new ChatWindow();
             chatWindow.DataContext = new ChatWindowViewModel(((Button)sender).DataContext as Profile);
+            chatWindow.SetDataContextDispatcher();
             chatWindow.Show();
         }
     }
