@@ -44,7 +44,7 @@
             <Button Grid.Column="1" Content="Send"/>
         </Grid>
         <ScrollViewer BorderBrush="Black" BorderThickness="2,2,2,2">
-            <ItemsControl VerticalAlignment="Bottom" ItemsSource="{Binding ChatMessages}">
+            <ItemsControl VerticalAlignment="Bottom" ItemsSource="{Binding ChatMessages,Mode=TwoWay}">
                 <!-- Sample data -->
                 <d:ItemsControl.ItemsSource>
                     <x:Array Type="{x:Type model:ChatMessage}">

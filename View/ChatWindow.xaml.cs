@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ViewModel;
 
 namespace View
 {
@@ -20,6 +21,18 @@ namespace View
         public ChatWindow()
         {
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// This method sets the DispatcherDelegate to allow executing code on UI thread, because the ViewModel can't access it.
+        /// </summary>
+        public void SetDataContextDispatcher()
+        {
+            ((ChatWindowViewModel)this.DataContext).DispatcherDelegate = (act) =>
+            {
+                Dispatcher.Invoke(act);
+            };
+            
         }
     }
 }
