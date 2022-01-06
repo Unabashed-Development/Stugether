@@ -19,6 +19,13 @@ namespace ViewModel.Helpers
                     select ProfileDataAccess.LoadProfile(id)).ToList();
         }
 
+        public static List<Profile> LoadProfilesOfLikes(int userID)
+        {
+            List<int> likedIDs = MatchDataAccess.GetReceivedLikesFromUser(userID);
+            return (from int id in likedIDs
+                    select ProfileDataAccess.LoadProfile(id)).ToList();
+        }
+
         /// <summary>
         /// Handles whether the likedUser is liked in the data base or gets matched, based on whether the user has already been liked by the likedUser
         /// </summary>

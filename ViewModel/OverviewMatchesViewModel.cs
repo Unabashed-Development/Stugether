@@ -12,6 +12,7 @@ namespace ViewModel
     {
         #region Fields
         private ObservableCollection<Profile> _matches;
+        private ObservableCollection<Profile> _likes;
         #endregion
 
         #region Properties
@@ -24,19 +25,30 @@ namespace ViewModel
                 RaisePropertyChanged("Matches");
             }
         }
+
+        public ObservableCollection<Profile> Likes
+        {
+            get => _likes;
+            set
+            {
+                _likes = value;
+                RaisePropertyChanged("Likes");
+            }
+        }
         #endregion
 
         #region Construction
-        public OverviewMatchesViewModel()
+        public OverviewMatchesViewModel() 
         {
-            ViewModelMediators.MatchesChanged += LoadCollectionOfMatchedProfiles;
-            LoadCollectionOfMatchedProfiles();
+            ViewModelMediators.MatchesChanged += GetMatches();
+            GetMatches();
+            GetLikes();
         }
-
         #endregion
 
         #region Commands
         public ICommand UnmatchCommand => new RelayCommand((parameter) => UnmatchParameterUserID((int)parameter), () => true);
+        public ICommand MatchCommand => new RelayCommand((parameter) => MatchParameterUserID((int)parameter), () => true);
         #endregion
 
         #region Methods
@@ -51,10 +63,26 @@ namespace ViewModel
             ViewModelMediators.Matches = MatchHelper.LoadProfilesOfMatches(Account.UserID.Value); // Reload the profiles of the matches 
         }
 
+        private void MatchParameterUserID(int userID)
+        {
+            MatchDataAccess.SetMatchToUserIDs(Account.UserID.Value, userID);
+            GetLikes();
+            GetMatches();
+        }
+
         /// <summary>
         /// Sets the ObservableCollection for Matches.
         /// </summary>
-        private void LoadCollectionOfMatchedProfiles() => Matches = new ObservableCollection<Profile>(Account.Matches);
+        private void GetMatches()
+        {
+            Account.Matches = MatchHelper.LoadProfilesOfMatches(Account.UserID.Value);
+            Matches = new ObservableCollection<Profile>(Account.Matches);
+        }
+
+        private void GetLikes()
+        {
+            Likes = new ObservableCollection<Profile>(MatchHelper.LoadProfilesOfLikes(Account.UserID.Value));
+        }
         #endregion
     }
 }
