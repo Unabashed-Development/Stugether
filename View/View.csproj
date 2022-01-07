@@ -10,6 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="birthday_cake.png" />
+    <None Remove="Content\birthday_cake.png" />
     <None Remove="stugether_logo.ico" />
   </ItemGroup>
 
@@ -23,6 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="birthday_cake.png" />
+    <Resource Include="Content\birthday_cake.png" />
     <EmbeddedResource Include="stugether_logo.ico" />
   </ItemGroup>
 
