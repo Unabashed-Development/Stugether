@@ -44,6 +44,16 @@ namespace ViewModel
             }
         }
 
+        public bool Birthday
+        {
+            get => Account.NotificationSettings.Birthday;
+            set
+            {
+                Account.NotificationSettings.Birthday = value;
+                RaisePropertyChanged(nameof(Birthday));
+            }
+        }
+
         public string ErrorMessage
         {
             get => _errorMessage;

@@ -7,7 +7,6 @@
       xmlns:ViewModel="clr-namespace:ViewModel;assembly=ViewModel" x:Class="View.NotificationSettings"
       xmlns:converters="clr-namespace:View.Converters"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
       Title="Notificatie instellingen">
 
     <Page.DataContext>
@@ -22,19 +21,25 @@
         <StackPanel>
             <Label Content="Op deze pagina kan je aangeven welke notificaties je wilt ontvangen." FontSize="14"/>
             <StackPanel Orientation="Horizontal">
-                <Label Content="Matches" Width="60"/>
+                <Label Content="Matches" Width="70"/>
                 <RadioButton Content="Aan" IsChecked="{Binding Matches, Mode=TwoWay}" VerticalAlignment="Center" Margin="0,0,5,0"/>
                 <RadioButton Content="Uit" IsChecked="{Binding Matches, Converter={StaticResource InvertBoolConverter}, ConverterParameter=true, Mode=TwoWay}" VerticalAlignment="Center"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Label Content="Likes" Width="60"/>
+                <Label Content="Likes" Width="70"/>
                 <RadioButton Content="Aan" IsChecked="{Binding Likes, Mode=TwoWay}" VerticalAlignment="Center" Margin="0,0,5,0"/>
                 <RadioButton Content="Uit" IsChecked="{Binding Likes, Converter={StaticResource InvertBoolConverter}, ConverterParameter=true, Mode=TwoWay}" VerticalAlignment="Center"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Label Content="Chat" Width="60"/>
+                <Label Content="Chat" Width="70"/>
                 <RadioButton Content="Aan" IsChecked="{Binding Chat, Mode=TwoWay}" VerticalAlignment="Center" Margin="0,0,5,0"/>
                 <RadioButton Content="Uit" IsChecked="{Binding Chat, Converter={StaticResource InvertBoolConverter}, ConverterParameter=true, Mode=TwoWay}" VerticalAlignment="Center"/>
+            </StackPanel>
+            <Label Content="Hieronder kan je aangeven welke notificaties anderen van jou ontvangen." FontSize="14"/>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Verjaardag" Width="70"/>
+                <RadioButton Content="Aan" IsChecked="{Binding Birthday, Mode=TwoWay}" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                <RadioButton Content="Uit" IsChecked="{Binding Birthday, Converter={StaticResource InvertBoolConverter}, ConverterParameter=true, Mode=TwoWay}" VerticalAlignment="Center"/>
             </StackPanel>
             <Label Content="{Binding ErrorMessage}" Foreground="Red" FontSize="14" HorizontalAlignment="Right"/>
             <Button Content="Opslaan" HorizontalAlignment="Right" VerticalAlignment="Bottom" MinHeight="50" MinWidth="150" Margin="10" Command="{Binding UpdateNotificationSettingsCommand, Mode=OneWay}"/>

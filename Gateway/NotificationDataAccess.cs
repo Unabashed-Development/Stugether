@@ -40,8 +40,21 @@ namespace Gateway
             {
                 connection.Execute(
                     $"UPDATE NotificationSettings " +
-                    $"SET Matches = @Matches, Likes = @Likes, Chat = @Chat " +
+                    $"SET Matches = @Matches, Likes = @Likes, Chat = @Chat, Birthday = @Birthday " +
                     $"WHERE UserID = {userID}", notificationSettings);
+            }
+        }
+
+        /// <summary>
+        /// Retrieves from the database whether or not the user wants to notify others that it's their birthday. 
+        /// </summary>
+        /// <param name="userID">The user ID the birthday preference needs to be retrieved for.</param>
+        /// <returns>True if the user wants to show their birthday and false if not.</returns>
+        public static bool GetBirthdayNotificationPreference(int userID)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB")))
+            {
+                return connection.QuerySingle<bool>($"SELECT Birthday FROM NotificationSettings WHERE UserID = {userID}");
             }
         }
 
@@ -66,7 +79,7 @@ namespace Gateway
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB")))
             {
-                return connection.QuerySingle<NotificationSettings>($"SELECT Matches, Likes, Chat FROM NotificationSettings WHERE UserID = {userID}");
+                return connection.QuerySingle<NotificationSettings>($"SELECT * FROM NotificationSettings WHERE UserID = {userID}");
             }
         }
         #endregion
