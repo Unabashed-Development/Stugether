@@ -12,7 +12,8 @@
         Style="{StaticResource {x:Type Window}}"
         Title="{Binding Title}" Height="450" Width="200" MinWidth="200" MinHeight="200"
         Icon="{Binding Receiver.FirstUserMedia}"
-    FocusManager.FocusedElement="{Binding ElementName=ChatMessageInput}">
+        FocusManager.FocusedElement="{Binding ElementName=ChatMessageInput}"
+        Deactivated="OnLostFocus" Activated="OnGotFocus">
     <Window.Resources>
         <Converters:UtcToLocalDateTimeConverter x:Key="UtcToLocalDateTimeConverter"/>
         <Converters:MessageDirectionToHorizontalAlignment x:Key="MessageDirectionToHorizontalAlignment"/>
@@ -52,7 +53,7 @@
                 <!-- Sample data -->
                 <d:ItemsControl.ItemsSource>
                     <x:Array Type="{x:Type model:ChatMessage}">
-                        <model:ChatMessage Content="Hallo" SentTime="12:16:33 2021-12-23"/>
+                        <model:ChatMessage Content="Hallo" SentTime="12:16:33 2021-12-23" Seen="True"/>
                         <model:ChatMessage Content="Hallo Bas" SentTime="15:00:33 2021-12-23" Direction="Received"/>
                     </x:Array>
                 </d:ItemsControl.ItemsSource>
@@ -68,7 +69,27 @@
                             <Border Margin="10" Background="#4C000000">
                                 <WrapPanel Margin="10">
                                     <TextBlock Text="{Binding Content}" Margin="5" FontSize="14" TextWrapping="Wrap"/>
-                                    <TextBlock Text="{Binding SentTime, Converter={StaticResource UtcToLocalDateTimeConverter}, StringFormat=t}" VerticalAlignment="Bottom" FontSize="12" Opacity="0.5"/>
+                                    <StackPanel Background="Transparent" Orientation="Horizontal" VerticalAlignment="Bottom">
+                                        <Path VerticalAlignment="Center" Opacity="0.5" Stroke="{StaticResource Foreground}" StrokeThickness="1.5">
+                                            <Path.Style>
+                                                <Style TargetType="Path">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Seen}" Value="False">
+                                                            <DataTrigger.Setters>
+                                                                <Setter Property="Data" Value="M 0,5 3,10 7,0"/>
+                                                            </DataTrigger.Setters>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Seen}" Value="True">
+                                                            <DataTrigger.Setters>
+                                                                <Setter Property="Data" Value="M 0,5 3,10 7,0 M 6,5 9,10 13,0"/>
+                                                            </DataTrigger.Setters>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Path.Style>
+                                        </Path>
+                                        <TextBlock Text="{Binding SentTime, Converter={StaticResource UtcToLocalDateTimeConverter}, StringFormat=t}" VerticalAlignment="Center" FontSize="12" Opacity="0.5"/>
+                                    </StackPanel>
                                 </WrapPanel>
                             </Border>
                         </Grid>

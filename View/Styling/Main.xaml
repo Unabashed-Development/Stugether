@@ -12,6 +12,8 @@
     <SolidColorBrush x:Key="BackgroundTertiary" Color="#f16f6f"/>
     <SolidColorBrush x:Key="BackgroundQuaternary" Color="#fff78f"/>
 
+    <SolidColorBrush x:Key="Foreground" Color="Black"/>
+
     <Style TargetType="local:MainWindowNavigationItem" BasedOn="{StaticResource {x:Type ToggleButton}}">
         <Style.Triggers>
             <!--<Trigger Property="ActualWidth" Value="150">

@@ -15,6 +15,7 @@ namespace ViewModel
     /// </summary>
     public class ChatWindowViewModel : ObservableObject
     {
+        #region Common Properties
         private ObservableCollection<ChatMessage> chatMessages = new ObservableCollection<ChatMessage>();
         private readonly object chatMessagesLock = new object();
         private Profile receiver;
@@ -70,7 +71,9 @@ namespace ViewModel
         /// The title of the Window, showing the full name of the receiving side and amount of unread messages
         /// </summary>
         public string Title => Receiver.FirstName + " " + Receiver.LastName;
+        #endregion
 
+        #region Loading and reading messages
         /// <summary>
         /// Fetches and filters the new chat messages.
         /// </summary>
@@ -81,6 +84,7 @@ namespace ViewModel
         /// <param name="state">Unused parameter to comply with TimerCallback</param>
         private void RefreshChats(object? state)
         {
+            SeenChatMessages();
             List<ChatMessage> updatedChats = ChatDataAccess.LoadChatMessages(Sender.UserID, Receiver.UserID);
             IEnumerable<ChatMessage> newChats = from msg in updatedChats
                                                 where !ChatMessages.Contains(msg)
@@ -101,12 +105,23 @@ namespace ViewModel
             {
                 lock (chatMessagesLock)
                 {
-                    chatMessages.Add(msg);
+                    // Message is updated
+                    if (chatMessages.Any((anyMsg) => { return anyMsg.MessageId == msg.MessageId && anyMsg.FromUserId == msg.FromUserId && anyMsg.ToUserId == anyMsg.ToUserId; }))
+                    {
+                        ChatMessage messageToReplace = chatMessages.First((firstMsg) => { return firstMsg.MessageId == msg.MessageId && firstMsg.FromUserId == msg.FromUserId && firstMsg.ToUserId == firstMsg.ToUserId; });
+                        chatMessages[chatMessages.IndexOf(messageToReplace)] = msg;
+                    }
+                    // Message is new
+                    else
+                    {
+                        chatMessages.Add(msg);
+                    }
                 }
             }
         }
+        #endregion
 
-
+        #region Sending messages
         private string sendMessageContent = "";
 
         /// <summary>
@@ -122,6 +137,7 @@ namespace ViewModel
             }
         }
 
+
         /// <summary>
         /// When initiated, it pushes a new message to the database, so the message is sent
         /// </summary>
@@ -135,8 +151,27 @@ namespace ViewModel
             }
         },
             () => true);
+        #endregion
 
+        #region Seen status
+        /// <summary>
+        /// If the window is focused, select all messages received and visible, and mark them as seen
+        /// </summary>
+        public void SeenChatMessages()
+        {
+            if (ChatWindowHasFocus)
+            {
+                foreach (ChatMessage msg in from msg in ChatMessages where msg.Seen == false && msg.ToUserId == Sender.UserID select msg)
+                {
+                    ChatDataAccess.SetMessageSeen(msg.ToUserId, msg.FromUserId, msg.MessageId);
+                }
+            }
+        }
 
+        public bool ChatWindowHasFocus { internal get; set; }
+        #endregion
+
+        #region Construction and destruction
         /// <summary>
         /// Creates an empty conversation
         /// </summary>
@@ -171,5 +206,6 @@ namespace ViewModel
             Account.BackgroundThreads[backgroundThreadName].Dispose();
             Account.BackgroundThreads.Remove(backgroundThreadName);
         }
+        #endregion
     }
 }
