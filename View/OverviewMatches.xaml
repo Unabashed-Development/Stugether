@@ -13,6 +13,10 @@
     <Page.DataContext>
         <ViewModel:OverviewMatchesViewModel/>
     </Page.DataContext>
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </Page.Resources>
+
     <Grid Background="{StaticResource BackgroundSecundary}">
         <TabControl x:Name="MatchesTab" TabStripPlacement="Top">
             <TabItem Header="Matches">
@@ -36,13 +40,14 @@
                             <ItemContainerTemplate>
                                 <Grid>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="{Binding FirstUserMedia}" Height="52" Width="52"/>
+                                        <Image Source="{Binding FirstUserMedia}" Height="52" Width="52" RenderOptions.BitmapScalingMode="Fant"/>
                                         <StackPanel Orientation="Vertical">
                                             <StackPanel ToolTip="{Binding FirstName}">
                                                 <StackPanel Orientation="Horizontal">
                                                     <Label Content="{Binding FirstName}" FontSize="18" FontWeight="Bold" Padding="5,0,0,0"/>
                                                     <Label Content=" " FontSize="18" FontWeight="Bold" Padding="0,0,0,0"/>
-                                                    <Label Content="{Binding LastName}" FontSize="18" FontWeight="Bold" Padding="0,0,0,0"/>
+                                                    <Label Content="{Binding LastName}" FontSize="18" FontWeight="Bold" Padding="0,0,5,0"/>
+                                                    <Image Source="Content/birthday_cake.png" Height="24" Visibility="{Binding Birthday, Converter={StaticResource BoolToVis}}" RenderOptions.BitmapScalingMode="Fant"/>
                                                 </StackPanel>
                                                 <Label Content="{Binding Description}" VerticalAlignment="Stretch" Width="300" FontSize="14"/>
                                             </StackPanel>

@@ -52,11 +52,11 @@ namespace ViewModel.Helpers
             {
                 if (Account.NotificationSettings.Matches)
                 {
-                    Account.BackgroundThreads[keyArray[0]] = new Timer(MatchOrLikeNotification, MatchOrLike.Matched, 5000, 5000);
+                    Account.BackgroundThreads[keyArray[0]] = new Timer(MatchOrLikeNotification, MatchOrLike.Matched, 0, 5000);
                 }
                 if (Account.NotificationSettings.Likes)
                 {
-                    Account.BackgroundThreads[keyArray[1]] = new Timer(MatchOrLikeNotification, MatchOrLike.Liked, 5000, 5000);
+                    Account.BackgroundThreads[keyArray[1]] = new Timer(MatchOrLikeNotification, MatchOrLike.Liked, 0, 5000);
                 }
                 if (Account.NotificationSettings.Chat)
                 {
@@ -142,6 +142,22 @@ namespace ViewModel.Helpers
         }
 
         /// <summary>
+        /// If it is the birthday of some users, check their birthday notification preference and fix the Birthday boolean
+        /// </summary>
+        /// <param name="profileList">A list of profiles that need their Birthday property checked.</param>
+        public static List<Profile> FixBirthdayPreferences(List<Profile> profileList)
+        {
+            foreach (Profile p in profileList)
+            {
+                if (p.Birthday)
+                {
+                    p.Birthday = NotificationDataAccess.GetBirthdayNotificationPreference(p.UserID);
+                }
+            }
+            return profileList;
+        }
+
+        /// <summary>
         /// Throws a new match or like notification to Windows using Toast.
         /// Requires Microsoft.Toolkit.Uwp.Notifications NuGet package version 7.0 or greater
         /// https://docs.microsoft.com/en-us/windows/apps/design/shell/tiles-and-notifications/send-local-toast?tabs=desktop#step-4-implement-the-activator
@@ -153,7 +169,7 @@ namespace ViewModel.Helpers
             string bottomText;
 
             if (matchOrLike == MatchOrLike.Matched)
-            {   
+            {
                 topText = $"Je hebt {amountOfMatchesOrLikes} nieuwe Stugether match!";
                 bottomText = "Wat leuk! Kijk snel wie!";
                 if (amountOfMatchesOrLikes > 1)

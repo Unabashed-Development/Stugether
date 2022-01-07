@@ -18,7 +18,7 @@ namespace ViewModel.Helpers
             List<int> matchedIDs = MatchDataAccess.GetAllMatchesFromUser(userID, MatchOrLike.Matched);
             matchesList = (from int id in matchedIDs
                            select ProfileDataAccess.LoadProfile(id)).ToList();
-            return matchesList;
+            return NotificationHelper.FixBirthdayPreferences(matchesList);
         }
 
         public static List<Profile> LoadProfilesOfLikes(int userID)
@@ -27,7 +27,7 @@ namespace ViewModel.Helpers
             List<int> likedIDs = MatchDataAccess.GetReceivedLikesFromUser(userID);
             likesList = (from int id in likedIDs
                          select ProfileDataAccess.LoadProfile(id)).ToList();
-            return likesList;
+            return NotificationHelper.FixBirthdayPreferences(likesList);
         }
 
         /// <summary>

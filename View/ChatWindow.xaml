@@ -10,23 +10,26 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource {x:Type Window}}"
-        Title="{Binding Title}" Height="450" Width="200" MinWidth="200" MinHeight="200"
+        Title="{Binding Title}" Height="450" Width="400" MinWidth="200" MinHeight="200"
         Icon="{Binding Receiver.FirstUserMedia}"
         FocusManager.FocusedElement="{Binding ElementName=ChatMessageInput}"
         Deactivated="OnLostFocus" Activated="OnGotFocus">
     <Window.Resources>
         <Converters:UtcToLocalDateTimeConverter x:Key="UtcToLocalDateTimeConverter"/>
         <Converters:MessageDirectionToHorizontalAlignment x:Key="MessageDirectionToHorizontalAlignment"/>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
     </Window.Resources>
     <d:Window.DataContext>
         <vm:ChatWindowViewModel>
             <vm:ChatWindowViewModel.Receiver>
-                <model:Profile FirstName="Julian" LastName="Rill" FirstUserMedia="http://www.stugether.wafoe.nl/media/4fc89750-c893-4b05-b5f9-58e21d5cf58e.jpg"/>
+                <model:Profile FirstName="Julian" LastName="Rill"
+                               FirstUserMedia="http://www.stugether.wafoe.nl/media/4fc89750-c893-4b05-b5f9-58e21d5cf58e.jpg"
+                               Age="25"/>
             </vm:ChatWindowViewModel.Receiver>
         </vm:ChatWindowViewModel>
     </d:Window.DataContext>
     <DockPanel LastChildFill="True">
-        <Grid DockPanel.Dock="Top" Margin="5">
+        <Grid DockPanel.Dock="Top" Margin="5" Background="{StaticResource BackgroundSecundary}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="1*" />
@@ -36,7 +39,14 @@
                     <ImageBrush ImageSource="{Binding Receiver.FirstUserMedia}" Stretch="UniformToFill"/>
                 </Ellipse.Fill>
             </Ellipse>
-            <TextBlock Margin="5" Grid.Column="1" VerticalAlignment="Center"><Run Text="{Binding Receiver.FirstName}"/><Run Text=" "/><Run Text="{Binding Receiver.LastName}"/></TextBlock>
+            <StackPanel Margin="5" Grid.Column="1" VerticalAlignment="Center">
+                <TextBlock Grid.Column="1"><Run Text="{Binding Receiver.FirstName}"/><Run Text=" "/><Run Text="{Binding Receiver.LastName}"/></TextBlock>
+                <StackPanel Orientation="Horizontal" Visibility="{Binding Receiver.Birthday, Converter={StaticResource BoolToVis}}">
+                    <TextBlock><Run Text="Vandaag "/></TextBlock>
+                    <TextBlock><Run Text="{Binding Receiver.Age}"/></TextBlock>
+                    <TextBlock><Run Text=" geworden!"/></TextBlock>
+                </StackPanel>
+            </StackPanel>
         </Grid>
         <Grid DockPanel.Dock="Bottom">
             <Grid.ColumnDefinitions>

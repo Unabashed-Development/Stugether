@@ -34,9 +34,14 @@ namespace Model
             set
             {
                 _dateOfBirth = value;
-                Age = (value == null) ? "0 jaar" : CalculateAge(value.Value).ToString() + " Jaar";
+                Age = (value == null) ? "0 jaar" : CalculateAge(value.Value).ToString() + " jaar";
+                if (_dateOfBirth != null && _dateOfBirth.Value.Day == DateTime.Now.Day && _dateOfBirth.Value.Month == DateTime.Now.Month)
+                {
+                    Birthday = true;
+                }
             }
         }
+        public bool Birthday { get; set; }
         public School School { get; set; }
         public List<Uri> UserMedia { get; set; }
         public Uri FirstUserMedia { get; set; }
