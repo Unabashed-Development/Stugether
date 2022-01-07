@@ -63,8 +63,8 @@
                 <Label x:Name="EducationLabel" Content="{Binding MatchProfiles[0].School.Study}" Grid.Column="3" HorizontalAlignment="Center" Grid.Row="1" FontSize="16" VerticalAlignment="Stretch"/>
             </Grid>
 
-            <Button Content="Dislike" Margin="5,5,5,5" Grid.Column="1" Grid.Row="3" x:Name="DislikeButton" Command="{Binding DislikeMatchCommand}" />
-            <Button Content="Like" Margin="5,5,5,5" Grid.Column="3" Grid.Row="3" x:Name="LikeButton" Command="{Binding LikeMatchCommand}"/>
+            <Button Content="Dislike" VerticalAlignment="Top" Height="100" MaxWidth="100" Margin="5,5,5,5" Grid.Column="1" Grid.Row="3" x:Name="DislikeButton" Command="{Binding DislikeMatchCommand}" />
+            <Button Content="Like" VerticalAlignment="Top" Height="100" MaxWidth="100" Margin="5,5,5,5" Grid.Column="3" Grid.Row="3" x:Name="LikeButton" Command="{Binding LikeMatchCommand}"/>
 
             <Grid  x:Name="InterestsGrid" Margin="0,20,0,20" Grid.Column="2" Grid.Row="3" Background="{StaticResource BackgroundSecundary}" MinHeight="100px">
                 <ItemsControl x:Name="InterestControl" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding MatchProfiles[0].InterestsData.Interests}">

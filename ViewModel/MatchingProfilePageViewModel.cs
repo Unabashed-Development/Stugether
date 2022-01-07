@@ -7,14 +7,48 @@ using ViewModel.Helpers;
 using ViewModel.Commands;
 using System.Linq;
 using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace ViewModel
 {
-    public class MatchingProfilePageViewModel : INotifyPropertyChanged
+    public class MatchingProfilePageViewModel : ObservableObject
     {
 
         #region properties
+        private int _selectedImage = 0;
         private Boolean LikeView = false;
+
+        /// <summary>
+        /// Gives the image index currently selected to show on the profile page
+        /// </summary>
+        public Uri SelectedImage
+        {
+            get
+            {
+                if (Images.Count > 0)
+                {
+                    if (_selectedImage > 0 && _selectedImage < Images.Count)
+                    {
+                        return Images[_selectedImage];
+                    }
+                    else
+                        if (_selectedImage < 0)
+                    {
+                        _selectedImage += Images.Count;
+                    }
+                    return Images[_selectedImage % Images.Count];
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gives the list with media on the users profile
+        /// </summary>
+        public List<Uri> Images => MatchProfiles[0].UserMedia;
 
         //public string FirstName
         //{
@@ -110,6 +144,7 @@ namespace ViewModel
             {
                 MatchHelper.LikeHandler(Account.UserID.Value, MatchProfiles[0].UserID, 1);
                 MatchProfiles.RemoveAt(0);
+                RaisePropertyChanged("SelectedImage");
             },
             () => MatchProfiles.Count != 0);
 
@@ -123,9 +158,31 @@ namespace ViewModel
                 BlockedDataAccess.BlockUserID(Account.UserID.Value, MatchProfiles[0].UserID, BlockReason.Disliked);
                 MatchDataAccess.RemoveMatchFromUser(Account.UserID.Value, MatchProfiles[0].UserID);
                 MatchProfiles.RemoveAt(0);
-                
+                RaisePropertyChanged("SelectedImage");
+
             },
             () => MatchProfiles.Count != 0);
+
+        public ICommand PhotoNavigationButtonCommand => new RelayCommand(
+            (parameter) =>
+            {
+                if (Images.Count > 0)
+                {
+                    if ((string)parameter == "+")
+                    {
+                        _selectedImage++;
+                        _selectedImage %= Images.Count;
+                    }
+                    else if ((string)parameter == "-")
+                    {
+                        _selectedImage--;
+                        _selectedImage %= Images.Count;
+                    }
+                }
+                RaisePropertyChanged("SelectedImage");
+            },
+            () => true
+            );
         #endregion
 
 
@@ -138,19 +195,22 @@ namespace ViewModel
             get { return _matchProfiles; }
             set {
                 _matchProfiles = value;
-                OnPropertyChanged("MatchProfile");
+                RaisePropertyChanged("MatchProfiles");
             }
         }
 
-        
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        
         public MatchingProfilePageViewModel(Profile profile)
         {
             MatchProfiles = new ObservableCollection<Profile>();
-            MatchProfiles.Add(ProfileDataAccess.LoadProfile(profile.UserID));
+            
+            List<int> TempList = MatchDataAccess.GetReceivedLikesFromUser(Account.UserID.Value);
+            foreach (int UserID in TempList)
+            {
+                if (UserID != profile.UserID){
+                    MatchProfiles.Add(ProfileDataAccess.LoadProfile(UserID));
+                }
+            }
+            MatchProfiles.Insert(0, ProfileDataAccess.LoadProfile(profile.UserID));
             _matchProfiles[0].FirstName = _matchProfiles[0].FirstName + " " + _matchProfiles[0].LastName;
             LikeView = true;
         }
@@ -194,11 +254,16 @@ namespace ViewModel
             //};
         }
 
-        
-        private void OnPropertyChanged(string property = null)
+        private void CombineFirstLastName()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+            _matchProfiles.Last().FirstName = _matchProfiles.Last().FirstName + " " + _matchProfiles.Last().LastName;
         }
+
+        
+        //private void OnPropertyChanged(string property = null)
+        //{
+        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+        //}
 
     }
 }
