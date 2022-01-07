@@ -123,6 +123,7 @@ namespace ViewModel
             ViewModelMediators.Authenticated = true; // Set the authentication state of the application to true (which invokes an event)
             Profile.LoggedInProfile = ProfileDataAccess.LoadProfile(Account.UserID.Value); // Load the profile of the logged in user and set it to the static property LoggedInProfile
             ViewModelMediators.Matches = MatchHelper.LoadProfilesOfMatches(Account.UserID.Value); // Gets the matches from the database for the logged in user
+            ViewModelMediators.Likes = MatchHelper.LoadProfilesOfLikes(Account.UserID.Value); ; // Gets the likes from the database for the logged in user
         }
 
         /// <summary>

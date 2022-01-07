@@ -3,6 +3,7 @@ using Microsoft.Toolkit.Uwp.Notifications;
 using Model;
 using System.Threading;
 using ViewModel.Mediators;
+using System.Collections.Generic;
 
 namespace ViewModel.Helpers
 {
@@ -19,7 +20,7 @@ namespace ViewModel.Helpers
                 SetAccountNotificationSettings(true);
                 SetAllNotificationTimers(true, false);
             }
-            else // If logged out, set the timeouts to infinite (they don't execute) and clear the notification settings
+            else // If logged out, disable timers and clear the notification settings
             {
                 SetAccountNotificationSettings(false);
                 SetAllNotificationTimers(false, false);
@@ -51,11 +52,11 @@ namespace ViewModel.Helpers
             {
                 if (Account.NotificationSettings.Matches)
                 {
-                    Account.BackgroundThreads[keyArray[0]] = new Timer(new TimerCallback(MatchNotification), null, 3000, 3000);
+                    Account.BackgroundThreads[keyArray[0]] = new Timer(MatchOrLikeNotification, MatchOrLike.Matched, 5000, 5000);
                 }
                 if (Account.NotificationSettings.Likes)
                 {
-                    // Implement
+                    Account.BackgroundThreads[keyArray[1]] = new Timer(MatchOrLikeNotification, MatchOrLike.Liked, 5000, 5000);
                 }
                 if (Account.NotificationSettings.Chat)
                 {
@@ -91,37 +92,91 @@ namespace ViewModel.Helpers
         /// <summary>
         /// Checks if the user has received any new matches and throws a notification.
         /// </summary>
-        private static void MatchNotification(object state)
+        private static void MatchOrLikeNotification(object matchOrLike)
         {
-            // Load the current matches from the database and the matches loaded at the start of the application.
-            int currentMatchCount = MatchDataAccess.GetAllMatchesFromUser(Account.UserID.Value, MatchOrLike.Matched).Count;
-            int loadedMatchCount = Account.Matches.Count;
+            HashSet<int> current;
+            HashSet<int> previous = new HashSet<int>();
+            List<Profile> profileList;
 
-            // If the amount of matches are the different, execute
-            if (currentMatchCount != loadedMatchCount)
+            // Prepares data depending on the match or like handling
+            if ((MatchOrLike)matchOrLike == MatchOrLike.Matched)
             {
-                // Reload the profiles of the matches, so if there are less matches, the profiles get reloaded too
-                ViewModelMediators.Matches = MatchHelper.LoadProfilesOfMatches(Account.UserID.Value);
+                current = new HashSet<int>(MatchDataAccess.GetAllMatchesFromUser(Account.UserID.Value, MatchOrLike.Matched));
+                profileList = ViewModelMediators.Matches;
+            }
+            else
+            {
+                current = new HashSet<int>(MatchDataAccess.GetReceivedLikesFromUser(Account.UserID.Value));
+                profileList = ViewModelMediators.Likes;
+            }
 
-                // If the current matches are more (so there is a new match instead of an unmatch), execute
-                if (currentMatchCount > loadedMatchCount)
+            // Add the user ID's to the HashSet
+            foreach (Profile p in profileList)
+            {
+                previous.Add(p.UserID);
+            }
+
+            // Returns only new user ID's
+            current.ExceptWith(previous);
+
+            // If the amounts are different OR there is at least 1 new user...
+            if (current.Count != previous.Count || current.Count > 0)
+            {
+                // ...reload the profiles
+                if ((MatchOrLike)matchOrLike == MatchOrLike.Matched)
                 {
-                    ThrowMatchNotification(); // Throw new match notification 
+                    ViewModelMediators.Matches = MatchHelper.LoadProfilesOfMatches(Account.UserID.Value);
+                }
+                else
+                {
+                    ViewModelMediators.Likes = MatchHelper.LoadProfilesOfLikes(Account.UserID.Value);
+                }
+
+                // If the current amount are more (so there is a new user instead of an user who removed you)...
+                if (current.Count > 0)
+                {
+                    // Throw new notification with amount of new matches or likes
+                    ThrowMatchOrLikeNotification((MatchOrLike)matchOrLike, current.Count);
                 }
             }
         }
 
         /// <summary>
-        /// Throws a new match notification to Windows using Toast.
+        /// Throws a new match or like notification to Windows using Toast.
         /// Requires Microsoft.Toolkit.Uwp.Notifications NuGet package version 7.0 or greater
         /// https://docs.microsoft.com/en-us/windows/apps/design/shell/tiles-and-notifications/send-local-toast?tabs=desktop#step-4-implement-the-activator
         /// </summary>
-        private static void ThrowMatchNotification()
+        /// <param name="matchOrLike">Determines if a match or a like notification needs to be shown.</param>
+        private static void ThrowMatchOrLikeNotification(MatchOrLike matchOrLike, int amountOfMatchesOrLikes)
         {
+            string topText;
+            string bottomText;
+
+            if (matchOrLike == MatchOrLike.Matched)
+            {   
+                topText = $"Je hebt {amountOfMatchesOrLikes} nieuwe Stugether match!";
+                bottomText = "Wat leuk! Kijk snel wie!";
+                if (amountOfMatchesOrLikes > 1)
+                {
+                    topText = topText.Remove(topText.Length - 1);
+                    topText += "es!";
+                }
+            }
+            else
+            {
+                topText = $"Je hebt {amountOfMatchesOrLikes} nieuwe Stugether like!";
+                bottomText = "Interessant... wie zou dat zijn?";
+                if (amountOfMatchesOrLikes > 1)
+                {
+                    topText = topText.Remove(topText.Length - 1);
+                    topText += "s!";
+                }
+            }
+
             new ToastContentBuilder()
             .AddArgument("OverviewMatches.xaml") // Arguments gets used to open this page if notification is clicked on
-            .AddText("Je hebt een nieuwe Stugether match!")
-            .AddText("Wat leuk! Kijk snel wie!")
+            .AddText(topText)
+            .AddText(bottomText)
             .Show();
         }
         #endregion

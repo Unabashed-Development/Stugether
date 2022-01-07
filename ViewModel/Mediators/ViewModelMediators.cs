@@ -14,6 +14,7 @@ namespace ViewModel.Mediators
         public static event Action AuthenticationStateChanged;
         public static event Action MainWindowPageChanged;
         public static event Action MatchesChanged;
+        public static event Action LikesChanged;
         #endregion
 
         #region Properties
@@ -44,6 +45,16 @@ namespace ViewModel.Mediators
             {
                 Account.Matches = value;
                 MatchesChanged?.Invoke();
+            }
+        }
+
+        public static List<Profile> Likes
+        {
+            get => Account.Likes;
+            set
+            {
+                Account.Likes = value;
+                LikesChanged?.Invoke();
             }
         }
         #endregion

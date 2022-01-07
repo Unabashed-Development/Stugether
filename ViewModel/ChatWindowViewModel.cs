@@ -3,7 +3,9 @@ using Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
+using System.Linq;
+using System.Threading;
+using System.Windows.Input;
 using ViewModel.Commands;
 
 namespace ViewModel
@@ -14,7 +16,15 @@ namespace ViewModel
     public class ChatWindowViewModel : ObservableObject
     {
         private ObservableCollection<ChatMessage> chatMessages = new ObservableCollection<ChatMessage>();
+        private readonly object chatMessagesLock = new object();
         private Profile receiver;
+        private string backgroundThreadName = "";
+
+        /// <summary>
+        /// The delegate which allows executing on UI thread.
+        /// This is assigned in the View containing a Dispatcher.Invoke implementation.
+        /// </summary>
+        public Action<Action> DispatcherDelegate { internal get; set; }
 
         /// <summary>
         /// The other end of this chat
@@ -40,23 +50,92 @@ namespace ViewModel
         /// </summary>
         public ObservableCollection<ChatMessage> ChatMessages
         {
-            get => chatMessages;
+            get
+            {
+                lock (chatMessagesLock)
+                {
+                    return chatMessages;
+                }
+            }
             set
             {
-                chatMessages = value;
-                RaisePropertyChanged("ChatMessages");
+                lock (chatMessagesLock)
+                {
+                    chatMessages = value;
+                    RaisePropertyChanged("ChatMessages");
+                }
             }
         }
         /// <summary>
         /// The title of the Window, showing the full name of the receiving side and amount of unread messages
         /// </summary>
-        public string Title
+        public string Title => Receiver.FirstName + " " + Receiver.LastName;
+
+        /// <summary>
+        /// Fetches and filters the new chat messages.
+        /// </summary>
+        private void RefreshChats() { RefreshChats(null); }
+        /// <summary>
+        /// Fetches and filters the new chat messages.
+        /// </summary>
+        /// <param name="state">Unused parameter to comply with TimerCallback</param>
+        private void RefreshChats(object? state)
         {
-            get
+            List<ChatMessage> updatedChats = ChatDataAccess.LoadChatMessages(Sender.UserID, Receiver.UserID);
+            IEnumerable<ChatMessage> newChats = from msg in updatedChats
+                                                where !ChatMessages.Contains(msg)
+                                                select msg;
+            System.Diagnostics.Debug.WriteLine("New messages: " + newChats.Count(), backgroundThreadName);
+
+            DispatcherDelegate?.Invoke(() => { OnNewMessagesLoaded(newChats); });
+        }
+
+        /// <summary>
+        /// This method updates the ObservableObject with chat messages.
+        /// </summary>
+        /// <remarks><strong>Warning:</strong> This has to be executed on the same thread as the variable chatMessages</remarks>
+        /// <param name="messages">A list containing the new messages to be added to ChatMessages.</param>
+        private void OnNewMessagesLoaded(IEnumerable<ChatMessage> messages)
+        {
+            foreach (ChatMessage msg in messages)
             {
-                return Receiver.FirstName + " " + Receiver.LastName;
+                lock (chatMessagesLock)
+                {
+                    chatMessages.Add(msg);
+                }
             }
         }
+
+
+        private string sendMessageContent = "";
+
+        /// <summary>
+        /// The text presented in the textbox for sending a new message
+        /// </summary>
+        public string SendMessageContent
+        {
+            get { return sendMessageContent; }
+            set
+            {
+                sendMessageContent = value;
+                RaisePropertyChanged("SendMessageContent");
+            }
+        }
+
+        /// <summary>
+        /// When initiated, it pushes a new message to the database, so the message is sent
+        /// </summary>
+        public ICommand SendChatMessageCommand => new RelayCommand(
+            () =>
+        {
+            if (!string.IsNullOrEmpty(SendMessageContent) && !string.IsNullOrWhiteSpace(SendMessageContent))
+            {
+                ChatDataAccess.SendMessage(Sender.UserID, Receiver.UserID, SendMessageContent);
+                SendMessageContent = "";
+            }
+        },
+            () => true);
+
 
         /// <summary>
         /// Creates an empty conversation
@@ -65,6 +144,7 @@ namespace ViewModel
         {
 
         }
+
         /// <summary>
         /// Creates a conversationViewModel with given userId
         /// </summary>
@@ -79,6 +159,17 @@ namespace ViewModel
         {
             Receiver = otherUser;
             ChatMessages = new ObservableCollection<ChatMessage>(ChatDataAccess.LoadChatMessages(Sender.UserID, Receiver.UserID));
+            backgroundThreadName = "Chat " + Receiver.FirstName + Receiver.LastName;
+            Account.BackgroundThreads[backgroundThreadName] = new Timer(RefreshChats, null, 500, 500);
+        }
+
+        /// <summary>
+        /// Destructs ChatWindowViewModel, and so stops the background timer for updating chats
+        /// </summary>
+        ~ChatWindowViewModel()
+        {
+            Account.BackgroundThreads[backgroundThreadName].Dispose();
+            Account.BackgroundThreads.Remove(backgroundThreadName);
         }
     }
 }

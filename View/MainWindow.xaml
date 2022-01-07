@@ -8,6 +8,7 @@
         xmlns:vmc="clr-namespace:ViewModel.Commands;assembly=ViewModel"
         xmlns:converters="clr-namespace:View.Converters"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Style="{StaticResource {x:Type Window}}"
         Title="Stugether" Height="450" Width="800">
     <Window.DataContext>
@@ -16,7 +17,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition MaxWidth="150"/>
-            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
