@@ -153,7 +153,7 @@ namespace ViewModel.Helpers
             string bottomText;
 
             if (matchOrLike == MatchOrLike.Matched)
-            {   
+            {
                 topText = $"Je hebt {amountOfMatchesOrLikes} nieuwe Stugether match!";
                 bottomText = "Wat leuk! Kijk snel wie!";
                 if (amountOfMatchesOrLikes > 1)
