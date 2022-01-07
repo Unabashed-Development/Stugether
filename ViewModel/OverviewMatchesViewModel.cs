@@ -76,13 +76,11 @@ namespace ViewModel
         /// </summary>
         private void GetMatches()
         {
-            Account.Matches = MatchHelper.LoadProfilesOfMatches(Account.UserID.Value);
             Matches = new ObservableCollection<Profile>(Account.Matches);
         }
 
         private void GetLikes()
         {
-            Account.Likes = MatchHelper.LoadProfilesOfLikes(Account.UserID.Value);
             Likes = new ObservableCollection<Profile>(Account.Likes);
         }
         #endregion
