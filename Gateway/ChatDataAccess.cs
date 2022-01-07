@@ -56,7 +56,19 @@ namespace Gateway
         public static int GetUnreadMessages(int ownUserId, int otherUserId)
         {
             using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
-            return connection.QuerySingle<int>("SELECT COUNT(Seen) FROM ChatMessage WHERE FromUserId=@other AND ToUserId=@own AND Seen=1", new { own = ownUserId, other = otherUserId });
+            return connection.QuerySingle<int>("SELECT COUNT(Seen) FROM ChatMessage WHERE FromUserId=@other AND ToUserId=@own AND Seen=0", new { own = ownUserId, other = otherUserId });
+        }
+
+        /// <summary>
+        /// Set the seen status on a specified message
+        /// </summary>
+        /// <param name="ownUserId">The user viewing the chat</param>
+        /// <param name="senderUserId">The user on the other end of the chat</param>
+        /// <param name="messageId">The id of the message to be updated</param>
+        public static void SetMessageSeen(int ownUserId, int senderUserId, int messageId)
+        {
+            using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
+            connection.Query("UPDATE ChatMessage SET Seen = 1 WHERE FromUserId = @from AND ToUserId = @to AND MessageId = @msg", new { from = senderUserId, to = ownUserId, msg = messageId });
         }
 
         /// <summary>

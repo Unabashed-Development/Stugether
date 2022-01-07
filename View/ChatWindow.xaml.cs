@@ -55,5 +55,21 @@ namespace View
                 ChatScrollViewer.ScrollToVerticalOffset(ChatScrollViewer.ExtentHeight);
             }
         }
+
+        private void OnLostFocus(object sender, EventArgs e)
+        {
+            ((ChatWindowViewModel)DataContext).ChatWindowHasFocus = false;
+            System.Diagnostics.Debug.WriteLine("Lost focus");
+        }
+
+        private void OnGotFocus(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("Got focus");
+            // Do this, so that when receiving a new message and the window is focused, it will be marked as seen immediately
+            ((ChatWindowViewModel)DataContext).ChatWindowHasFocus = true;
+
+
+            ((ChatWindowViewModel)DataContext).SeenChatMessages();
+        }
     }
 }
