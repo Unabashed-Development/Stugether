@@ -4,6 +4,11 @@ using Model;
 using System.Threading;
 using ViewModel.Mediators;
 using System.Collections.Generic;
+using System.Linq;
+using System;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 
 namespace ViewModel.Helpers
 {
@@ -60,7 +65,7 @@ namespace ViewModel.Helpers
                 }
                 if (Account.NotificationSettings.Chat)
                 {
-                    // Implement
+                    Account.BackgroundThreads[keyArray[2]] = new Timer(ChatNotifications, null, 0, 1000);
                 }
             }
         }
@@ -157,6 +162,52 @@ namespace ViewModel.Helpers
             return profileList;
         }
 
+        private static void ChatNotifications(object state)
+        {
+            List<ChatMessage> unreadChatMessages = new List<ChatMessage>();
+
+            // If the application has just started and no chat messages have been notified for,
+            // retrieve all messages and set them to seen (so there will be no notification)
+            if (Account.NotifiedChatMessages == null)
+            {
+                Account.NotifiedChatMessages = ChatDataAccess.LoadChatMessages(Account.UserID.Value);
+                foreach (ChatMessage c in Account.NotifiedChatMessages)
+                {
+                    c.Seen = true;
+                }
+            }
+            // Retrieve the chat messages again and compare them to the notified chat messages.
+            // Set all the newly received chat messages to seen if they have already been seen.
+            // Add them to the unseen chat messages list. At the end, save the chat messages to the notified list.
+            else
+            {
+                var newChatMessages = ChatDataAccess.LoadChatMessages(Account.UserID.Value);
+                foreach (ChatMessage c in newChatMessages)
+                {
+                    if (Account.NotifiedChatMessages.Any(p => p.MessageId == c.MessageId))
+                    {
+                        c.Seen = true;
+                    }
+                    else
+                    {
+                        unreadChatMessages.Add(c);
+                    }
+                }
+
+                foreach (ChatMessage c in unreadChatMessages)
+                {
+                    Profile chatProfile = Account.Matches.Where(p => p.UserID == c.FromUserId).FirstOrDefault();
+                    ThrowChatMessageNotification(chatProfile.FirstName,
+                                                 chatProfile.LastName,
+                                                 chatProfile.FirstUserMedia,
+                                                 c.Content);
+                    c.Seen = true;
+                }
+
+                Account.NotifiedChatMessages = newChatMessages;
+            }
+        }
+
         /// <summary>
         /// Throws a new match or like notification to Windows using Toast.
         /// Requires Microsoft.Toolkit.Uwp.Notifications NuGet package version 7.0 or greater
@@ -194,6 +245,48 @@ namespace ViewModel.Helpers
             .AddText(topText)
             .AddText(bottomText)
             .Show();
+        }
+
+        private static void ThrowChatMessageNotification(string firstName, string lastName, Uri firstUserMedia, string Content)
+        {
+            new ToastContentBuilder()
+            .AddArgument("OverviewMatches.xaml") // Arguments gets used to open this page if notification is clicked on
+            .AddText($"{firstName} {lastName} stuurde een bericht")
+            .AddText(Content)
+            .AddAppLogoOverride(firstUserMedia, ToastGenericAppLogoCrop.Circle)
+            .Show();
+        }
+
+        /// <summary>
+        /// Resize the image to the specified width and height.
+        /// </summary>
+        /// <param name="image">The image to resize.</param>
+        /// <param name="width">The width to resize to.</param>
+        /// <param name="height">The height to resize to.</param>
+        /// <returns>The resized image.</returns>
+        public static Bitmap ResizeImage(Image image, int width, int height)
+        {
+            Rectangle destRect = new Rectangle(0, 0, width, height);
+            Bitmap destImage = new Bitmap(width, height);
+
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (Graphics graphics = Graphics.FromImage(destImage))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (ImageAttributes wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+
+            return destImage;
         }
         #endregion
     }

@@ -27,12 +27,31 @@ namespace Gateway
                   WHERE (FromUserId=@own AND ToUserId=@other) OR
                         (FromUserId=@other AND ToUserId=@own)
                   ORDER BY SentTime",
-                new { own = OwnUserId, other = OtherUserId }
+                (own: OwnUserId, other: OtherUserId)
                 ).AsList().ForEach((msg) =>
             {
                 msg.Direction = msg.FromUserId == OwnUserId ? ChatMessage.MessageDirection.Send : ChatMessage.MessageDirection.Received;
                 result.Add(msg);
             });
+            return result;
+        }
+
+        /// <summary>
+        /// Loads all the chat messages from everyone sent to a certain own user ID.
+        /// </summary>
+        /// <param name="OwnUserId">The user the messages have been sent to.</param>
+        /// <returns>A List with all ChatMessages</returns>
+        public static List<ChatMessage> LoadChatMessages(int OwnUserId)
+        {
+            using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
+            List<ChatMessage> result = new List<ChatMessage>();
+            result = connection.Query<ChatMessage>(
+                @"SELECT * FROM ChatMessage
+                  WHERE ToUserId = @own
+                  AND Seen = 0
+                  ORDER BY SentTime",
+                new { own = OwnUserId }
+                ).AsList();
             return result;
         }
 
