@@ -13,95 +13,94 @@ namespace ViewModel
     public class MatchingProfilePageViewModel : INotifyPropertyChanged
     {
 
-        #region oldPropery
-        public string FirstName
-        {
-            get => _matchingProfile.FirstName;
-            set
-            {
-                _matchingProfile.FirstName = value;
-                OnPropertyChanged("FirstName");
-            }
-        }
-        public string LastName
-        {
-            get => _matchingProfile.LastName;
-            set
-            {
-                _matchingProfile.LastName = value;
-                OnPropertyChanged("LastName");
-            }
-        }
+        #region properties
+        private Boolean LikeView = false;
 
-        public string Name
-        {
-            get => _matchingProfile.FirstName + " " + _matchingProfile.LastName;
-        }
+        //public string FirstName
+        //{
+        //    get => _matchingProfile.FirstName;
+        //    set
+        //    {
+        //        _matchingProfile.FirstName = value;
+        //        OnPropertyChanged("FirstName");
+        //    }
+        //}
+        //public string LastName
+        //{
+        //    get => _matchingProfile.LastName;
+        //    set
+        //    {
+        //        _matchingProfile.LastName = value;
+        //        OnPropertyChanged("LastName");
+        //    }
+        //}
 
-        public string School
-        {
-            get => _matchingProfile.School.SchoolName;
-            set
-            {
-                _matchingProfile.School.SchoolName = value;
-                OnPropertyChanged("School");
-            }
-        }
+        //public string Name => MatchProfiles[0].FirstName + " " + MatchProfiles[0].LastName;
 
-        public string City
-        {
-            get => _matchingProfile.City;
-            set
-            {
-                _matchingProfile.City = value;
-                OnPropertyChanged("City");
-            }
-        }
+        //public string School
+        //{
+        //    get => _matchingProfile.School.SchoolName;
+        //    set
+        //    {
+        //        _matchingProfile.School.SchoolName = value;
+        //        OnPropertyChanged("School");
+        //    }
+        //}
 
-        public string Study
-        {
-            get => _matchingProfile.School.Study;
-            set
-            {
-                _matchingProfile.School.Study = value;
-                OnPropertyChanged("Study");
-            }
-        }
+        //public string City
+        //{
+        //    get => _matchingProfile.City;
+        //    set
+        //    {
+        //        _matchingProfile.City = value;
+        //        OnPropertyChanged("City");
+        //    }
+        //}
 
-        public string Age
-        {
-            get => _matchingProfile.Age;
-            set
-            {
-                _matchingProfile.Age = value;
-                OnPropertyChanged("Age");
-            }
-        }
+        //public string Study
+        //{
+        //    get => _matchingProfile.School.Study;
+        //    set
+        //    {
+        //        _matchingProfile.School.Study = value;
+        //        OnPropertyChanged("Study");
+        //    }
+        //}
 
-        public string Description
-        {
-            get => _matchingProfile.Description;
-            set
-            {
-                _matchingProfile.Description = value;
-                OnPropertyChanged("Description");
-            }
-        }
+        //public string Age
+        //{
+        //    get => _matchingProfile.Age;
+        //    set
+        //    {
+        //        _matchingProfile.Age = value;
+        //        OnPropertyChanged("Age");
+        //    }
+        //}
 
-        public InterestsData InterestsData
-        {
-            get => _matchingProfile.InterestsData;
-            set
-            {
-                _matchingProfile.InterestsData = value;
-                OnPropertyChanged("InterestsData");
-            }
-        }
+        //public string Description
+        //{
+        //    get => _matchingProfile.Description;
+        //    set
+        //    {
+        //        _matchingProfile.Description = value;
+        //        OnPropertyChanged("Description");
+        //    }
+        //}
+
+        //public InterestsData InterestsData
+        //{
+        //    get => _matchingProfile.InterestsData;
+        //    set
+        //    {
+        //        _matchingProfile.InterestsData = value;
+        //        OnPropertyChanged("InterestsData");
+        //    }
+        //}
 
         #endregion
 
         #region Commands
-        
+
         /// <summary>
         /// Gives the Users and Matched UserID to the method LikeHandler, were after it deletes the matched UserID from the list of potential matches.
         /// </summary>
@@ -122,14 +121,15 @@ namespace ViewModel
             () =>
             {
                 BlockedDataAccess.BlockUserID(Account.UserID.Value, MatchProfiles[0].UserID, BlockReason.Disliked);
+                MatchDataAccess.RemoveMatchFromUser(Account.UserID.Value, MatchProfiles[0].UserID);
                 MatchProfiles.RemoveAt(0);
+                
             },
             () => MatchProfiles.Count != 0);
         #endregion
 
 
-        private Profile _matchingProfile;
-
+        //private Profile _matchingProfile;
 
         private ObservableCollection<Profile> _matchProfiles;
 
@@ -146,6 +146,14 @@ namespace ViewModel
 
 
         public event PropertyChangedEventHandler PropertyChanged;
+        
+        public MatchingProfilePageViewModel(Profile profile)
+        {
+            MatchProfiles = new ObservableCollection<Profile>();
+            MatchProfiles.Add(ProfileDataAccess.LoadProfile(profile.UserID));
+            _matchProfiles[0].FirstName = _matchProfiles[0].FirstName + " " + _matchProfiles[0].LastName;
+            LikeView = true;
+        }
 
         /// <summary>
         /// First, a list with profiles is being stored in var l, were after the full profile is being accessed by using the userID from those profiles.
@@ -161,7 +169,10 @@ namespace ViewModel
             foreach (var item in l)
             {
                 MatchProfiles.Add(ProfileDataAccess.LoadProfile(item.UserID));
+                _matchProfiles.Last().FirstName = _matchProfiles.Last().FirstName + " " + _matchProfiles.Last().LastName;
             }
+            
+            
 
             
            
@@ -183,8 +194,7 @@ namespace ViewModel
             //};
         }
 
-
-
+        
         private void OnPropertyChanged(string property = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
