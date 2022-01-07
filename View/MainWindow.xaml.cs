@@ -3,6 +3,8 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Reflection;
+using System.Windows.Navigation;
+using ViewModel.Mediators;
 
 namespace View
 {
@@ -30,6 +32,9 @@ namespace View
                     WindowState = WindowState.Normal;
                     ni.Visible = false;
                 };
+
+            // Clear navigation history once the authentication has finished
+            ViewModelMediators.AuthenticationStateChanged += ClearPagesHistory;
         }
 
         protected override void OnStateChanged(EventArgs e)
@@ -42,6 +47,23 @@ namespace View
             }
 
             base.OnStateChanged(e);
+        }
+
+        /// <summary>
+        /// Clears the history of the frContent frame located on the main page.
+        /// </summary>
+        public void ClearPagesHistory()
+        {
+            if (!frContent.CanGoBack && !frContent.CanGoForward)
+            {
+                return;
+            }
+
+            JournalEntry entry = frContent.RemoveBackEntry();
+            while (entry != null)
+            {
+                entry = frContent.RemoveBackEntry();
+            }
         }
     }
 }

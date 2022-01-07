@@ -14,16 +14,20 @@ namespace ViewModel.Helpers
         /// <returns>A list of matched profiles.</returns>
         public static List<Profile> LoadProfilesOfMatches(int userID)
         {
+            List<Profile> matchesList = new List<Profile>();
             List<int> matchedIDs = MatchDataAccess.GetAllMatchesFromUser(userID, MatchOrLike.Matched);
-            return (from int id in matchedIDs
-                    select ProfileDataAccess.LoadProfile(id)).ToList();
+            matchesList = (from int id in matchedIDs
+                           select ProfileDataAccess.LoadProfile(id)).ToList();
+            return matchesList;
         }
 
         public static List<Profile> LoadProfilesOfLikes(int userID)
         {
+            List<Profile> likesList = new List<Profile>();
             List<int> likedIDs = MatchDataAccess.GetReceivedLikesFromUser(userID);
-            return (from int id in likedIDs
-                    select ProfileDataAccess.LoadProfile(id)).ToList();
+            likesList = (from int id in likedIDs
+                         select ProfileDataAccess.LoadProfile(id)).ToList();
+            return likesList;
         }
 
         /// <summary>
