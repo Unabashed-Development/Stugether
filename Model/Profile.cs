@@ -45,6 +45,8 @@ namespace Model
         public School School { get; set; }
         public List<Uri> UserMedia { get; set; }
         public Uri FirstUserMedia { get; set; }
+        public int UnreadChatMessages { get; set; }
+        public bool HasUnreadChatMessages { get => UnreadChatMessages > 0; }
         #endregion
 
         #region constructors

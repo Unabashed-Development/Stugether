@@ -18,6 +18,7 @@ namespace ViewModel.Helpers
             List<int> matchedIDs = MatchDataAccess.GetAllMatchesFromUser(userID, MatchOrLike.Matched);
             matchesList = (from int id in matchedIDs
                            select ProfileDataAccess.LoadProfile(id)).ToList();
+            matchesList = matchesList.Select((p) => { p.UpdateUnreadMessages(userID); return p; }).ToList(); ;
             return NotificationHelper.FixBirthdayPreferences(matchesList);
         }
 

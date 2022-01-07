@@ -37,14 +37,13 @@ namespace Gateway
         }
 
         /// <summary>
-        /// Gets the amount of unread messages between this profile and given user id
+        /// Gets the amount of unread messages between this profile and given user id and puts it in the profile
         /// </summary>
         /// <param name="profile">The profile on the other end</param>
         /// <param name="ownUserId">The person viewing the chat</param>
-        /// <returns>The amount of unread messages in this chat</returns>
-        public static int GetUnreadMessages(this Profile profile, int ownUserId)
+        public static void UpdateUnreadMessages(this Profile profile, int ownUserId)
         {
-            return GetUnreadMessages(profile.UserID, ownUserId);
+            profile.UnreadChatMessages = GetUnreadMessages(ownUserId, profile.UserID);
         }
 
         /// <summary>
