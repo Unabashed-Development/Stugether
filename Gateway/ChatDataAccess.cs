@@ -27,7 +27,7 @@ namespace Gateway
                   WHERE (FromUserId=@own AND ToUserId=@other) OR
                         (FromUserId=@other AND ToUserId=@own)
                   ORDER BY SentTime",
-                (own: OwnUserId, other: OtherUserId)
+                new { own = OwnUserId, other = OtherUserId }
                 ).AsList().ForEach((msg) =>
             {
                 msg.Direction = msg.FromUserId == OwnUserId ? ChatMessage.MessageDirection.Send : ChatMessage.MessageDirection.Received;
