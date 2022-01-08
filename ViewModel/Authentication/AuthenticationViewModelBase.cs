@@ -120,6 +120,7 @@ namespace ViewModel
             {
                 Account.UserID = AccountDataAccess.GetUserIDFromAccount(Email); // Get the user ID from the account and save it in the application
             }
+
             ViewModelMediators.Matches = MatchHelper.LoadProfilesOfMatches(Account.UserID.Value); // Gets the matches from the database for the logged in user
             ViewModelMediators.Likes = MatchHelper.LoadProfilesOfLikes(Account.UserID.Value); ; // Gets the likes from the database for the logged in user
             Profile.LoggedInProfile = ProfileDataAccess.LoadProfile(Account.UserID.Value); // Load the profile of the logged in user and set it to the static property LoggedInProfile
