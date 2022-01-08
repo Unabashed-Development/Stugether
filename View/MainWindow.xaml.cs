@@ -81,26 +81,19 @@ namespace View
             string[] toastArgumentArray = toastArgs.Argument.Split('='); // Split the arguments in key and value (array)
             if (toastArgumentArray[0] == "Chat")
             {
-                System.Windows.Application.Current.Dispatcher.Invoke(delegate // Dispatcher delegate for threads
+                int toastArgumentUserID = int.Parse(toastArgumentArray[1]);
+                if (!OverviewMatches.FocusOpenedWindow<ChatWindow>(toastArgumentUserID))
                 {
-                    // Check if the window is already open, and if so, focus it instead of opening a new window
-                    foreach (ChatWindow cw in System.Windows.Application.Current.Windows.OfType<ChatWindow>())
+                    System.Windows.Application.Current.Dispatcher.Invoke(delegate // Dispatcher delegate for threads
                     {
-                        if (((ChatWindowViewModel)cw.DataContext).Receiver.UserID == int.Parse(toastArgumentArray[1]))
+                        // If there have been no ChatWindows found for the sending user, open a new window
+                        ChatWindow chatWindow = new ChatWindow
                         {
-                            cw.Focus();
-                            return;
-                        }
-                    }
-
-                    // If there have been no ChatWindows found for the sending user, open a new window
-                    ChatWindow chatWindow = new ChatWindow
-                    {
-                        DataContext = new ChatWindowViewModel(int.Parse(toastArgumentArray[1]))
-                    };
-
-                    OverviewMatches.Chat_Base(chatWindow);
-                });
+                            DataContext = new ChatWindowViewModel(toastArgumentUserID)
+                        };
+                        OverviewMatches.Chat_Base(chatWindow);
+                    });
+                }
             }
         }
     }
