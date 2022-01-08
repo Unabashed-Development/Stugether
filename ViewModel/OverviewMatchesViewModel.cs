@@ -49,7 +49,6 @@ namespace ViewModel
 
         #region Commands
         public ICommand UnmatchCommand => new RelayCommand((parameter) => UnmatchParameterUserID((int)parameter), () => true);
-        public ICommand MatchCommand => new RelayCommand((parameter) => MatchParameterUserID((int)parameter), () => true);
         #endregion
 
         #region Methods
@@ -64,13 +63,6 @@ namespace ViewModel
             ViewModelMediators.Matches = MatchHelper.LoadProfilesOfMatches(Account.UserID.Value); // Reload the profiles of the matches 
         }
 
-        private void MatchParameterUserID(int userID)
-        {
-            MatchDataAccess.SetMatchToUserIDs(Account.UserID.Value, userID);
-            GetLikes();
-            GetMatches();
-        }
-
         /// <summary>
         /// Sets the ObservableCollection for Matches.
         /// </summary>
@@ -79,6 +71,9 @@ namespace ViewModel
             Matches = new ObservableCollection<Profile>(Account.Matches);
         }
 
+        /// <summary>
+        /// Sets the ObservableCollection for Likes.
+        /// </summary>
         private void GetLikes()
         {
             Likes = new ObservableCollection<Profile>(Account.Likes);

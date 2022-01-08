@@ -9,12 +9,10 @@
       d:DesignHeight="1920" d:DesignWidth="1080"
       Title="Match">
 
-    <Page.Resources>
-        <VM:MatchingProfilePageViewModel x:Key="vm"/>
-    </Page.Resources>
+    
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" IsEnabled="True">
-        <Grid x:Name="AllGrids" DataContext="{StaticResource vm}" Background="{StaticResource BackgroundSecundary}">
+        <Grid x:Name="AllGrids" Background="{StaticResource BackgroundSecundary}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="5*"/>
                 <RowDefinition Height="35*"/>
@@ -47,7 +45,7 @@
                     <Path Margin="0,0,2,0" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 16 16 L 0 32 Z" Fill="#FF444444"/>
                 </Button>
             </Grid>
-            <Grid DataContext="{Binding MatchProfiles}" x:Name="MainInfoGrid" Grid.Column="2" Grid.Row="2" Background="{StaticResource BackgroundSecundary}">
+            <Grid x:Name="MainInfoGrid" Grid.Column="2" Grid.Row="2" Background="{StaticResource BackgroundSecundary}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="25*"/>
                     <ColumnDefinition Width="25*"/>
@@ -58,18 +56,18 @@
                     <RowDefinition Height="60*"/>
                     <RowDefinition Height="40*"/>
                 </Grid.RowDefinitions>
-                <Label x:Name="NameLabel" HorizontalAlignment="Center" Content="{Binding FirstName}" Grid.ColumnSpan="4" Grid.RowSpan="1" FontSize="32" Margin="0, 20, 0, 20"/>
-                <Label x:Name="AgeLabel" Content="{Binding Age}" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Stretch" FontSize="16"/>
-                <Label x:Name="LocationLabel" Content="{Binding City}" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="1" FontSize="16" VerticalAlignment="Stretch"/>
-                <Label x:Name="SchoolNameLabel" Content="{Binding School.SchoolName}" Grid.Column="2" HorizontalAlignment="Center" Grid.Row="1" FontSize="16" VerticalAlignment="Stretch"/>
-                <Label x:Name="EducationLabel" Content="{Binding School.Study}" Grid.Column="3" HorizontalAlignment="Center" Grid.Row="1" FontSize="16" VerticalAlignment="Stretch"/>
+                <Label x:Name="NameLabel" HorizontalAlignment="Center" Content="{Binding MatchProfiles[0].FirstName}" Grid.ColumnSpan="4" Grid.RowSpan="1" FontSize="32" Margin="0, 20, 0, 20"/>
+                <Label x:Name="AgeLabel" Content="{Binding MatchProfiles[0].Age}" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Stretch" FontSize="16"/>
+                <Label x:Name="LocationLabel" Content="{Binding MatchProfiles[0].City}" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="1" FontSize="16" VerticalAlignment="Stretch"/>
+                <Label x:Name="SchoolNameLabel" Content="{Binding MatchProfiles[0].School.SchoolName}" Grid.Column="2" HorizontalAlignment="Center" Grid.Row="1" FontSize="16" VerticalAlignment="Stretch"/>
+                <Label x:Name="EducationLabel" Content="{Binding MatchProfiles[0].School.Study}" Grid.Column="3" HorizontalAlignment="Center" Grid.Row="1" FontSize="16" VerticalAlignment="Stretch"/>
             </Grid>
-            
-            <Button Content="Dislike" Margin="5,5,5,5" Grid.Column="1" Grid.Row="3" x:Name="DislikeButton" Command="{Binding DislikeMatchCommand}" />
-            <Button Content="Like" Margin="5,5,5,5" Grid.Column="3" Grid.Row="3" x:Name="LikeButton" Command="{Binding LikeMatchCommand}"/>
 
-            <Grid  x:Name="InterestsGrid" DataContext="{Binding MatchProfiles}" Margin="0,20,0,20" Grid.Column="2" Grid.Row="3" Background="{StaticResource BackgroundSecundary}" MinHeight="100px">
-                <ItemsControl x:Name="InterestControl" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding InterestsData.Interests}">
+            <Button Content="Dislike" VerticalAlignment="Top" Height="100" MaxWidth="100" Margin="5,5,5,5" Grid.Column="1" Grid.Row="3" x:Name="DislikeButton" Command="{Binding DislikeMatchCommand}" />
+            <Button Content="Like" VerticalAlignment="Top" Height="100" MaxWidth="100" Margin="5,5,5,5" Grid.Column="3" Grid.Row="3" x:Name="LikeButton" Command="{Binding LikeMatchCommand}"/>
+
+            <Grid  x:Name="InterestsGrid" Margin="0,20,0,20" Grid.Column="2" Grid.Row="3" Background="{StaticResource BackgroundSecundary}" MinHeight="100px">
+                <ItemsControl x:Name="InterestControl" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding MatchProfiles[0].InterestsData.Interests}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel IsItemsHost="True" HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -85,8 +83,8 @@
                 </ItemsControl>
             </Grid>
 
-            <Grid x:Name="InformationTextGrid" DataContext="{Binding MatchProfiles}" Margin="0,20,0,20" Grid.Column="2" Grid.Row="4" Background="{StaticResource BackgroundSecundary}" MinHeight="250px">
-                <TextBlock x:Name="DescriptionTextBox" TextWrapping="WrapWithOverflow" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" FontSize="18" Text="{Binding Description}"/>
+            <Grid x:Name="InformationTextGrid" Margin="0,20,0,20" Grid.Column="2" Grid.Row="4" Background="{StaticResource BackgroundSecundary}" MinHeight="250px">
+                <TextBlock x:Name="DescriptionTextBox" TextWrapping="WrapWithOverflow" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" FontSize="18" Text="{Binding MatchProfiles[0].Description}"/>
             </Grid>
 
             <Grid x:Name="QAGrid" Grid.Column="2" Grid.Row="5" Background="{StaticResource BackgroundSecundary}"/>

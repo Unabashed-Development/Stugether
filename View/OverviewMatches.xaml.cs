@@ -26,6 +26,17 @@ namespace View
             profileWindow.Show(); // Show the authentication window
         }
 
+        /// <summary>
+        /// Initialize a new window with the matchprofile from the RoutedEventArgs and the constructor of ProfileWindow.
+        /// </summary>
+        private void MatchingProfile_Click(object sender, RoutedEventArgs e)
+        {
+            ProfileWindow profileWindow = new ProfileWindow();
+            profileWindow.ProfileWindowFrame.Content = new MatchingProfilePage(new MatchingProfilePageViewModel(((Button)sender).DataContext as Profile));
+
+            profileWindow.Show(); // Show the authentication window
+        }
+
         private void Chat_Click(object sender, RoutedEventArgs e)
         {
             ChatWindow chatWindow = new ChatWindow
