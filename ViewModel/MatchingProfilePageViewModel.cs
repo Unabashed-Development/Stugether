@@ -163,6 +163,9 @@ namespace ViewModel
             },
             () => MatchProfiles.Count != 0);
 
+        /// <summary>
+        /// Handles the next and previous buttons for the photos on the profile page
+        /// </summary>
         public ICommand PhotoNavigationButtonCommand => new RelayCommand(
             (parameter) =>
             {
@@ -199,6 +202,10 @@ namespace ViewModel
             }
         }
 
+        /// <summary>
+        /// The chosen profiles is shown first where after the other profiles in the liked list are shown.
+        /// </summary>
+        /// <param name="profile"></param>
         public MatchingProfilePageViewModel(Profile profile)
         {
             MatchProfiles = new ObservableCollection<Profile>();
@@ -221,9 +228,9 @@ namespace ViewModel
 
         public MatchingProfilePageViewModel()
         {
-            
+
             var l = SearchProfileDataAccess.GetProfileBasedOnRelationType(Account.UserID.Value);
-           
+
             MatchProfiles = new ObservableCollection<Profile>();
 
             foreach (var item in l)
@@ -231,11 +238,11 @@ namespace ViewModel
                 MatchProfiles.Add(ProfileDataAccess.LoadProfile(item.UserID));
                 _matchProfiles.Last().FirstName = _matchProfiles.Last().FirstName + " " + _matchProfiles.Last().LastName;
             }
-            
-            
 
-            
-           
+
+
+
+
             //dummy
 
             //School _matchingProfileSchool = new School(42, "schoolname", "schoolcity", "study");
@@ -250,13 +257,8 @@ namespace ViewModel
             //    Description = "Laat me raden... Je hebt al de nodige bagage. Dit hele online daten is niet wat je wilt, omdat je liever iemand in de supermarkt ontmoet. Dat begrijp ik. En eerlijk gezegd? Ik ook. Hoi, ik ben Jack. Ik lijk niet op Ryan Gosling. Ik heb geen vrijwilligerswerk gedaan in Madagaskar. En heel eerlijk? Grote vissen vind té eng om mee te poseren. Wat ik wil zeggen is… dat ik niet perfect ben. En dat verwacht ik ook niet van jou. Wat ik wel ben? Doordeweeks ga ik door het leven als datingconsulent. Het geeft me een fijn gevoel om te zien hoe eenzame mensen veranderen in stralende levensgenieters. Mensen vragen me weleens wat ik doe.En dan zeg ik: “Ik voorspel de toekomst“. Als datingconsulent heb ik geen glazen bol nodig. Ik leg foto’s van mensen naast elkaar op tafel, geen tarot kaarten.Maar wat ik van maandag tot vrijdag vooral doe, is uitkijken naar zaterdag en zondag. Want dan gaan de serieuze kleren uit en spring ik in het diepe. Letterlijk, want ik zwem graag. Het liefst met een duikfles op mijn rug om de verloren schatten van de Rijn te ontdekken. Tot nu toe zijn het alleen halve fietswrakken geweest en verroeste auto-onderdelen, maar hey… ik geef de moed niet op. Een andere schat waar ik naar op zoek ben is intelligent, creatief en een familiemens. Klinkt dat als jou? Ik geef eerlijk toe dat ik soms met een beetje geluk de toekomst van anderen kan voorspellen, maar ik ben geen helderziende.Dus, als je denkt dat wij een klik kunnen hebben… Stuur me een bericht!",
             //    School = new School(420, "Windesheim", "Zwolle", "HBO-ICT"),
             //    City = "Leeuwarden",
-            
-            //};
-        }
 
-        private void CombineFirstLastName()
-        {
-            _matchProfiles.Last().FirstName = _matchProfiles.Last().FirstName + " " + _matchProfiles.Last().LastName;
+            //};
         }
 
         

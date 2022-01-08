@@ -84,8 +84,7 @@
                                                 <Label Content="{Binding Description}" VerticalAlignment="Stretch" Width="300" FontSize="14"/>
                                             </StackPanel>
                                         </StackPanel>
-                                        <Button Content="Profiel" Margin="3,3,3,3" Click="MatchingProfile_Click"/>
-                                        <!--<Button Content="Match" Margin="3,3,3,3" Command="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.MatchCommand}" CommandParameter="{Binding UserID}"/>-->
+                                        <Button Content="Profiel" Margin="3,3,3,3" Click="MatchingProfile_Click"/>                                        
                                     </StackPanel>
                                 </Grid>
                             </ItemContainerTemplate>
