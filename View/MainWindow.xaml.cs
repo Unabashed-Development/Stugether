@@ -7,6 +7,7 @@ using System.Windows.Navigation;
 using ViewModel.Mediators;
 using Microsoft.Toolkit.Uwp.Notifications;
 using ViewModel;
+using System.Linq;
 
 namespace View
 {
@@ -77,11 +78,22 @@ namespace View
         /// <param name="toastArgs">Argument with the user ID of the chat window.</param>
         private void Chat_Notification(ToastNotificationActivatedEventArgsCompat toastArgs)
         {
-            string[] toastArgumentArray = toastArgs.Argument.Split('=');
+            string[] toastArgumentArray = toastArgs.Argument.Split('='); // Split the arguments in key and value (array)
             if (toastArgumentArray[0] == "Chat")
             {
-                System.Windows.Application.Current.Dispatcher.Invoke((Action)delegate
+                System.Windows.Application.Current.Dispatcher.Invoke(delegate // Dispatcher delegate for threads
                 {
+                    // Check if the window is already open, and if so, focus it instead of opening a new window
+                    foreach (ChatWindow cw in System.Windows.Application.Current.Windows.OfType<ChatWindow>())
+                    {
+                        if (((ChatWindowViewModel)cw.DataContext).Receiver.UserID == int.Parse(toastArgumentArray[1]))
+                        {
+                            cw.Focus();
+                            return;
+                        }
+                    }
+
+                    // If there have been no ChatWindows found for the sending user, open a new window
                     ChatWindow chatWindow = new ChatWindow
                     {
                         DataContext = new ChatWindowViewModel(int.Parse(toastArgumentArray[1]))
