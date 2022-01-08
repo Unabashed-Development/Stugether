@@ -7,7 +7,6 @@ using System.Windows.Navigation;
 using ViewModel.Mediators;
 using Microsoft.Toolkit.Uwp.Notifications;
 using ViewModel;
-using System.Linq;
 
 namespace View
 {

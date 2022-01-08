@@ -2,7 +2,6 @@
 using System.Windows.Input;
 using ViewModel.Commands;
 using ViewModel.Helpers;
-using Model;
 using ViewModel.Stores;
 
 namespace ViewModel

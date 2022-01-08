@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using Model;
 using Gateway;
 using ViewModel.Helpers;
 using ViewModel.Commands;
-using System.Linq;
-using System.Collections.Generic;
 
 namespace ViewModel
 {

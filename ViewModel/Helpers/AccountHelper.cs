@@ -1,5 +1,4 @@
 ﻿using Model;
-using Model.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
