@@ -9,6 +9,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Net;
 
 namespace ViewModel.Helpers
 {
@@ -162,6 +163,10 @@ namespace ViewModel.Helpers
             return profileList;
         }
 
+        /// <summary>
+        /// Checks if there have been any new unread chat messages since starting the application.
+        /// </summary>
+        /// <param name="state"></param>
         private static void ChatNotifications(object state)
         {
             List<ChatMessage> unreadChatMessages = new List<ChatMessage>();
@@ -247,46 +252,52 @@ namespace ViewModel.Helpers
             .Show();
         }
 
+        /// <summary>
+        /// Throws a chat notification message.
+        /// </summary>
+        /// <param name="firstName">The first name of the sender.</param>
+        /// <param name="lastName">The last name of the sender.</param>
+        /// <param name="firstUserMedia">A picture of the sender.</param>
+        /// <param name="Content">The message of the sender/</param>
         private static void ThrowChatMessageNotification(string firstName, string lastName, Uri firstUserMedia, string Content)
         {
-            new ToastContentBuilder()
-            .AddArgument("OverviewMatches.xaml") // Arguments gets used to open this page if notification is clicked on
-            .AddText($"{firstName} {lastName} stuurde een bericht")
-            .AddText(Content)
-            .AddAppLogoOverride(firstUserMedia, ToastGenericAppLogoCrop.Circle)
-            .Show();
+            const int maxFileSize = 0; // https://docs.microsoft.com/en-us/windows/apps/design/shell/tiles-and-notifications/adaptive-interactive-toasts?tabs=builder-syntax#image-size-restrictions
+            string topTextString = $"{firstName} {lastName} stuurde een bericht";
+            if (GetFileSize(firstUserMedia) <= maxFileSize) // Check if the image is less than the maximum allowed file size
+            {
+                new ToastContentBuilder()
+                .AddArgument("OverviewMatches.xaml") // Arguments gets used to open this page if notification is clicked on
+                .AddText(topTextString)
+                .AddText(Content)
+                .AddAppLogoOverride(firstUserMedia, ToastGenericAppLogoCrop.Circle)
+                .Show();
+            }
+            else // If the image is too big, use the default image
+            {
+                new ToastContentBuilder()
+                .AddArgument("OverviewMatches.xaml") // Arguments gets used to open this page if notification is clicked on
+                .AddText(topTextString)
+                .AddText(Content)
+                .Show();
+            }
         }
 
         /// <summary>
-        /// Resize the image to the specified width and height.
+        /// Tries to get the file size in bytes of an Uri.
         /// </summary>
-        /// <param name="image">The image to resize.</param>
-        /// <param name="width">The width to resize to.</param>
-        /// <param name="height">The height to resize to.</param>
-        /// <returns>The resized image.</returns>
-        public static Bitmap ResizeImage(Image image, int width, int height)
+        /// <param name="uriPath">The Uri the file size needs to be checked for.</param>
+        /// <returns>The length in megabytes.</returns>
+        private static double GetFileSize(Uri uriPath)
         {
-            Rectangle destRect = new Rectangle(0, 0, width, height);
-            Bitmap destImage = new Bitmap(width, height);
+            WebRequest webRequest = WebRequest.Create(uriPath);
+            webRequest.Method = "HEAD";
 
-            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
-
-            using (Graphics graphics = Graphics.FromImage(destImage))
+            using (WebResponse webResponse = webRequest.GetResponse())
             {
-                graphics.CompositingMode = CompositingMode.SourceCopy;
-                graphics.CompositingQuality = CompositingQuality.HighQuality;
-                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                graphics.SmoothingMode = SmoothingMode.HighQuality;
-                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-
-                using (ImageAttributes wrapMode = new ImageAttributes())
-                {
-                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
-                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
-                }
+                string fileSize = webResponse.Headers.Get("Content-Length");
+                double fileSizeInMegaByte = Math.Round(Convert.ToDouble(fileSize) / 1024.0 / 1024.0, 2);
+                return fileSizeInMegaByte;
             }
-
-            return destImage;
         }
         #endregion
     }
