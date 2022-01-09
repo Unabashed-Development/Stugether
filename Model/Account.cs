@@ -16,5 +16,6 @@ namespace Model
         public static List<Profile> Matches { get; set; }
         public static Dictionary<string, Timer> BackgroundThreads { get; set; } = new Dictionary<string, Timer>();
         public static NotificationSettings NotificationSettings { get; set; }
+        public static List<ChatMessage> NotifiedChatMessages { get; set; }
     }
 }

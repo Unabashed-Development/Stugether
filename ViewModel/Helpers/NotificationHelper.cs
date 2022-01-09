@@ -4,12 +4,15 @@ using Model;
 using System.Threading;
 using ViewModel.Mediators;
 using System.Collections.Generic;
+using System.Linq;
+using System;
+using System.Net;
 
 namespace ViewModel.Helpers
 {
     public static class NotificationHelper
     {
-        #region Methods
+        #region Thread methods
         /// <summary>
         /// Initializes all notification background threads and adds them to the BackgroundThreads dictionary in Account.
         /// </summary>
@@ -60,7 +63,7 @@ namespace ViewModel.Helpers
                 }
                 if (Account.NotificationSettings.Chat)
                 {
-                    // Implement
+                    Account.BackgroundThreads[keyArray[2]] = new Timer(ChatNotifications, null, 0, 1000);
                 }
             }
         }
@@ -142,21 +145,58 @@ namespace ViewModel.Helpers
         }
 
         /// <summary>
-        /// If it is the birthday of some users, check their birthday notification preference and fix the Birthday boolean
+        /// Checks if there have been any new unread chat messages since starting the application.
         /// </summary>
-        /// <param name="profileList">A list of profiles that need their Birthday property checked.</param>
-        public static List<Profile> FixBirthdayPreferences(List<Profile> profileList)
+        private static void ChatNotifications(object state)
         {
-            foreach (Profile p in profileList)
+            List<ChatMessage> unreadChatMessages = new List<ChatMessage>();
+
+            // If the application has just started and no chat messages have been notified for,
+            // retrieve all messages and set them to seen (so there will be no notification)
+            if (Account.NotifiedChatMessages == null)
             {
-                if (p.Birthday)
+                Account.NotifiedChatMessages = ChatDataAccess.LoadChatMessages(Account.UserID.Value);
+                foreach (ChatMessage c in Account.NotifiedChatMessages)
                 {
-                    p.Birthday = NotificationDataAccess.GetBirthdayNotificationPreference(p.UserID);
+                    c.Seen = true;
                 }
             }
-            return profileList;
-        }
+            // Retrieve the chat messages again and compare them to the notified chat messages.
+            // Set all the newly received chat messages to seen if they have already been seen.
+            // Add them to the unseen chat messages list. At the end, save the chat messages to the notified list.
+            else
+            {
+                List<ChatMessage> newChatMessages = ChatDataAccess.LoadChatMessages(Account.UserID.Value);
+                foreach (ChatMessage c in newChatMessages)
+                {
+                    if (Account.NotifiedChatMessages.Any(p => p.MessageId == c.MessageId))
+                    {
+                        c.Seen = true;
+                    }
+                    else
+                    {
+                        unreadChatMessages.Add(c);
+                    }
+                }
 
+                // Throw notifications for every new chat message
+                foreach (ChatMessage c in unreadChatMessages)
+                {
+                    Profile chatProfile = Account.Matches.FirstOrDefault(p => p.UserID == c.FromUserId);
+                    ThrowChatMessageNotification(chatProfile.FirstName,
+                                                 chatProfile.LastName,
+                                                 chatProfile.FirstUserMedia,
+                                                 c.Content,
+                                                 chatProfile.UserID);
+                    c.Seen = true;
+                }
+
+                Account.NotifiedChatMessages = newChatMessages;
+            }
+        }
+        #endregion
+
+        #region Toast notification methods
         /// <summary>
         /// Throws a new match or like notification to Windows using Toast.
         /// Requires Microsoft.Toolkit.Uwp.Notifications NuGet package version 7.0 or greater
@@ -190,10 +230,75 @@ namespace ViewModel.Helpers
             }
 
             new ToastContentBuilder()
-            .AddArgument("OverviewMatches.xaml") // Arguments gets used to open this page if notification is clicked on
+            .AddArgument("MatchOrLike", "OverviewMatches.xaml") // Arguments gets used to open this page if notification is clicked on
             .AddText(topText)
             .AddText(bottomText)
             .Show();
+        }
+
+        /// <summary>
+        /// Throws a chat notification message.
+        /// </summary>
+        /// <param name="firstName">The first name of the sender.</param>
+        /// <param name="lastName">The last name of the sender.</param>
+        /// <param name="firstUserMedia">A picture of the sender.</param>
+        /// <param name="Content">The message of the sender/</param>
+        private static void ThrowChatMessageNotification(string firstName, string lastName, Uri firstUserMedia, string Content, int userID)
+        {
+            const int maxFileSize = 0; // https://docs.microsoft.com/en-us/windows/apps/design/shell/tiles-and-notifications/adaptive-interactive-toasts?tabs=builder-syntax#image-size-restrictions
+            string topTextString = $"{firstName} {lastName} stuurde een bericht";
+            if (GetFileSize(firstUserMedia) <= maxFileSize) // Check if the image is less than the maximum allowed file size
+            {
+                new ToastContentBuilder()
+                .AddArgument("Chat", userID.ToString()) // Arguments gets used to open this page if notification is clicked on
+                .AddText(topTextString)
+                .AddText(Content)
+                .AddAppLogoOverride(firstUserMedia, ToastGenericAppLogoCrop.Circle)
+                .Show();
+            }
+            else // If the image is too big, use the default image
+            {
+                new ToastContentBuilder()
+                .AddArgument("Chat", userID.ToString())
+                .AddText(topTextString)
+                .AddText(Content)
+                .Show();
+            }
+        }
+        #endregion
+
+        #region Helper methods
+
+        /// <summary>
+        /// If it is the birthday of some users, check their birthday notification preference and fix the Birthday boolean
+        /// </summary>
+        /// <param name="profileList">A list of profiles that need their Birthday property checked.</param>
+        public static List<Profile> FixBirthdayPreferences(List<Profile> profileList)
+        {
+            foreach (Profile p in profileList.Where(p => p.Birthday))
+            {
+                p.Birthday = NotificationDataAccess.GetBirthdayNotificationPreference(p.UserID);
+            }
+
+            return profileList;
+        }
+
+        /// <summary>
+        /// Tries to get the file size in bytes of an Uri.
+        /// </summary>
+        /// <param name="uriPath">The Uri the file size needs to be checked for.</param>
+        /// <returns>The length in megabytes.</returns>
+        private static double GetFileSize(Uri uriPath)
+        {
+            WebRequest webRequest = WebRequest.Create(uriPath);
+            webRequest.Method = "HEAD";
+
+            using (WebResponse webResponse = webRequest.GetResponse())
+            {
+                string fileSize = webResponse.Headers.Get("Content-Length");
+                double fileSizeInMegaByte = Math.Round(Convert.ToDouble(fileSize) / 1024.0 / 1024.0, 2);
+                return fileSizeInMegaByte;
+            }
         }
         #endregion
     }

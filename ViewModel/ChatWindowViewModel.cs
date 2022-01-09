@@ -19,7 +19,7 @@ namespace ViewModel
         private ObservableCollection<ChatMessage> chatMessages = new ObservableCollection<ChatMessage>();
         private readonly object chatMessagesLock = new object();
         private Profile receiver;
-        private string backgroundThreadName = "";
+        private readonly string backgroundThreadName = "";
 
         /// <summary>
         /// The delegate which allows executing on UI thread.
@@ -36,7 +36,7 @@ namespace ViewModel
             set
             {
                 receiver = value;
-                RaisePropertyChanged("Receiver");
+                RaisePropertyChanged(nameof(Receiver));
                 RaisePropertyChanged("Title");
             }
         }
@@ -63,7 +63,7 @@ namespace ViewModel
                 lock (chatMessagesLock)
                 {
                     chatMessages = value;
-                    RaisePropertyChanged("ChatMessages");
+                    RaisePropertyChanged(nameof(ChatMessages));
                 }
             }
         }

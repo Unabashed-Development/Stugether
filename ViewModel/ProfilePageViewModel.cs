@@ -17,6 +17,8 @@ namespace ViewModel
         #endregion
 
         #region Properties
+        public int UserID => _profile.UserID;
+
         public string FirstName
         {
             get => _profile.FirstName;

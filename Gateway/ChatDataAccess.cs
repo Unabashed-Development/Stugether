@@ -1,9 +1,7 @@
 ﻿using Dapper;
 using Model;
-using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Text;
 
 namespace Gateway
 {
@@ -37,7 +35,26 @@ namespace Gateway
         }
 
         /// <summary>
-        /// Gets the amount of unread messages between this profile and given user id and puts it in the profile
+        /// Loads all the chat messages from everyone sent to a certain own user ID.
+        /// </summary>
+        /// <param name="OwnUserId">The user the messages have been sent to.</param>
+        /// <returns>A List with all ChatMessages</returns>
+        public static List<ChatMessage> LoadChatMessages(int OwnUserId)
+        {
+            using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
+            List<ChatMessage> result = new List<ChatMessage>();
+            result = connection.Query<ChatMessage>(
+                @"SELECT * FROM ChatMessage
+                  WHERE ToUserId = @own
+                  AND Seen = 0
+                  ORDER BY SentTime",
+                new { own = OwnUserId }
+                ).AsList();
+            return result;
+        }
+
+        /// <summary>
+        /// Gets the amount of unread messages between this profile and given user id
         /// </summary>
         /// <param name="profile">The profile on the other end</param>
         /// <param name="ownUserId">The person viewing the chat</param>
