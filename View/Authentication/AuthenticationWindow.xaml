@@ -7,7 +7,7 @@
         xmlns:viewmodels="clr-namespace:ViewModel;assembly=ViewModel" d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="AuthenticationWindow" Height="370" Width="400">
+        Title="AuthenticationWindow" Height="490" Width="400">
     <Grid>
         <Frame Content="{Binding CurrentViewModel}" NavigationUIVisibility="Hidden">
             <Frame.Resources>
