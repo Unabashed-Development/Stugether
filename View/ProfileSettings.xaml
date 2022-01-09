@@ -173,8 +173,9 @@
             <TabItem Header="Moraal" Selector.Selected="TabControl_Selected">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="10*" MaxHeight="60"/>
-                        <RowDefinition Height="10*" MaxHeight="60"/>
+                        <RowDefinition Height="10*"/>
+                        <RowDefinition Height="10*"/>
+                        <RowDefinition Height="10*"/>
                         <RowDefinition Height="10*"/>
                         <RowDefinition Height="10*"/>
                         <RowDefinition Height="10*"/>
@@ -189,20 +190,21 @@
                         <ColumnDefinition Width="55*"/>
                         <ColumnDefinition Width="25*"/>
                     </Grid.ColumnDefinitions>
-                    <Label Content="Intelligentie" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center"/>
-                    <Label Content="Fysieke activiteit" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Center"/>
-                    <Label Content="Uitgaansleven" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Center"/>
-                    <Label Content="Natuur" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="4" VerticalAlignment="Center"/>
-                    <Label Content="Politiek" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Center"/>
-                    <Label Content="Werk" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="6" VerticalAlignment="Center"/>
-                    <Label Content="Klimaat" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="7" VerticalAlignment="Center"/>
-                    <Slider Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Center" Minimum="0" Maximum="100" Value="{Binding MoralsData.Morals[0].Percentage, Mode=TwoWay}"/>
-                    <Slider Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Center" Minimum="0" Maximum="100" Value="{Binding MoralsData.Morals[1].Percentage, Mode=TwoWay}"/>
-                    <Slider Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="3" VerticalAlignment="Center" Minimum="0" Maximum="100" Value="{Binding MoralsData.Morals[2].Percentage, Mode=TwoWay}"/>
-                    <Slider Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="4" VerticalAlignment="Center" Minimum="0" Maximum="100" Value="{Binding MoralsData.Morals[3].Percentage, Mode=TwoWay}"/>
-                    <Slider Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="5" VerticalAlignment="Center" Minimum="0" Maximum="100" Value="{Binding MoralsData.Morals[4].Percentage, Mode=TwoWay}"/>
-                    <Slider Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="6" VerticalAlignment="Center" Minimum="0" Maximum="100" Value="{Binding MoralsData.Morals[5].Percentage, Mode=TwoWay}"/>
-                    <Slider Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="7" VerticalAlignment="Center" Minimum="0" Maximum="100" Value="{Binding MoralsData.Morals[6].Percentage, Mode=TwoWay}"/>
+                    <Label Content="Geef hier aan hoe belangrijk je deze morelen vindt!" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center"/>
+                    <Label Content="Intelligentie" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Center"/>
+                    <Label Content="Fysieke activiteit" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Center"/>
+                    <Label Content="Uitgaansleven" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="4" VerticalAlignment="Center"/>
+                    <Label Content="Natuur" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Center"/>
+                    <Label Content="Politiek" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="6" VerticalAlignment="Center"/>
+                    <Label Content="Werk" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="7" VerticalAlignment="Center"/>
+                    <Label Content="Klimaat" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="8" VerticalAlignment="Center"/>
+                    <Slider Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Center" Minimum="0" Maximum="100" Value="{Binding MoralsData.Morals[0].Percentage, Mode=TwoWay}"/>
+                    <Slider Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="3" VerticalAlignment="Center" Minimum="0" Maximum="100" Value="{Binding MoralsData.Morals[1].Percentage, Mode=TwoWay}"/>
+                    <Slider Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="4" VerticalAlignment="Center" Minimum="0" Maximum="100" Value="{Binding MoralsData.Morals[2].Percentage, Mode=TwoWay}"/>
+                    <Slider Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="5" VerticalAlignment="Center" Minimum="0" Maximum="100" Value="{Binding MoralsData.Morals[3].Percentage, Mode=TwoWay}"/>
+                    <Slider Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="6" VerticalAlignment="Center" Minimum="0" Maximum="100" Value="{Binding MoralsData.Morals[4].Percentage, Mode=TwoWay}"/>
+                    <Slider Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="7" VerticalAlignment="Center" Minimum="0" Maximum="100" Value="{Binding MoralsData.Morals[5].Percentage, Mode=TwoWay}"/>
+                    <Slider Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="8" VerticalAlignment="Center" Minimum="0" Maximum="100" Value="{Binding MoralsData.Morals[6].Percentage, Mode=TwoWay}"/>
 
                 </Grid>
             </TabItem>
