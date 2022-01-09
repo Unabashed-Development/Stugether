@@ -25,9 +25,9 @@
                         <!-- Sample data -->
                         <d:ItemsControl.ItemsSource>
                             <x:Array Type="models:Profile" xmlns:models="clr-namespace:Model;assembly=Model">
-                                <models:Profile FirstName="Henque" LastName="de Botervogel" Description="Hoi, ik ben een spontane jongen uit het noorden van het land."/>
+                                <models:Profile FirstName="Henque" LastName="de Botervogel" Description="Hoi, ik ben een spontane jongen uit het noorden van het land." FirstUserMedia="http://www.stugether.wafoe.nl/media/4fc89750-c893-4b05-b5f9-58e21d5cf58e.jpg"/>
                                 <models:Profile FirstName="Erick" LastName="Oldenzaahl" Description="Mijn naam is Erick en ik wil kaas."/>
-                                <models:Profile FirstName="Bas" LastName="Castogne" Description="Ik woon niet in Barneveld."/>
+                                <models:Profile FirstName="Bas" LastName="Castogne" Description="Ik woon niet in Barneveld." FirstUserMedia="http://www.stugether.wafoe.nl/media/51bf70c3-07bb-4ba5-9858-e6ef096b35d6.jpg" UnreadChatMessages="4"/>
                             </x:Array>
                         </d:ItemsControl.ItemsSource>
                         <!-- End of sample data-->
@@ -40,7 +40,11 @@
                             <ItemContainerTemplate>
                                 <Grid>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="{Binding FirstUserMedia}" Height="52" Width="52" RenderOptions.BitmapScalingMode="Fant"/>
+                                        <Grid>
+                                            <Image Source="{Binding FirstUserMedia}" Height="52" Width="52" RenderOptions.BitmapScalingMode="Fant"/>
+                                            <Ellipse Width="15" Height="15" HorizontalAlignment="Right" VerticalAlignment="Top" Fill="Red" Visibility="{Binding HasUnreadChatMessages, Converter={StaticResource BoolToVis}}"/>
+                                            <TextBlock Text="{Binding UnreadChatMessages}" Width="15" Height="15" TextAlignment="Center" FontSize="10" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="White" Visibility="{Binding HasUnreadChatMessages, Converter={StaticResource BoolToVis}}"/>
+                                        </Grid>
                                         <StackPanel Orientation="Vertical">
                                             <StackPanel ToolTip="{Binding FirstName}">
                                                 <StackPanel Orientation="Horizontal">
@@ -89,8 +93,7 @@
                                                 <Label Content="{Binding Description}" VerticalAlignment="Stretch" Width="300" FontSize="14"/>
                                             </StackPanel>
                                         </StackPanel>
-                                        <Button Content="Profiel" Margin="3,3,3,3" Click="Profile_Click"/>
-                                        <Button Content="Match" Margin="3,3,3,3" Command="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.MatchCommand}" CommandParameter="{Binding UserID}"/>
+                                        <Button Content="Profiel" Margin="3,3,3,3" Click="MatchingProfile_Click"/>                                        
                                     </StackPanel>
                                 </Grid>
                             </ItemContainerTemplate>
