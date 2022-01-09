@@ -29,7 +29,7 @@
         </vm:ChatWindowViewModel>
     </d:Window.DataContext>
     <DockPanel LastChildFill="True">
-        <Grid DockPanel.Dock="Top" Margin="5" Background="{StaticResource BackgroundSecundary}">
+        <Grid DockPanel.Dock="Top" Margin="5" Background="{StaticResource PrimarySolidColorBrush}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="1*" />
@@ -40,11 +40,9 @@
                 </Ellipse.Fill>
             </Ellipse>
             <StackPanel Margin="5" Grid.Column="1" VerticalAlignment="Center">
-                <TextBlock Grid.Column="1"><Run Text="{Binding Receiver.FirstName}"/><Run Text=" "/><Run Text="{Binding Receiver.LastName}"/></TextBlock>
+                <TextBlock Grid.Column="1" Foreground="{StaticResource WhiteSolidColorBrush}"><Run Text="{Binding Receiver.FirstName}"/><Run Text=" "/><Run Text="{Binding Receiver.LastName}"/></TextBlock>
                 <StackPanel Orientation="Horizontal" Visibility="{Binding Receiver.Birthday, Converter={StaticResource BoolToVis}}">
-                    <TextBlock><Run Text="Vandaag "/></TextBlock>
-                    <TextBlock><Run Text="{Binding Receiver.Age}"/></TextBlock>
-                    <TextBlock><Run Text=" geworden!"/></TextBlock>
+                    <TextBlock Foreground="{StaticResource WhiteSolidColorBrush}"><Run Text="Vandaag "/><Run Text="{Binding Receiver.Age}"/><Run Text=" geworden!"/></TextBlock>
                 </StackPanel>
             </StackPanel>
         </Grid>
@@ -80,7 +78,7 @@
                                 <WrapPanel Margin="10">
                                     <TextBlock Text="{Binding Content}" Margin="5" FontSize="14" TextWrapping="Wrap"/>
                                     <StackPanel Background="Transparent" Orientation="Horizontal" VerticalAlignment="Bottom">
-                                        <Path VerticalAlignment="Center" Opacity="0.5" Stroke="{StaticResource Foreground}" StrokeThickness="1.5">
+                                        <Path VerticalAlignment="Center" Opacity="0.5" Stroke="Black" StrokeThickness="1.5">
                                             <Path.Style>
                                                 <Style TargetType="Path">
                                                     <Style.Triggers>

@@ -17,7 +17,7 @@
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
     </Page.Resources>
 
-    <Grid Background="{StaticResource BackgroundSecundary}">
+    <Grid>
         <TabControl x:Name="MatchesTab" TabStripPlacement="Top">
             <TabItem Header="Matches">
                 <Grid>
