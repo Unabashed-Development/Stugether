@@ -48,7 +48,7 @@ namespace ViewModel
         /// <summary>
         /// Gives the list with media on the users profile
         /// </summary>
-        public List<Uri> Images => MatchProfiles[0].UserMedia;
+        public ObservableCollection<Uri> Images => MatchProfiles[0].UserMedia;
 
         //public string FirstName
         //{
