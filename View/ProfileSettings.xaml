@@ -19,14 +19,14 @@
         <converters:InvertBooleanConverter x:Key="InvertBoolConverter" />
     </Page.Resources>
 
-    <Grid Background="{StaticResource BackgroundSecundary}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="85*"/>
             <RowDefinition Height="15*"/>
         </Grid.RowDefinitions>
-        <TabControl x:Name="SettingsTabs" TabStripPlacement="Top" Padding="0" BorderThickness="0" Grid.RowSpan="2">
+        <TabControl x:Name="SettingsTabs" TabStripPlacement="Top" Padding="0" BorderThickness="0" Grid.RowSpan="1">
             <TabItem Header="Persoonlijk" Selector.Selected="TabControl_Selected">
-                <Grid Background="{StaticResource BackgroundSecundary}">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="10*" MaxHeight="60"/>
                         <RowDefinition Height="15*" MaxHeight="60"/>
@@ -46,17 +46,23 @@
                     <Label Content="Woonplaats" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Center"/>
                     <Label Content="Geboortedatum" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="4" VerticalAlignment="Center"/>
                     <Label Content="Geslacht" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Center"/>
-                    <TextBox Grid.Column="2" HorizontalAlignment="Left" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Center" Width="220" Text="{Binding FirstName, Mode=TwoWay}"/>
-                    <TextBox Grid.Column="2" HorizontalAlignment="Left" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Center" Width="220" Text="{Binding LastName, Mode=TwoWay}"/>
-                    <TextBox Grid.Column="2" HorizontalAlignment="Left" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" Width="220" Text="{Binding City, Mode=TwoWay}"/>
-                    <DatePicker Grid.Column="2" HorizontalAlignment="Left" Grid.Row="4" VerticalAlignment="Center" Width="220" Text="{Binding DateOfBirth, Mode=TwoWay}"/>
-                    <RadioButton Content="Man" IsChecked="{Binding Sex, Mode=TwoWay}" Grid.Column="2" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Center"/>
-                    <RadioButton Content="Vrouw" IsChecked="{Binding Sex, Mode=TwoWay, ConverterParameter=true, Converter={StaticResource InvertBoolConverter}}" Grid.Column="2" HorizontalAlignment="Left" Margin="80,0,0,0" Grid.Row="5" VerticalAlignment="Center"/>
+                    <TextBox Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Center" MinWidth="100" Text="{Binding FirstName, Mode=TwoWay}"/>
+                    <TextBox Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Center" MinWidth="100" Text="{Binding LastName, Mode=TwoWay}"/>
+                    <TextBox Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" MinWidth="100" Text="{Binding City, Mode=TwoWay}"/>
+                    <DatePicker Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="4" VerticalAlignment="Center" MinWidth="100" Text="{Binding DateOfBirth, Mode=TwoWay}"/>
+                    <Grid Grid.Row="5" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <RadioButton Content="Man" IsChecked="{Binding Sex, Mode=TwoWay}"/>
+                        <RadioButton Content="Vrouw" IsChecked="{Binding Sex, Mode=TwoWay, ConverterParameter=true, Converter={StaticResource InvertBoolConverter}}" Grid.Column="1"/>
+                    </Grid>
                     <!--<Label Content="Persoonlijk" FontSize="22" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>-->
                 </Grid>
             </TabItem>
             <TabItem Header="School" Selector.Selected="TabControl_Selected">
-                <Grid Background="{StaticResource BackgroundSecundary}">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="10*" MaxHeight="60"/>
                         <RowDefinition Height="15*" MaxHeight="60"/>
@@ -69,17 +75,17 @@
                         <ColumnDefinition Width="45*"/>
                         <ColumnDefinition Width="25*"/>
                     </Grid.ColumnDefinitions>
-                    <Label Content="School" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center" Height="25" Width="46"/>
-                    <Label Content="Opleiding" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Center" Height="26" Width="62"/>
-                    <Label Content="Plaats school" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Center" Height="26" Width="79"/>
-                    <TextBox Grid.Column="2" HorizontalAlignment="Left" Grid.Row="1" Text="{Binding SchoolName, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="220" Height="18"/>
-                    <TextBox Grid.Column="2" HorizontalAlignment="Left" Grid.Row="2" Text="{Binding Study, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="220" Height="18"/>
-                    <TextBox Grid.Column="2" HorizontalAlignment="Left" Grid.Row="3" Text="{Binding SchoolCity, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="220" Height="18"/>
+                    <Label Content="School" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center"/>
+                    <Label Content="Opleiding" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Center"/>
+                    <Label Content="Plaats school" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Center"/>
+                    <TextBox Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="1" Text="{Binding SchoolName, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Center" MinWidth="100"/>
+                    <TextBox Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="2" Text="{Binding Study, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Center" MinWidth="100" />
+                    <TextBox Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="3" Text="{Binding SchoolCity, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Center" MinWidth="100" />
                     <!--<Label Content="School" Grid.Column="1" FontSize="22" HorizontalAlignment="Left"  VerticalAlignment="Center"/>-->
                 </Grid>
             </TabItem>
             <TabItem Header="Beschrijving" Selector.Selected="TabControl_Selected">
-                <Grid Background="{StaticResource BackgroundSecundary}">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="10*" MaxHeight="60"/>
                         <RowDefinition Height="15*" MaxHeight="60"/>
@@ -91,13 +97,13 @@
                         <ColumnDefinition Width="70*"/>
                         <ColumnDefinition Width="25*"/>
                     </Grid.ColumnDefinitions>
-                    <Label Content="Schrijf hier wat leuks over jezelf (max 420 woorden)." Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center" Height="26" Width="281"/>
+                    <Label Content="Schrijf hier wat leuks over jezelf (max 420 woorden)." Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center"/>
                     <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Description, Mode=TwoWay}" TextWrapping="Wrap" Grid.ColumnSpan="1" />
                     <!--<Label Content="Beschrijving" Grid.Column="1" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Center"/>-->
                 </Grid>
             </TabItem>
             <TabItem Header="Interesses" Selector.Selected="TabControl_Selected">
-                <Grid Background="{StaticResource BackgroundSecundary}">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="10*" MaxHeight="60"/>
                         <RowDefinition Height="80*"/>
@@ -117,14 +123,14 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <ItemContainerTemplate>
-                                <ToggleButton BorderThickness="2,2,2,2" Margin="5"  HorizontalAlignment="Center" HorizontalContentAlignment="Center" MinWidth="130" MinHeight="30" Content="{Binding Interest, Mode=OneWay}" IsChecked="{Binding Chosen, Mode=TwoWay}" VerticalContentAlignment="Center"/>
+                                <ToggleButton BorderThickness="2,2,2,2" Margin="5"  HorizontalAlignment="Center" HorizontalContentAlignment="Center" MinWidth="170" MinHeight="50" Content="{Binding Interest, Mode=OneWay}" IsChecked="{Binding Chosen, Mode=TwoWay}" VerticalContentAlignment="Center"/>
                             </ItemContainerTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </Grid>
             </TabItem>
             <TabItem Header="Profielfoto's" Selector.Selected="TabControl_Selected">
-                <StackPanel Background="{StaticResource BackgroundSecundary}">
+                <StackPanel>
                     <StackPanel.DataContext>
                         <VM:ProfilePagePhotosViewModel/>
                     </StackPanel.DataContext>
@@ -155,8 +161,8 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                     <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
-                        <Button Width="100" Height="75" HorizontalAlignment="Left" Margin="10,0,10,0" Background="#FF6FF16F" Click="AddPhoto_Click">
-                            <Path Data="M 25,12.5 L 0,12.5 M 12.5,25 L 12.5,0" StrokeThickness="2.5" Margin="3.75,3.75,2.5,2.5" Stroke="#FF444444" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+                        <Button Width="100" Height="75" HorizontalAlignment="Left" Margin="10,0,10,0" Style="{StaticResource btn-success}" Click="AddPhoto_Click">
+                            <Path Data="M 25,12.5 L 0,12.5 M 12.5,25 L 12.5,0" StrokeThickness="2.5" Margin="3.75,3.75,2.5,2.5" Stroke="{StaticResource WhiteSolidColorBrush}" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
                         </Button>
                         <Button Width="100" Height="75" HorizontalAlignment="Left" Margin="10,0,10,0" Content="Upload" IsEnabled="{Binding CanUpload}" Command="{Binding UploadPhotoButtonCommand}"/>
                         <TextBlock VerticalAlignment="Center" Text="{Binding UploadStatus}" Margin="10,0,0,0" TextWrapping="Wrap"/>
@@ -165,7 +171,7 @@
                 </StackPanel>
             </TabItem>
             <TabItem Header="Moraal" Selector.Selected="TabControl_Selected">
-                <Grid Background="{StaticResource BackgroundSecundary}">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="10*" MaxHeight="60"/>
                         <RowDefinition Height="10*" MaxHeight="60"/>
@@ -179,7 +185,7 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="5*"/>
-                        <ColumnDefinition Width="15*"/>
+                        <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="55*"/>
                         <ColumnDefinition Width="25*"/>
                     </Grid.ColumnDefinitions>
