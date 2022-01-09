@@ -1,6 +1,7 @@
 ﻿using Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using ViewModel.Commands;
 
@@ -140,7 +141,7 @@ namespace ViewModel
         /// <summary>
         /// Gives the list with media on the users profile
         /// </summary>
-        public List<Uri> Images => _profile.UserMedia;
+        public ObservableCollection<Uri> Images => _profile.UserMedia;
         #endregion
 
         #region Commands

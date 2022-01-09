@@ -17,7 +17,10 @@ namespace ViewModel
         /// <summary>
         /// Gives the list with media on the users profile
         /// </summary>
-        public ObservableCollection<Uri> Images { get; private set; } = new ObservableCollection<Uri>();
+        public ObservableCollection<Uri> Images {
+            get => Profile.LoggedInProfile.UserMedia;
+            private set => Profile.LoggedInProfile.UserMedia = value;
+        }
 
         /// <summary>
         /// Refresh the list of images on the profile
