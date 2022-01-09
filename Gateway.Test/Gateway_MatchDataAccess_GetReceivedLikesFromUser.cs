@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using Gateway;
+using System.Collections.Generic;
 
 namespace Gateway.Test
 {
