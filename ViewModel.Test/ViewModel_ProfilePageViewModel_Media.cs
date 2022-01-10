@@ -60,7 +60,7 @@ namespace ViewModel.Test
             const int userID = 1;
             Account.UserID = userID;
             Profile profile = ProfileDataAccess.LoadProfile(userID);
-            //profile.UserMedia = usermedia; NEEDS FIXING, broken test, 9-1-2022 18.48
+            profile.UserMedia = usermedia;
             ProfilePageViewModel viewModel = new ProfilePageViewModel(profile);
 
             void NextImage()
