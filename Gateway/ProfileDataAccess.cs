@@ -65,7 +65,6 @@ namespace Gateway
             {
                 using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
                 string sql = $"SELECT * FROM Profile WHERE UserID = {id};";
-
                 Profile studentData = connection.QuerySingle<Profile>(sql);
                 if (studentData == null)
                 {
@@ -76,8 +75,8 @@ namespace Gateway
                 studentData.School = school;
                 InterestsData interestData = LoadInterestsData(id);
                 studentData.InterestsData = interestData;
-                //QAData qaData = LoadQAData(id);
-                //studentData.QAData = qaData;
+                QAData qaData = LoadQAData(id);
+                studentData.QAData = qaData;
                 MoralsData moralsData = LoadMoralsData(id);
                 studentData.MoralsData = moralsData;
                 studentData.UserMedia = new System.Collections.ObjectModel.ObservableCollection<Uri>(MediaDataAccess.GetUserMediaUris(id));
@@ -89,6 +88,42 @@ namespace Gateway
             {
                 return null;
             }
+        }
+
+        public static bool UpdateQaData(QAData qAData)
+        {
+            using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
+
+            //delete current values in morals
+            string sqlDelete = "DELETE FROM Qa WHERE UserID = @UserID;";
+            connection.Execute(sqlDelete, qAData);
+
+            //insert new values in morals
+            StringBuilder sb = new StringBuilder();
+            List<QA> qaList = qAData.QAList;
+            if (qaList.Count == 0)
+            {
+                return true;
+            }
+
+            //creates a string with all the values like: (UserID, MoralID, MoralPercentage), (UserID, MoralID, MoralPercentage)
+            qaList.ForEach(qa =>
+            {
+                _ = sb.Append("(");
+                _ = sb.Append(qa.QaID);
+                _ = sb.Append(",");
+                _ = sb.Append(qAData.UserID);
+                _ = sb.Append(",");
+                _ = sb.Append($"N'{qa.QaAnswer}'");
+                _ = sb.Append(")");
+                _ = sb.Append(",");
+            });
+
+            //remove the final , as its not necesarry
+            string values = sb.ToString().TrimEnd(',');
+
+            string sqlInsert = $"INSERT INTO Qa VALUES {values};";
+            return (connection.Execute(sqlInsert) > 0);
         }
 
         /// <summary>
@@ -124,7 +159,8 @@ namespace Gateway
                 string sql = $"SELECT m.moralID, mt.moralName, m.percentage FROM Morals m JOIN MoralType mt ON mt.moralID = m.moralID WHERE UserID = {id};";
                 List<Moral> result = (List<Moral>)connection.Query<Moral>(sql);
                 result.OrderBy(moral => moral.MoralID);
-                return new MoralsData(id, result);
+                MoralsData moralsData = new MoralsData(id, result);
+                return moralsData;
             }
             catch (Exception)
             {
@@ -286,15 +322,34 @@ namespace Gateway
             string values = sb.ToString().TrimEnd(',');
 
             string sqlInsert = $"INSERT INTO Morals VALUES {values};";
-            return (connection.Execute(sqlInsert, moralsData) > 0);
+            return (connection.Execute(sqlInsert) > 0);
         }
 
-        //reserved for sprint 3
-        public static QAData LoadQAData(int id)
+        public static QAData LoadAllQAData()
         {
             using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
-            //string studentData = connection.QuerySingle<string>("SELECT * FROM Student");
+            string sql = "SELECT QaID, QaQuestion FROM QaType";
+            List<QA> result = (List<QA>)connection.Query<QA>(sql);
+            result.OrderBy(qa => qa.QaID);
+            return new QAData(-1, result);
+        }
+
+        public static QAData LoadQAData(int id)
+        {
+            try
+            {
+                using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
+                string sql = $"SELECT Qa.QaID, QT.QaQuestion, Qa.QaAnswer FROM Qa JOIN QaType QT on Qa.QaID = QT.QaID WHERE Qa.UserID = {id}";
+                List<QA> result = (List<QA>)connection.Query<QA>(sql);
+                result.OrderBy(qa => qa.QaID);
+                return new QAData(id, result);
+            }
+            catch(Exception e)
+            {
+                string a = e.Message;
+            }
             return null;
+
         }
 
         /// <summary>
