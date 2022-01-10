@@ -49,7 +49,7 @@
                     <TextBox Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Center" MinWidth="100" Text="{Binding FirstName, Mode=TwoWay}"/>
                     <TextBox Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Center" MinWidth="100" Text="{Binding LastName, Mode=TwoWay}"/>
                     <TextBox Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" MinWidth="100" Text="{Binding City, Mode=TwoWay}"/>
-                    <DatePicker Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="4" VerticalAlignment="Center" MinWidth="100" Text="{Binding DateOfBirth, Mode=TwoWay}"/>
+                    <DatePicker Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="4" VerticalAlignment="Center" MinWidth="100" SelectedDate="{Binding DateOfBirth, Mode=TwoWay}"/>
                     <Grid Grid.Row="5" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
