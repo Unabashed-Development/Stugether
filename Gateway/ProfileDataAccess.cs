@@ -90,6 +90,11 @@ namespace Gateway
             }
         }
 
+        /// <summary>
+        /// updates the Qa data in the database
+        /// </summary>
+        /// <param name="id">userid of the profile</param>
+        /// <returns>bool</returns>
         public static bool UpdateQaData(QAData qAData)
         {
             using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
@@ -325,6 +330,10 @@ namespace Gateway
             return (connection.Execute(sqlInsert) > 0);
         }
 
+        /// <summary>
+        /// Loads all the qa questions from the database
+        /// </summary>
+        /// <returns>QAData</returns>
         public static QAData LoadAllQAData()
         {
             using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
@@ -334,6 +343,11 @@ namespace Gateway
             return new QAData(-1, result);
         }
 
+        /// <summary>
+        /// Loads the QAData from user (answered questions) from the database
+        /// </summary>
+        /// <param name="id">userid of the profile</param>
+        /// <returns>QAData</returns>
         public static QAData LoadQAData(int id)
         {
             try
