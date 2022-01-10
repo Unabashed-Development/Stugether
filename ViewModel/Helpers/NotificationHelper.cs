@@ -253,7 +253,7 @@ namespace ViewModel.Helpers
         {
             const int maxFileSize = 0; // https://docs.microsoft.com/en-us/windows/apps/design/shell/tiles-and-notifications/adaptive-interactive-toasts?tabs=builder-syntax#image-size-restrictions
             string topTextString = $"{firstName} {lastName} stuurde een bericht";
-            if (GetFileSize(firstUserMedia) <= maxFileSize) // Check if the image is less than the maximum allowed file size
+            if (firstUserMedia != null && GetFileSize(firstUserMedia) <= maxFileSize) // Check if the image is less than the maximum allowed file size
             {
                 new ToastContentBuilder()
                 .AddArgument("Chat", userID.ToString()) // Arguments gets used to open this page if notification is clicked on
