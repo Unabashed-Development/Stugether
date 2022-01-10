@@ -303,6 +303,7 @@ namespace Gateway
             {
                 return true;
             }
+            morals.OrderBy(m => m.MoralID);
 
             //creates a string with all the values like: (UserID, MoralID, MoralPercentage), (UserID, MoralID, MoralPercentage)
             morals.ForEach(moral =>
