@@ -21,9 +21,9 @@
                         <!-- Sample data -->
                         <d:ItemsControl.ItemsSource>
                             <x:Array Type="models:Profile" xmlns:models="clr-namespace:Model;assembly=Model">
-                                <models:Profile FirstName="Henque" LastName="de Botervogel" Description="Hoi, ik ben een spontane jongen uit het noorden van het land."/>
-                                <models:Profile FirstName="Erick" LastName="Oldenzaahl" Description="Mijn naam is Erick en ik wil kaas."/>
-                                <models:Profile FirstName="Bas" LastName="Castogne" Description="Ik woon niet in Barneveld."/>
+                                <models:Profile FirstName="Henque" LastName="de Botervogel" MatchRelationType="Liefde"/>
+                                <models:Profile FirstName="Erick" LastName="Oldenzaahl" MatchRelationType="Studiemaatje"/>
+                                <models:Profile FirstName="Bas" LastName="Castogne" MatchRelationType="Zakelijk"/>
                             </x:Array>
                         </d:ItemsControl.ItemsSource>
                         <!-- End of sample data-->
@@ -44,7 +44,7 @@
                                                     <Label Content=" " FontSize="18" FontWeight="Bold" Padding="0,0,0,0"/>
                                                     <Label Content="{Binding LastName}" FontSize="18" FontWeight="Bold" Padding="0,0,0,0"/>
                                                 </StackPanel>
-                                                <Label Content="{Binding Description}" VerticalAlignment="Stretch" Width="300" FontSize="14"/>
+                                                <Label Content="{Binding MatchRelationType}" VerticalAlignment="Stretch" Width="300" FontSize="14"/>
                                             </StackPanel>
                                         </StackPanel>
                                         <Button Content="Profiel" Margin="3,3,3,3" Click="Profile_Click"/>
@@ -63,9 +63,9 @@
                         <!-- Sample data -->
                         <d:ItemsControl.ItemsSource>
                             <x:Array Type="models:Profile" xmlns:models="clr-namespace:Model;assembly=Model">
-                                <models:Profile FirstName="Henque" LastName="de Botervogel" Description="Hoi, ik ben een spontane jongen uit het noorden van het land."/>
-                                <models:Profile FirstName="Erick" LastName="Oldenzaahl" Description="Mijn naam is Erick en ik wil kaas."/>
-                                <models:Profile FirstName="Bas" LastName="Castogne" Description="Ik woon niet in Barneveld."/>
+                                <models:Profile FirstName="Henque" LastName="de Botervogel" MatchRelationType="Liefde"/>
+                                <models:Profile FirstName="Erick" LastName="Oldenzaahl" MatchRelationType="Studiemaatje"/>
+                                <models:Profile FirstName="Bas" LastName="Castogne" MatchRelationType="Zakelijk"/>
                             </x:Array>
                         </d:ItemsControl.ItemsSource>
                         <!-- End of sample data-->
@@ -81,7 +81,7 @@
                                                     <Label Content=" " FontSize="18" FontWeight="Bold" Padding="0,0,0,0"/>
                                                     <Label Content="{Binding LastName}" FontSize="18" FontWeight="Bold" Padding="0,0,0,0"/>
                                                 </StackPanel>
-                                                <Label Content="{Binding Description}" VerticalAlignment="Stretch" Width="300" FontSize="14"/>
+                                                <Label Content="{Binding MatchRelationType}" VerticalAlignment="Stretch" Width="300" FontSize="14"/>
                                             </StackPanel>
                                         </StackPanel>
                                         <Button Content="Profiel" Margin="3,3,3,3" Click="MatchingProfile_Click"/>                                        

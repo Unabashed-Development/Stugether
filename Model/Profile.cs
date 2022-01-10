@@ -40,6 +40,7 @@ namespace Model
         public School School { get; set; }
         public List<Uri> UserMedia { get; set; }
         public Uri FirstUserMedia { get; set; }
+        public string MatchRelationType { get; set; }
         #endregion
 
         #region constructors

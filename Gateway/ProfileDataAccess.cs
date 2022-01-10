@@ -82,6 +82,7 @@ namespace Gateway
                 studentData.MoralsData = moralsData;
                 studentData.UserMedia = new List<Uri>(MediaDataAccess.GetUserMediaUris(id));
                 studentData.FirstUserMedia = studentData.UserMedia?.FirstOrDefault();
+                studentData.MatchRelationType = LoadRelationshipTypeMatch(studentData.UserID);
                 return studentData;
             }
             catch (Exception)
@@ -294,6 +295,30 @@ namespace Gateway
             using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
             //string studentData = connection.QuerySingle<string>("SELECT * FROM Student");
             return null;
+        }
+
+        /// <summary>
+        /// Loads the RelationshipTypeMatch from the database
+        /// </summary>
+        /// <param name="id">userid of the profile</param>
+        /// <returns>School</returns>
+        public static string LoadRelationshipTypeMatch(int id)
+        {
+            if (id != Account.UserID.Value){
+                try
+                {
+                    using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
+                    string sql = $"SELECT RelationshipName FROM RelationshipType WHERE RelationshipTypeID = (SELECT RelationshipTypeID FROM Matches WHERE UserID = {Account.UserID.Value} AND UserID2 = {id} OR UserID = {id} AND UserID2 = {Account.UserID.Value});";
+                    string RelationshipTypeMatch = connection.QuerySingle<string>(sql);
+                    return RelationshipTypeMatch;
+                }
+                catch (Exception)
+                {
+                    return null;                    
+                }
+                
+            }
+            return "Me";            
         }
 
         #endregion
