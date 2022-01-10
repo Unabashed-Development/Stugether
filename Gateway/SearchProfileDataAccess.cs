@@ -29,7 +29,8 @@ namespace Gateway
                 IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
                 pfList = connection.Query<Profile>(sqlQuery).ToList();
                 pfList.RemoveAll(i => i.UserID == id);
-                return pfList;
+                var newresult = blockedUser(pfList, id, connection);
+                return newresult;
             }
             catch (Exception e)
             {
@@ -37,6 +38,29 @@ namespace Gateway
             }
 
 
+        }
+
+        /// <summary>
+        /// removes blocked users and users where an relation is already acquired
+        /// </summary>
+        /// <param name="pfList"></param>
+        /// <param name="id"></param>
+        /// <param name="conn"></param>
+        /// <returns>a list that is filterd on people that are not blocked or already linked</returns>
+        private static List<Profile> blockedUser(List<Profile> pfList, int id ,IDbConnection conn)
+        {
+            List<int> blockedList = new List<int>();
+            blockedList = conn.Query<int>($"select BlockedUserID from BlockList WHERE userid = {id}").ToList();
+            var result1 = conn.Query<int>($"select UserID2 from Matches WHERE  UserID = {id} and Liked = 1").ToList();
+            var result2 =conn.Query<int>($"select UserID from Matches WHERE  UserID2 = {id} and Liked = 1").ToList();
+
+            var acquiredMatchAndBlocked = result1.Concat(result2).Concat(blockedList).ToList();
+
+            foreach (var amb in acquiredMatchAndBlocked)
+            {
+                pfList.RemoveAll(i => i.UserID == amb);
+            }
+            return pfList;
         }
 
         #endregion

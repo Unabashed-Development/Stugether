@@ -81,6 +81,7 @@ namespace Gateway
                 studentData.MoralsData = moralsData;
                 studentData.UserMedia = new System.Collections.ObjectModel.ObservableCollection<Uri>(MediaDataAccess.GetUserMediaUris(id));
                 studentData.FirstUserMedia = studentData.UserMedia?.FirstOrDefault();
+                studentData.MatchRelationType = LoadRelationshipTypeMatch(studentData.UserID);
                 return studentData;
             }
             catch (Exception)
@@ -155,9 +156,8 @@ namespace Gateway
             try
             {
                 using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
-                string sql = $"SELECT m.moralID, mt.moralName, m.percentage FROM Morals m JOIN MoralType mt ON mt.moralID = m.moralID WHERE UserID = {id};";
+                string sql = $"SELECT m.moralID, mt.moralName, m.percentage FROM Morals m JOIN MoralType mt ON mt.moralID = m.moralID WHERE UserID = {id} ORDER BY m.moralID ASC;";
                 List<Moral> result = (List<Moral>)connection.Query<Moral>(sql);
-                result.OrderBy(moral => moral.MoralID);
                 MoralsData moralsData = new MoralsData(id, result);
                 return moralsData;
             }
@@ -303,6 +303,7 @@ namespace Gateway
             {
                 return true;
             }
+            morals.OrderBy(m => m.MoralID);
 
             //creates a string with all the values like: (UserID, MoralID, MoralPercentage), (UserID, MoralID, MoralPercentage)
             morals.ForEach(moral =>
@@ -349,6 +350,30 @@ namespace Gateway
             }
             return null;
 
+        }
+
+        /// <summary>
+        /// Loads the RelationshipTypeMatch from the database
+        /// </summary>
+        /// <param name="id">userid of the profile</param>
+        /// <returns>School</returns>
+        public static string LoadRelationshipTypeMatch(int id)
+        {
+            if (id != Account.UserID.Value){
+                try
+                {
+                    using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
+                    string sql = $"SELECT RelationshipName FROM RelationshipType WHERE RelationshipTypeID = (SELECT RelationshipTypeID FROM Matches WHERE UserID = {Account.UserID.Value} AND UserID2 = {id} OR UserID = {id} AND UserID2 = {Account.UserID.Value});";
+                    string RelationshipTypeMatch = connection.QuerySingle<string>(sql);
+                    return RelationshipTypeMatch;
+                }
+                catch (Exception)
+                {
+                    return null;                    
+                }
+                
+            }
+            return "Me";            
         }
 
         #endregion

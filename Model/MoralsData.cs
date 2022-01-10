@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Model
 {
     /// <summary>
     /// Holds the data for all the morals of a profile
-    /// Reserverd for sprint 3
     /// </summary>
     public class MoralsData
     {
@@ -19,6 +19,7 @@ namespace Model
         {
             UserID = userID;
             Morals = morals;
+            morals.OrderBy(moral => moral.MoralID);
         }
         #endregion
 

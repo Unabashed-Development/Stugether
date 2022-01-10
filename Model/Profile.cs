@@ -48,6 +48,7 @@ namespace Model
         public Uri FirstUserMedia { get; set; }
         public int UnreadChatMessages { get; set; }
         public bool HasUnreadChatMessages { get => UnreadChatMessages > 0; }
+        public string MatchRelationType { get; set; }
         #endregion
 
         #region constructors
