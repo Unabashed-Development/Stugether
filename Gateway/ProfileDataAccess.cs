@@ -113,7 +113,7 @@ namespace Gateway
                 _ = sb.Append(",");
                 _ = sb.Append(qAData.UserID);
                 _ = sb.Append(",");
-                _ = sb.Append($"'{qa.QaAnswer}'");
+                _ = sb.Append($"N'{qa.QaAnswer}'");
                 _ = sb.Append(")");
                 _ = sb.Append(",");
             });
