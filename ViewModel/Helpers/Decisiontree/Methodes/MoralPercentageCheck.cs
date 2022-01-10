@@ -17,6 +17,12 @@ namespace ViewModel.Helpers.Decisiontree.Methodes
         public static bool CheckMoralPercentage(List<Moral> pf, List<Moral> loggedUser)
         {
 
+            if (pf == null)
+            {
+                return false;
+            }
+
+
             var sameMoral = GetSameMorals(pf, loggedUser);
 
             if (sameMoral.Count > 0)

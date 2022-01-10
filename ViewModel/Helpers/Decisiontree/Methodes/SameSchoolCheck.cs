@@ -15,6 +15,12 @@ namespace ViewModel.Helpers.Decisiontree.Methodes
         /// <returns>true if schools are the same, false if schools are not the same</returns>
         public static bool CheckSameSchool(School pfSchool , School logedInUserSchool)
         {
+
+            if (pfSchool == null)
+            {
+                return false;
+            }
+
             if (pfSchool.SchoolName.Equals(logedInUserSchool.SchoolName))
             {
                 MainDecisionTree.Score += 5;

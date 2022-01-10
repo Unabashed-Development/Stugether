@@ -20,6 +20,10 @@ namespace ViewModel.Helpers.Decisiontree.Methodes
             //var sameMoral = pf.Where(item => loggedUser.Contains(item)).ToList();
             //var sameInterest = pf.Where(item => loggedUser.Contains(item)).ToList();
 
+            if (pf == null)
+            {
+                return false;
+            }
             var sameMoral = MoralID(pf, loggedUser);
             
             if (sameMoral.Count >= 5)
