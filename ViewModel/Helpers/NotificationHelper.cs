@@ -275,11 +275,11 @@ namespace ViewModel.Helpers
         /// <param name="profileList">A list of profiles that need their Birthday property checked.</param>
         public static List<Profile> FixBirthdayPreferences(List<Profile> profileList)
         {
-            foreach (Profile p in profileList.Where(p => p.Birthday))
+            IEnumerable<Profile> birthdayProfiles = profileList.Where(p => p != null && p.Birthday);
+            foreach (Profile p in birthdayProfiles)
             {
                 p.Birthday = NotificationDataAccess.GetBirthdayNotificationPreference(p.UserID);
             }
-
             return profileList;
         }
 

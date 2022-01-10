@@ -60,7 +60,10 @@ namespace Gateway
         /// <param name="ownUserId">The person viewing the chat</param>
         public static void UpdateUnreadMessages(this Profile profile, int ownUserId)
         {
-            profile.UnreadChatMessages = GetUnreadMessages(ownUserId, profile.UserID);
+            if (profile != null)
+            {
+                profile.UnreadChatMessages = GetUnreadMessages(ownUserId, profile.UserID);
+            }
         }
 
         /// <summary>
