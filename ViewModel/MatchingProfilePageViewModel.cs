@@ -17,7 +17,6 @@ namespace ViewModel
         #region Fields
         private int _selectedImage = 0;
         private Boolean _showRelationshipTypePopup = false;
-        private Boolean _CanLike = true;
         private RelationType _isEnabledInPopup = new RelationType();
         private RelationType _outputPopup = new RelationType();
         private ObservableCollection<Profile> _matchProfiles;

@@ -67,8 +67,8 @@
           
             <Popup Name="myPopup" IsOpen="{Binding ShowRelationshipTypePopup}" Placement="Center">
                         <Border BorderThickness="1">
-                    <StackPanel>
-                        <TextBlock Name="myPopupText" Background="LightBlue" Foreground="Black" FontWeight="Bold" FontSize="20" Margin="5,0,5,5">
+                    <StackPanel Background="White">
+                        <TextBlock Name="myPopupText"  Foreground="Black" FontWeight="Bold" FontSize="20" Margin="5,0,5,5">
                                 Op wat voor relatie wil je matchen?                              
                             </TextBlock>
                         <RadioButton GroupName="RelationType" Content="Liefde" IsChecked="{Binding OutputPopupLove}" IsEnabled="{Binding IsEnabledLove}" Margin="5,0,5,10">
@@ -97,10 +97,7 @@
                         </Grid>
                     </StackPanel>                        
                         </Border>
-                    </Popup>
-            
-        <Button Content="Dislike" VerticalAlignment="Top" Height="100" Margin="5,5,5,5" Grid.Column="1" Grid.Row="3" x:Name="DislikeButton" Command="{Binding DislikeMatchCommand}" />
-        <Button Content="Like" VerticalAlignment="Top" Height="100" Margin="5,5,5,5" Grid.Column="3" Grid.Row="3" x:Name="LikeButton" Command="{Binding LikeMatchCommand}"/>
+                    </Popup>           
 
         <Grid  x:Name="InterestsGrid" Margin="0,20,0,20" Grid.Column="2" Grid.Row="3" MinHeight="100px">
             <ItemsControl x:Name="InterestControl" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding MatchProfiles[0].InterestsData.Interests}">
@@ -123,43 +120,29 @@
             <TextBlock x:Name="DescriptionTextBox" TextWrapping="WrapWithOverflow" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" FontSize="18" Text="{Binding MatchProfiles[0].Description}"/>
         </Grid>
 
-        <Grid x:Name="QAGrid" Grid.Column="2" Grid.Row="5"/>
-        <Grid/>
-        <Grid x:Name="PriorityGrid" Grid.Column="2" Grid.Row="6">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="8*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-            <Label x:Name="PriorityLabelIntelligence" Grid.Column="0" Grid.Row="0" Content="Intelligentie" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,0,0,0"/>
-            <ProgressBar x:Name="IntelligenceProgressBar" Grid.Column="1" Grid.Row="0" Margin="10,10,10,10" Value="50" Style="{StaticResource progressbar-warning}" MaxHeight="12" MinHeight="12"/>
+        <Grid x:Name="QAGrid" Grid.Column="1" Grid.Row="4">
 
-            <Label x:Name="FysicsLabel" Grid.Column="0" Grid.Row="1" Content="Fysieke Activiteiten" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,0,0,0"/>
-            <ProgressBar x:Name="FysicsProgressBar" Grid.Column="1" Grid.Row="1" Margin="10,10,10,10" Value="20" Style="{StaticResource progressbar-warning}" MaxHeight="12" MinHeight="12"/>
-
-            <Label x:Name="ClubbingLabel" Grid.Column="0" Grid.Row="2" Content="Uitgaansleven" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,0,0,0"/>
-            <ProgressBar x:Name="ClubbingProgressBar" Grid.Column="1" Grid.Row="2" Margin="10,10,10,10" Value="90" Style="{StaticResource progressbar-warning}" MaxHeight="12" MinHeight="12"/>
-
-            <Label x:Name="NatureLabel" Grid.Column="0" Grid.Row="3" Content="Natuur" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,0,0,0"/>
-            <ProgressBar x:Name="NatureProgressBar" Grid.Column="1" Grid.Row="3" Margin="10,10,10,10" Value="3" Style="{StaticResource progressbar-warning}" MaxHeight="12" MinHeight="12"/>
-
-            <Label x:Name="PoliticsLabel" Grid.Column="0" Grid.Row="4" Content="Politiek" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,0,0,0"/>
-            <ProgressBar x:Name="PoliticsProgressBar" Grid.Column="1" Grid.Row="4" Margin="10,10,10,10" Value="65" Style="{StaticResource progressbar-warning}" MaxHeight="12" MinHeight="12"/>
-
-            <Label x:Name="WorkLabel" Grid.Column="0" Grid.Row="5" Content="Werk prestaties" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,0,0,0"/>
-            <ProgressBar x:Name="WorkProgressBar" Grid.Column="1" Grid.Row="5" Margin="10,10,10,10" Value="45" Style="{StaticResource progressbar-warning}" MaxHeight="12" MinHeight="12"/>
-
-            <Label x:Name="ClimateLabel" Grid.Column="0" Grid.Row="6" Content="Klimaat" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,0,0,0"/>
-            <ProgressBar x:Name="ClimateProgressBar" Grid.Column="1" Grid.Row="6" Margin="10,10,10,10" Value="10" Style="{StaticResource progressbar-warning}" MaxHeight="12" MinHeight="12"/>
-
+        </Grid>
+        <Grid x:Name="MoralsGrid" Grid.Column="1" Grid.Row="5">
+            <ItemsControl x:Name="MoralsControl" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding MatchProfiles[0].MoralsData.Morals}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel IsItemsHost="True"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <ItemContainerTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*" MinWidth="100"/>
+                                <ColumnDefinition Width="8*" MinWidth="100"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="{Binding Mode=OneWay}" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                            <ProgressBar Grid.ColumnSpan="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,10,10,10" Value="{Binding Percentage, Mode=OneWay}" Style="{StaticResource progressbar-warning}"/>
+                        </Grid>
+                    </ItemContainerTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </Grid>
         <Grid Grid.Column="2" Grid.Row="7"/>
     </Grid>
