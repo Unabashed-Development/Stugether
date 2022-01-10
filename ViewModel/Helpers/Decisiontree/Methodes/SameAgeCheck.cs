@@ -34,11 +34,10 @@ namespace ViewModel.Helpers.Decisiontree.Methodes
         /// <returns>true or false</returns>
         private static bool CheckAge(Profile pf, Profile liupf)
         {
-            string pfAgeString = pf.Age.Substring(0, 2);
-            string liupfAgeString = liupf.Age.Substring(0, 2);
-
             try
             {
+                string pfAgeString = pf.Age.Substring(0, 2);
+                string liupfAgeString = liupf.Age.Substring(0, 2);
                 int pfage = int.Parse(pfAgeString);
                 int liupfAge = int.Parse(liupfAgeString);
                 if (pfage >= (liupfAge - 2) && pfage <= (liupfAge + 2))
