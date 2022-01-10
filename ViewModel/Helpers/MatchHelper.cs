@@ -48,5 +48,30 @@ namespace ViewModel.Helpers
                 MatchDataAccess.AddLikeToUserIDs(userID, likedUserID, relationshipTypeID);
             }
         }
+
+        public static List<int> RelationshipHandler(int userID, int likedUserID)
+        {
+            RelationType RT1 = SearchPreferenceDataAccess.GetRelationType(userID);
+            RelationType RT2 = SearchPreferenceDataAccess.GetRelationType(likedUserID);
+            List<int> EqualRT = new List<int>();
+            if (RT1.Love == RT2.Love)
+            {
+                EqualRT.Add(1);
+            }
+            if (RT1.Business == RT2.Business)
+            {
+                EqualRT.Add(2);
+            }
+            if (RT1.StudyBuddy == RT2.StudyBuddy)
+            {
+                EqualRT.Add(3);
+            }
+            if (RT1.Friend == RT2.Friend)
+            {
+                EqualRT.Add(4);
+            }
+
+            return EqualRT;
+        } 
     }
 }
