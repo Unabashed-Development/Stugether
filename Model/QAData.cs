@@ -1,4 +1,6 @@
-﻿namespace Model
+﻿using System.Collections.Generic;
+
+namespace Model
 {
     /// <summary>
     /// Holds the data for all the QA of a profile
@@ -7,10 +9,16 @@
     public class QAData
     {
 
-        #region constructors
-        public QAData(Profile student)
-        {
+        #region properties
+        public int UserID { get; set; }
+        public List<QA> QAList { get; set; }
+        #endregion
 
+        #region constructors
+        public QAData(int userID, List<QA> qaList)
+        {
+            UserID = userID;
+            QAList = qaList;
         }
         #endregion
 
