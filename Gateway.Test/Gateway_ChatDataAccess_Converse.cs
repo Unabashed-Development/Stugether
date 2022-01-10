@@ -13,6 +13,7 @@ namespace Gateway.Test
         {
             const int senderId = 1;
             const int receiverId = 12;
+            Account.UserID = receiverId;
             ChatMessage chatMessage = new ChatMessage() { Content = "Test_Gateway_ChatDataAccess_Converse", FromUserId = senderId, ToUserId = receiverId };
 
             void SendMessage()
@@ -36,7 +37,7 @@ namespace Gateway.Test
             {
                 List<ChatMessage> unreadMessages = ChatDataAccess.LoadChatMessages(chatMessage.ToUserId);
                 if (unreadMessages.Count == 0) throw new Exception("There should be at least 1 unread message");
-                return unreadMessages[0];
+                return unreadMessages[unreadMessages.Count-1];
             }
 
             void SetReadMessage(int messageId)
