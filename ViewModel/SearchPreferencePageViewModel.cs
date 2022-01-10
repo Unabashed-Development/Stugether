@@ -14,6 +14,16 @@ namespace ViewModel
     public class SearchPreferencePageViewModel : INotifyPropertyChanged
     {
         #region Property
+        public bool Love
+        {
+            get { return RelationType.Love; }
+            set
+            {
+                RelationType.Love = value;
+                OnPropertyChanged("Love");
+            }
+        }
+
         public bool Business
         {
             get { return RelationType.Business; }
@@ -24,16 +34,17 @@ namespace ViewModel
                 
             }
         }
-
-        public bool Love
+        
+        public bool StudyBuddy
         {
-            get { return RelationType.Love; }
+            get { return RelationType.StudyBuddy; }
             set
             {
-                RelationType.Love = value;
-                OnPropertyChanged("Love");
+                RelationType.StudyBuddy = value;
+                OnPropertyChanged("StudyBuddy");
             }
-        }
+        }      
+
 
         public bool Friend
         {
@@ -46,15 +57,7 @@ namespace ViewModel
             }
         }
 
-        public bool StudyBuddy
-        {
-            get { return RelationType.StudyBuddy; }
-            set
-            {
-                RelationType.StudyBuddy = value;
-                OnPropertyChanged("StudyBuddy");
-            }
-        }
+        
 
 
         private RelationType _relationType;

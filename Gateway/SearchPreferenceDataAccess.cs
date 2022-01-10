@@ -23,12 +23,14 @@ namespace Gateway
                 
                 if (r == 2)
                     rt.Business = true;
-                
+
                 if (r == 3)
+                    rt.StudyBuddy = true;
+
+                if (r == 4)
                     rt.Friend = true;
                 
-                if (r == 4)
-                    rt.StudyBuddy = true;
+                
             }
             return rt;
         }
@@ -42,9 +44,10 @@ namespace Gateway
             if (rt.Business)
                 connection.Execute($"Insert into RelationshipPreference values ({id},2)");
             if (rt.StudyBuddy)
-                connection.Execute($"Insert into RelationshipPreference values ({id},4)");
+                connection.Execute($"Insert into RelationshipPreference values ({id},3)");            
             if (rt.Friend)
-                connection.Execute($"Insert into RelationshipPreference values ({id},3)");
+                connection.Execute($"Insert into RelationshipPreference values ({id},4)");
+            
         }
 
     }
