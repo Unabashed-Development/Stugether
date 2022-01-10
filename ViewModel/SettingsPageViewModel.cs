@@ -86,7 +86,7 @@ namespace ViewModel
             set
             {
                 _student.School.Study = value;
-                RaisePropertyChanged("SchoolStudy");
+                RaisePropertyChanged("Study");
             }
         }
 

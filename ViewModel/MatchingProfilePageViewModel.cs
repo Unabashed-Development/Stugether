@@ -284,9 +284,7 @@ namespace ViewModel
         {
             
             //var l = SearchProfileDataAccess.GetProfileBasedOnRelationType(Account.UserID.Value);
-            var l = Helpers.Decisiontree.MainDecisionTree.GetProfilesBasedOnIntrestAndNormsAndValues(Account.UserID.Value);            
-
-
+            var l = Helpers.Decisiontree.MainDecisionTree.GetProfilesBasedOnIntrestAndNormsAndValues(Account.UserID.Value);        
 
             MatchProfiles = new ObservableCollection<Profile>();
 

@@ -54,19 +54,19 @@ namespace ViewModel.Helpers
             RelationType RT1 = SearchPreferenceDataAccess.GetRelationType(userID);
             RelationType RT2 = SearchPreferenceDataAccess.GetRelationType(likedUserID);
             List<int> EqualRT = new List<int>();
-            if (RT1.Love == RT2.Love)
+            if (RT1.Love == true && RT2.Love == true)
             {
                 EqualRT.Add(1);
             }
-            if (RT1.Business == RT2.Business)
+            if (RT1.Business == true && RT2.Business == true)
             {
                 EqualRT.Add(2);
             }
-            if (RT1.StudyBuddy == RT2.StudyBuddy)
+            if (RT1.StudyBuddy == true && RT2.StudyBuddy == true)
             {
                 EqualRT.Add(3);
             }
-            if (RT1.Friend == RT2.Friend)
+            if (RT1.Friend == true && RT2.Friend == true)
             {
                 EqualRT.Add(4);
             }
