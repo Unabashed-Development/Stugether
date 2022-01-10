@@ -8,7 +8,7 @@
       Title="RegisterView">
 
     <Grid>
-        <Border Background="{StaticResource BackgroundPrimary}" CornerRadius="10" Margin="10">
+        <Border CornerRadius="10" Margin="10">
             <StackPanel Margin="10">
                 <Label Content="E-mailadres van je schoolaccount" FontSize="14"/>
                 <TextBox Margin="5 0" FontSize="14" Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}">
@@ -32,15 +32,15 @@
                 </components:BindablePasswordBox>
 
                 <Label Content="Wachtwoordsterkte:" FontSize="14" HorizontalAlignment="Center" Margin="0,0,-5,0"/>
-                <ProgressBar Maximum="5" Value="{Binding PasswordStrength}" Height="7" Background="{StaticResource BackgroundTertiary}" Foreground="{StaticResource BackgroundQuaternary}"/>
+                <ProgressBar Maximum="5" Value="{Binding PasswordStrength}" Style="{StaticResource progressbar-danger}"/>
 
-                <Button Name="registerSubmit" Content="Registreren" Margin="100 10" Background="{StaticResource BackgroundTertiary}" Foreground="White" FontSize="14" Command="{Binding RegisterCommand}"/>
+                <Button Name="registerSubmit" Content="Registreren" Margin="100 10" FontSize="14" Command="{Binding RegisterCommand}"/>
 
                 <Separator/>
                 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Label Content="Terug naar inloggen?" FontSize="14" HorizontalAlignment="Center"/>
-                    <Button Content="Klik hier!" FontSize="14" Background="{StaticResource BackgroundTertiary}" Foreground="White" Command="{Binding NavigateToLoginCommand}"/>
+                    <Button Content="Klik hier!" FontSize="14" Command="{Binding NavigateToLoginCommand}"/>
                 </StackPanel>
 
                 <Label Content="{Binding ErrorMessage}" Foreground="Red" FontSize="14" HorizontalAlignment="Center"/>

@@ -20,48 +20,43 @@ namespace ViewModel
         /// </summary>
         private void CreateAccountInDatabase()
         {
-            if (Email != null && Password != null && VerifyPassword != null && Email.Length > 0 && Password.Length > 0 && VerifyPassword.Length > 0)
+            if (Email == null || Password == null || VerifyPassword == null || Email.Length == 0 || Password.Length == 0 || VerifyPassword.Length == 0)
             {
-                if (AccountHelper.IsValidEmail(Email) && AccountHelper.IsSchoolEmail(Email, _allowedSchoolRootDomains))
-                {
-                    if (PasswordHelper.IsStrongPassword(Password))
-                    {
-                        if (Password == VerifyPassword)
-                        {
-                            Account.Password = AccountHelper.HashPassword(Password); // To prepare, hash the password
-                            if (!AccountDataAccess.CheckIfAccountExists(Email)) // This method makes use of the last preparation
-                            {
-                                VerificationCode = AccountHelper.GenerateVerificationCode(Email); // Generate a random verification code
-                                AccountDataAccess.CreateAccount(Email, Password, VerificationCode); // Create the account in the database with the generated verification code
-                                EmailService.SendVerificationMail(Email, VerificationCode); // Send the user an email with the verification code
-                                Account.UserID = AccountDataAccess.GetUserIDFromAccount(Email); // After creating the account in the database, set the UserID of Account
-                                ProfileDataAccess.CreateEmptyProfile(Account.UserID.Value); // Create an empty profile in the database
-                                CleanUpAccountData(); // Clear sensitive account data before verifying the user
-                                NavigateToVerification(); // Navigate to the verification code page
-                            }
-                            else
-                            {
-                                ErrorMessage = "Dit account bestaat al.";
-                            }
-                        }
-                        else
-                        {
-                            ErrorMessage = "Je wachtwoorden komen niet overeen met elkaar.";
-                        }
-                    }
-                    else
-                    {
-                        ErrorMessage = "Je wachtwoord voldoet niet aan de minimale eisen.";
-                    }
-                }
-                else
-                {
-                    ErrorMessage = "Dit e-mailadres is geen geldig school adres.";
-                }
+                ErrorMessage_NotAllFieldsOccupied();
+                return;
+            }
+
+            if (!AccountHelper.IsValidEmail(Email) || !AccountHelper.IsSchoolEmail(Email, _allowedSchoolRootDomains))
+            {
+                ErrorMessage = "Dit e-mailadres is geen geldig school adres.";
+                return;
+            }
+
+            if (!PasswordHelper.IsStrongPassword(Password))
+            {
+                ErrorMessage = "Je wachtwoord voldoet niet aan de minimale eisen.";
+                return;
+            }
+            if (Password != VerifyPassword)
+            {
+                ErrorMessage = "Je wachtwoorden komen niet overeen met elkaar.";
+                return;
+            }
+
+            Account.Password = AccountHelper.HashPassword(Password); // To prepare, hash the password
+            if (!AccountDataAccess.CheckIfAccountExists(Email)) // This method makes use of the last preparation
+            {
+                VerificationCode = AccountHelper.GenerateVerificationCode(Email); // Generate a random verification code
+                AccountDataAccess.CreateAccount(Email, Password, VerificationCode); // Create the account in the database with the generated verification code
+                EmailService.SendVerificationMail(Email, VerificationCode); // Send the user an email with the verification code
+                Account.UserID = AccountDataAccess.GetUserIDFromAccount(Email); // After creating the account in the database, set the UserID of Account
+                ProfileDataAccess.CreateEmptyProfile(Account.UserID.Value); // Create an empty profile in the database
+                CleanUpAccountData(); // Clear sensitive account data before verifying the user
+                NavigateToVerification(); // Navigate to the verification code page
             }
             else
             {
-                ErrorMessage_NotAllFieldsOccupied();
+                ErrorMessage = "Dit account bestaat al.";
             }
         }
 

@@ -1,14 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using ViewModel;
 using Windows.UI.ViewManagement.Core;
 
@@ -57,6 +49,22 @@ namespace View
         {
             CoreInputView.GetForCurrentView().TryShow(CoreInputViewKind.Emoji);
             ChatMessageInput.Focus();
+        }
+
+        private void OnLostFocus(object sender, EventArgs e)
+        {
+            ((ChatWindowViewModel)DataContext).ChatWindowHasFocus = false;
+            System.Diagnostics.Debug.WriteLine("Lost focus");
+        }
+
+        private void OnGotFocus(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("Got focus");
+            // Do this, so that when receiving a new message and the window is focused, it will be marked as seen immediately
+            ((ChatWindowViewModel)DataContext).ChatWindowHasFocus = true;
+
+
+            ((ChatWindowViewModel)DataContext).SeenChatMessages();
         }
     }
 }

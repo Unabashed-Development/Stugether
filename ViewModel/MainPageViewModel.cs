@@ -119,7 +119,11 @@ namespace ViewModel
 
         private void OnNotificationOpened(ToastNotificationActivatedEventArgsCompat toastArgs)
         {
-            MainWindowPage = ToastArguments.Parse(toastArgs.Argument).ToString();
+            string[] toastArgumentArray = toastArgs.Argument.Split('=');
+            if (toastArgumentArray[0] == "MatchOrLike")
+            {
+                MainWindowPage = ToastArguments.Parse(toastArgumentArray[1]).ToString();
+            }
         }
 
         /// <summary>
