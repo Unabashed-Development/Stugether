@@ -46,5 +46,13 @@ namespace ViewModel.Test
             Assert.False(result);
         }
 
+        [Test]
+        public void CheckOfMoralCanBeNull()
+        {
+            List<Moral> list1 = new List<Moral>();
+            var result = Helpers.Decisiontree.Methodes.MoralPercentageCheck.CheckMoralPercentage(null, list1);
+            Assert.False(result);
+        }
+
     }
 }

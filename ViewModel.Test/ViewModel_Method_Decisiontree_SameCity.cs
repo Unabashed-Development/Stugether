@@ -35,5 +35,14 @@ namespace ViewModel.Test
             var result = Helpers.Decisiontree.Methodes.SameCityCheck.CheckSameCity(pf1, pf2);
             Assert.False(result);
         }
+
+        [Test]
+        public void CheckOfCityCanBeNull()
+        {
+            var pf2 = new Profile() { City = "Rotterdam" };
+            var pf1 = new Profile();
+            var result = Helpers.Decisiontree.Methodes.SameCityCheck.CheckSameCity(pf1, pf2);
+            Assert.False(result);
+        }
     }
 }
