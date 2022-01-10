@@ -19,8 +19,11 @@ namespace Gateway.Test
         [Test]
         public void CheckIfProfileIsNotNull()
         {
+            //prepare
+            Account.UserID = 3;
+
             //data
-            Profile profile = ProfileDataAccess.LoadProfile(3);
+            Profile profile = ProfileDataAccess.LoadProfile(Account.UserID.Value);
 
             //expected value is not null, User with id 3 does exists
             Assert.IsNotNull(profile);
