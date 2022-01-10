@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using Gateway;
+using Model;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace ViewModel.Test
         public void ProfilePagePhotosViewModel_AddDelete()
         {
             Account.UserID = 1;
+            Profile.LoggedInProfile = ProfileDataAccess.LoadProfile(Account.UserID.Value);
             string fileToUpload = Directory.GetCurrentDirectory() + @"\ViewModel_ProfilePagePhotosViewModel_Files\Perfect.bin";
             ProfilePagePhotosViewModel viewModel = new ProfilePagePhotosViewModel();
 
