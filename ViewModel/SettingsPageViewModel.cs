@@ -143,6 +143,10 @@ namespace ViewModel
         public ObservableCollection<Interest> InterestsList { get; } = new ObservableCollection<Interest>(ProfileDataAccess.LoadAllInterests());
 
         public FullyObservableCollection<InterestChosenHelper> ChosenInterests { get; set; }
+
+        public ObservableCollection<QA> QAList { get; } = new ObservableCollection<QA>(ProfileDataAccess.LoadAllQAData().QAList);
+
+        public FullyObservableCollection<QAHelper> AnsweredQA { get; set; }
         #endregion
 
         #region Construction
@@ -150,6 +154,7 @@ namespace ViewModel
         {
             _student = Profile.LoggedInProfile;
             LoadInterests();
+            LoadQA();
         }
         #endregion
 
@@ -167,6 +172,51 @@ namespace ViewModel
             
             //add action listener
             ChosenInterests.ItemPropertyChanged += ChosenInterests_CollectionChanged;
+        }
+
+        private void LoadQA()
+        {
+            //add all the qa questions to a list
+            List<QAHelper> qaHelperList = new List<QAHelper>();
+
+            //adds all the answered qa questions to the list
+            QAData.QAList.ForEach(qa => qaHelperList.Add(new QAHelper() { Answer = qa.QaAnswer, Qa = qa }));
+
+            //adds the unanswered qa questions to the list
+            foreach (QA qa in QAList)
+            {
+                if (!QAData.QAList.Contains(qa))
+                {
+                    qaHelperList.Add(new QAHelper() { Answer = "", Qa = qa });
+                }
+            }
+            AnsweredQA = new FullyObservableCollection<QAHelper>(qaHelperList);
+
+            //add action listener
+            AnsweredQA.ItemPropertyChanged += AnsweredQA_CollectionChanged;
+        }
+
+        /// <summary>
+        /// Translates the AnsweredQA to a QA object. The QA object is added to the current profile
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void AnsweredQA_CollectionChanged(object sender, ItemPropertyChangedEventArgs e)
+        {
+            //clear the qa list first
+            _student.QAData.QAList.Clear();
+
+            //loop through all the answered QA, if its answered (not empty) the qa will be added to the profile
+            IEnumerator<QAHelper> enumerator = AnsweredQA.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                QAHelper qaHelper = enumerator.Current;
+                if (qaHelper.Answer.Equals(""))
+                {
+                    continue; //dont want to add unanswered questions to the list
+                }
+                _student.QAData.QAList.Add(qaHelper.Qa);
+            }
         }
 
         /// <summary>

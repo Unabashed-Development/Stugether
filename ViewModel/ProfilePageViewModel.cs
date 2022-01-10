@@ -111,6 +111,16 @@ namespace ViewModel
             }
         }
 
+        public QAData QAData
+        {
+            get => _profile.QAData;
+            set
+            {
+                _profile.QAData = value;
+                RaisePropertyChanged("QAData");
+            }
+        }
+
         /// <summary>
         /// Gives the image index currently selected to show on the profile page
         /// </summary>

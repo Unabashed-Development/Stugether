@@ -58,10 +58,9 @@
                         <RadioButton Content="Man" IsChecked="{Binding Sex, Mode=TwoWay}"/>
                         <RadioButton Content="Vrouw" IsChecked="{Binding Sex, Mode=TwoWay, ConverterParameter=true, Converter={StaticResource InvertBoolConverter}}" Grid.Column="1"/>
                     </Grid>
-                    <!--<Label Content="Persoonlijk" FontSize="22" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>-->
                 </Grid>
             </TabItem>
-            <TabItem Header="School" Selector.Selected="TabControl_Selected">
+            <TabItem Header="School" Selector.Selected="TabControl_Selected" VerticalAlignment="Top">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="10*" MaxHeight="60"/>
@@ -81,7 +80,6 @@
                     <TextBox Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="1" Text="{Binding SchoolName, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Center" MinWidth="100"/>
                     <TextBox Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="2" Text="{Binding Study, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Center" MinWidth="100" />
                     <TextBox Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="3" Text="{Binding SchoolCity, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Center" MinWidth="100" />
-                    <!--<Label Content="School" Grid.Column="1" FontSize="22" HorizontalAlignment="Left"  VerticalAlignment="Center"/>-->
                 </Grid>
             </TabItem>
             <TabItem Header="Beschrijving" Selector.Selected="TabControl_Selected">
@@ -98,8 +96,7 @@
                         <ColumnDefinition Width="25*"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Schrijf hier wat leuks over jezelf (max 420 woorden)." Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center"/>
-                    <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Description, Mode=TwoWay}" TextWrapping="Wrap" Grid.ColumnSpan="1" />
-                    <!--<Label Content="Beschrijving" Grid.Column="1" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Center"/>-->
+                    <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Description, Mode=TwoWay}" TextWrapping="Wrap" Grid.ColumnSpan="1" MaxLength="420"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Interesses" Selector.Selected="TabControl_Selected">
@@ -114,7 +111,6 @@
                         <ColumnDefinition Width="70*"/>
                         <ColumnDefinition Width="25*"/>
                     </Grid.ColumnDefinitions>
-                    <!--<Label Content="Interesses" Grid.Column="1" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Center"/>-->
                     <ItemsControl x:Name="InterestControl" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding ChosenInterests, Mode=TwoWay}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -134,7 +130,6 @@
                     <StackPanel.DataContext>
                         <VM:ProfilePagePhotosViewModel/>
                     </StackPanel.DataContext>
-                    <!--<Label Content="Profielfoto's" Grid.Column="1" FontSize="22" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="20"/>-->
                     <ItemsControl ItemsSource="{Binding Images}" Margin="20">
                         <!-- Example array for design -->
                         <!--<d:ItemsControl.ItemsSource>
@@ -205,7 +200,33 @@
                     <Slider Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="6" VerticalAlignment="Center" Minimum="0" Maximum="100" Value="{Binding MoralsData.Morals[4].Percentage, Mode=TwoWay}"/>
                     <Slider Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="7" VerticalAlignment="Center" Minimum="0" Maximum="100" Value="{Binding MoralsData.Morals[5].Percentage, Mode=TwoWay}"/>
                     <Slider Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="8" VerticalAlignment="Center" Minimum="0" Maximum="100" Value="{Binding MoralsData.Morals[6].Percentage, Mode=TwoWay}"/>
-
+                </Grid>
+            </TabItem>
+            <TabItem Header="QA" Selector.Selected="TabControl_Selected">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="95*"/>
+                    </Grid.ColumnDefinitions>
+                    <ItemsControl x:Name="QAControl" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding AnsweredQA, Mode=TwoWay}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel IsItemsHost="True"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <ItemContainerTemplate>
+                                <Grid Margin="0,20,20,0" MinWidth="300">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
+                                    <Label Content="{Binding Qa.QaQuestion, Mode=OneWay}" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+                                    <TextBox Text="{Binding Answer, Mode=TwoWay}" HorizontalAlignment="Stretch" Grid.Row="1" FontStyle="Italic" TextWrapping="Wrap"/>
+                                </Grid>
+                            </ItemContainerTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </Grid>
             </TabItem>
         </TabControl>
