@@ -105,5 +105,12 @@ namespace ViewModel.Test
             var result = Helpers.Decisiontree.Methodes.MoralCheck.CheckMoral(list1, list2);
             Assert.False(result);
         }
+        [Test]
+        public void CheckOfMoralCanBeNull()
+        {
+            List<Moral> list2 = new List<Moral>();
+            var result = Helpers.Decisiontree.Methodes.MoralCheck.CheckMoral(null, list2);
+            Assert.False(result);
+        }
     }
 }

@@ -15,8 +15,8 @@ namespace ViewModel.Helpers.Decisiontree.Methodes
         /// <returns>true if they live is the same city and add 5 points to overall score, false if not in the same city</returns>
         public static bool CheckSameCity(Profile pf, Profile lipf)
         {
-
-            if (pf.City == null || pf.City == "")
+            
+            if (String.IsNullOrEmpty(pf.City))
             {
                 return false;
             }

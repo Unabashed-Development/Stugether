@@ -106,5 +106,12 @@ namespace ViewModel.Test
             var result = Helpers.Decisiontree.Methodes.InterestCheck.CheckInterest(list1, list2);
             Assert.False(result);
         }
+        [Test]
+        public void CheckOfInterstCanBeNull()
+        {
+            List<Interest> list1 = new List<Interest>();
+            var result = Helpers.Decisiontree.Methodes.InterestCheck.CheckInterest(null, list1);
+            Assert.False(result);
+        }
     }
 }

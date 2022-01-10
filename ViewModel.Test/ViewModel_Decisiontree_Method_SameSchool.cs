@@ -32,5 +32,13 @@ namespace ViewModel.Test
             var result = Helpers.Decisiontree.Methodes.SameSchoolCheck.CheckSameSchool(school1, school2);
             Assert.False(result);
         }
+
+        [Test]
+        public void CheckOfSchoolCanBeNull()
+        {
+            var school1 = new School(1, "Windesheim", "Zwolle", "Verf");
+            var result = Helpers.Decisiontree.Methodes.SameSchoolCheck.CheckSameSchool(null, school1);
+            Assert.False(result);
+        }
     }
 }

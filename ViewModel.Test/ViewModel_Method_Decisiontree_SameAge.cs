@@ -35,5 +35,14 @@ namespace ViewModel.Test
             var result = Helpers.Decisiontree.Methodes.SameAgeCheck.CheckSameAge(pf1, pf2);
             Assert.False(result);
         }
+
+        [Test]
+        public void CheckOfAgeCanBeNull()
+        {
+            var pf2 = new Profile() { Age = "12 jaar" };
+            var pf1 = new Profile();
+            var result = Helpers.Decisiontree.Methodes.SameAgeCheck.CheckSameAge(pf1, pf2);
+            Assert.False(result);
+        }
     }
 }
