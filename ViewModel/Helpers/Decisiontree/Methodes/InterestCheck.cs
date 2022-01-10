@@ -16,6 +16,12 @@ namespace ViewModel.Helpers.Decisiontree.Methodes
         /// <returns>return true if the potential match has atleast 1 interest otherwise return false</returns>
         public static bool CheckInterest(List<Interest> pf, List<Interest> loggedUser)
         {
+
+            if (pf == null)
+            {
+                return false;
+            }
+
             var sameInterest = pf.Where(item => loggedUser.Contains(item)).ToList();
 
             if (sameInterest.Count >= 5)
