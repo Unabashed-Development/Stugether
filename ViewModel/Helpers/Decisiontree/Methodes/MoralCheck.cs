@@ -26,7 +26,7 @@ namespace ViewModel.Helpers.Decisiontree.Methodes
                 MainDecisionTree.Score = 100;
             else if (sameMoral.Count >= 3 && sameMoral.Count < 5)
                 MainDecisionTree.Score = 75;
-            else if (sameMoral.Count < 3)
+            else if (sameMoral.Count < 3 && sameMoral.Count >= 1)
                 MainDecisionTree.Score = 50;
             else
                 return false;

@@ -1,5 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text;
 using Gateway;
 using Model;
 using ViewModel.Annotations;
@@ -9,7 +13,6 @@ namespace ViewModel
 {
     public class SearchPreferencePageViewModel : INotifyPropertyChanged
     {
-
         #region Property
         public bool Love
         {
@@ -41,6 +44,7 @@ namespace ViewModel
                 OnPropertyChanged("StudyBuddy");
             }
         }      
+
 
         public bool Friend
         {
@@ -76,10 +80,6 @@ namespace ViewModel
         {
             SearchPreferenceDataAccess.SaveRelationPreference(RelationType,(int)Account.UserID);
         }, ()=>true);
-        
-
-        
-
 
         public SearchPreferencePageViewModel()
         {
