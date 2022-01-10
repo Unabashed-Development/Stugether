@@ -25,14 +25,14 @@
             <ColumnDefinition Width="25*"/>
         </Grid.ColumnDefinitions>
         <StackPanel DataContext="{StaticResource vm}" Grid.Column="1" Grid.Row="1">
-            <ToggleButton x:Name = "cb3" Content = "Liefde"
-                          Margin = "5" Width = "100" HorizontalAlignment = "Left" IsChecked="{Binding Love}"/>
+            <ToggleButton x:Name = "cb1" Content = "Liefde"
+                          Margin = "5" Width = "130" HorizontalAlignment = "Left" IsChecked="{Binding Love}"/>
             <ToggleButton x:Name = "cb2" Content = "zakelijk"
-                          Margin = "5" Width = "100" HorizontalAlignment = "Left" IsChecked="{Binding Business}"/>
-            <ToggleButton x:Name = "cb4" Content = "studymaatje"
-                          Margin = "5" Width = "100" HorizontalAlignment = "Left" IsChecked="{Binding StudyBuddy}"/>
-            <ToggleButton x:Name = "cb1" Content = "Vrienden"
-                          Margin = "5" Width = "100" HorizontalAlignment = "Left" IsChecked="{Binding Friend}" />
+                          Margin = "5" Width = "130" HorizontalAlignment = "Left" IsChecked="{Binding Business}"/>
+            <ToggleButton x:Name = "cb3" Content = "studymaatje"
+                          Margin = "5" Width = "130" HorizontalAlignment = "Left" IsChecked="{Binding StudyBuddy}"/>
+            <ToggleButton x:Name = "cb4" Content = "Vrienden"
+                          Margin = "5" Width = "130" HorizontalAlignment = "Left" IsChecked="{Binding Friend}" />
             
             
             
