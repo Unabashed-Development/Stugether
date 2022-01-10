@@ -84,6 +84,7 @@ namespace ViewModel
             }
         }
 
+        #region IsEnabledInPopup
         public bool IsEnabledLove
         {
             get { return _isEnabledInPopup.Love; }
@@ -122,6 +123,9 @@ namespace ViewModel
                 RaisePropertyChanged("IsEnabledFriend");
             }
         }
+        #endregion
+
+        #region OutputFromPopup
         public bool OutputPopupLove
         {
             get { return _outputPopup.Love; }
@@ -164,7 +168,7 @@ namespace ViewModel
                 RaisePropertyChanged("LikePopup");
             }
         }
-
+        #endregion
         public ObservableCollection<Profile> MatchProfiles
         {
             get { return _matchProfiles; }
@@ -214,6 +218,9 @@ namespace ViewModel
             },
             () => MatchProfiles.Count != 0);
 
+        /// <summary>
+        /// Command that closes the popup.
+        /// </summary>
         public RelayCommand ClosePopup => new RelayCommand(
             () =>
             {
@@ -221,6 +228,9 @@ namespace ViewModel
             },
             () => true);
 
+        /// <summary>
+        /// Command that likes and removes the profile from the list, where after it closes the popup.
+        /// </summary>
         public RelayCommand LikePopup => new RelayCommand(
             () =>
             {
@@ -277,7 +287,7 @@ namespace ViewModel
         }
 
         /// <summary>
-        /// First, a list with profiles is being stored in var l, were after the full profile is being accessed by using the userID from those profiles.
+        /// Gets a list of profiles and puts them in a ObservableCollection. Also makes the first name, the full name.
         /// </summary>
 
         public MatchingProfilePageViewModel()
@@ -300,7 +310,7 @@ namespace ViewModel
         /// <summary>
         /// Opens the Popup and enable the radiobuttons the user can choose from.
         /// </summary>
-        /// <param name="RT"></param>
+        /// <param name="RT">List of RelationshipTypes</param>
         public void IsEnabledInPopup(List<int> RT)
         {
             _isEnabledInPopup = new RelationType();
@@ -324,7 +334,7 @@ namespace ViewModel
         }
 
         /// <summary>
-        /// 
+        /// Takes the output from the popup, and makes in into a int.
         /// </summary>
         /// <returns></returns>
         public int OutputPopup()

@@ -49,28 +49,40 @@ namespace ViewModel.Helpers
             }
         }
 
+        public static bool CheckForExistingLike(int userID, int likedUserID)
+        {
+            bool liked = MatchDataAccess.CheckIfUserLiked(userID, likedUserID);
+            return liked;
+        }
+
         public static List<int> RelationshipHandler(int userID, int likedUserID)
         {
-            RelationType RT1 = SearchPreferenceDataAccess.GetRelationType(userID);
-            RelationType RT2 = SearchPreferenceDataAccess.GetRelationType(likedUserID);
             List<int> EqualRT = new List<int>();
-            if (RT1.Love == true && RT2.Love == true)
+            if (!CheckForExistingLike(userID, likedUserID))
             {
-                EqualRT.Add(1);
+                RelationType RT1 = SearchPreferenceDataAccess.GetRelationType(userID);
+                RelationType RT2 = SearchPreferenceDataAccess.GetRelationType(likedUserID);                
+                if (RT1.Love == true && RT2.Love == true)
+                {
+                    EqualRT.Add(1);
+                }
+                if (RT1.Business == true && RT2.Business == true)
+                {
+                    EqualRT.Add(2);
+                }
+                if (RT1.StudyBuddy == true && RT2.StudyBuddy == true)
+                {
+                    EqualRT.Add(3);
+                }
+                if (RT1.Friend == true && RT2.Friend == true)
+                {
+                    EqualRT.Add(4);
+                }
             }
-            if (RT1.Business == true && RT2.Business == true)
+            else
             {
-                EqualRT.Add(2);
+                EqualRT.Add(0);
             }
-            if (RT1.StudyBuddy == true && RT2.StudyBuddy == true)
-            {
-                EqualRT.Add(3);
-            }
-            if (RT1.Friend == true && RT2.Friend == true)
-            {
-                EqualRT.Add(4);
-            }
-
             return EqualRT;
         } 
     }
