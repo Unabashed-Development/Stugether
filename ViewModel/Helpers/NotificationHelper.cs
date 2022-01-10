@@ -179,6 +179,12 @@ namespace ViewModel.Helpers
                     }
                 }
 
+                // Reload the profiles of matches if there have been new unread chat messages (for chat notification indicator)
+                if (unreadChatMessages.Count > 0)
+                {
+                    ViewModelMediators.Matches = MatchHelper.LoadProfilesOfMatches(Account.UserID.Value);
+                }
+
                 // Throw notifications for every new chat message
                 foreach (ChatMessage c in unreadChatMessages)
                 {
