@@ -81,8 +81,8 @@ namespace ViewModel
         /// <summary>
         /// Fetches and filters the new chat messages.
         /// </summary>
-        /// <param name="state">Unused parameter to comply with TimerCallback</param>
-        private void RefreshChats(object? state)
+        /// <param name="state">set this to true to run OnNewMessagesLoaded synchronous. It does'nt work when loaded with UI bindings</param>
+        public void RefreshChats(object state)
         {
             SeenChatMessages();
             List<ChatMessage> updatedChats = ChatDataAccess.LoadChatMessages(Sender.UserID, Receiver.UserID);
@@ -91,7 +91,14 @@ namespace ViewModel
                                                 select msg;
             System.Diagnostics.Debug.WriteLine("New messages: " + newChats.Count(), backgroundThreadName);
 
-            DispatcherDelegate?.Invoke(() => { OnNewMessagesLoaded(newChats); });
+            if (state != null && state.GetType() == typeof(bool) && (bool)state == true)
+            {
+                OnNewMessagesLoaded(newChats);
+            }
+            else
+            {
+                DispatcherDelegate?.Invoke(() => { OnNewMessagesLoaded(newChats); });
+            }
         }
 
         /// <summary>
@@ -193,7 +200,8 @@ namespace ViewModel
         public ChatWindowViewModel(Profile otherUser)
         {
             Receiver = otherUser;
-            ChatMessages = new ObservableCollection<ChatMessage>(ChatDataAccess.LoadChatMessages(Sender.UserID, Receiver.UserID));
+            //ChatMessages = new ObservableCollection<ChatMessage>(ChatDataAccess.LoadChatMessages(Sender.UserID, Receiver.UserID));
+            RefreshChats(true);
             backgroundThreadName = "Chat " + Receiver.FirstName + Receiver.LastName;
             Account.BackgroundThreads[backgroundThreadName] = new Timer(RefreshChats, null, 500, 500);
         }
