@@ -44,9 +44,9 @@ namespace Gateway
             if (rt.Business)
                 connection.Execute($"Insert into RelationshipPreference values ({id},2)");
             if (rt.StudyBuddy)
-                connection.Execute($"Insert into RelationshipPreference values ({id},3)");
-            if (rt.Friend)
                 connection.Execute($"Insert into RelationshipPreference values ({id},4)");
+            if (rt.Friend)
+                connection.Execute($"Insert into RelationshipPreference values ({id},3)");
         }
 
     }

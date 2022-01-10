@@ -154,13 +154,16 @@ namespace ViewModel
         public MatchingProfilePageViewModel()
         {
             
-            var l = SearchProfileDataAccess.GetProfileBasedOnRelationType(Account.UserID.Value);
-           
+            //var l = SearchProfileDataAccess.GetProfileBasedOnRelationType(Account.UserID.Value);
+            var l = Helpers.Decisiontree.MainDecisionTree.GetProfilesBasedOnIntrestAndNormsAndValues(Account.UserID.Value);
+                
+
+
             MatchProfiles = new ObservableCollection<Profile>();
 
             foreach (var item in l)
             {
-                MatchProfiles.Add(ProfileDataAccess.LoadProfile(item.UserID));
+                MatchProfiles.Add(item);
             }
 
             
