@@ -88,8 +88,8 @@
                                 <RowDefinition Height="1*"/>
                                 <RowDefinition Height="1*"/>
                             </Grid.RowDefinitions>
-                            <Label Content="{Binding QaQuestion, Mode=OneWay}" HorizontalAlignment="Left" FontWeight="Bold"/>
-                            <Label Content="{Binding QaAnswer, Mode=OneWay}" HorizontalAlignment="Left" Grid.Row="1" FontStyle="Italic" />
+                            <Label Content="{Binding QaQuestion, Mode=OneWay}" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+                            <Label Content="{Binding QaAnswer, Mode=OneWay}" HorizontalAlignment="Stretch" Grid.Row="1" FontStyle="Italic" />
                         </Grid>
                     </ItemContainerTemplate>
                 </ItemsControl.ItemTemplate>

@@ -60,7 +60,7 @@
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem Header="School" Selector.Selected="TabControl_Selected" Height="36" Margin="-2,-2,-2,0" VerticalAlignment="Top">
+            <TabItem Header="School" Selector.Selected="TabControl_Selected" VerticalAlignment="Top">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="10*" MaxHeight="60"/>
@@ -221,8 +221,8 @@
                                         <RowDefinition Height="1*"/>
                                         <RowDefinition Height="1*"/>
                                     </Grid.RowDefinitions>
-                                    <Label Content="{Binding Qa.QaQuestion, Mode=OneWay}" HorizontalAlignment="Left" FontWeight="Bold"/>
-                                    <TextBox Text="{Binding Answer, Mode=TwoWay}" HorizontalAlignment="Left" Grid.Row="1" FontStyle="Italic" TextWrapping="Wrap" MaxWidth="500" MinWidth="300" Height="50"/>
+                                    <Label Content="{Binding Qa.QaQuestion, Mode=OneWay}" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+                                    <TextBox Text="{Binding Answer, Mode=TwoWay}" HorizontalAlignment="Stretch" Grid.Row="1" FontStyle="Italic" TextWrapping="Wrap"/>
                                 </Grid>
                             </ItemContainerTemplate>
                         </ItemsControl.ItemTemplate>
