@@ -182,7 +182,7 @@ namespace Gateway
             {
                 UserID = id,
                 DateOfBirth = null,
-                School = new School(id, null, null, null),
+                School = new School(id, "", "", ""),
                 MoralsData = new MoralsData(id, new List<Moral>() 
                 { 
                     new Moral(1, "Intelligentie", 50 ), 
