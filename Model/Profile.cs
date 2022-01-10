@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Model
 {
@@ -43,7 +44,7 @@ namespace Model
         }
         public bool Birthday { get; set; }
         public School School { get; set; }
-        public List<Uri> UserMedia { get; set; }
+        public ObservableCollection<Uri> UserMedia { get; set; }
         public Uri FirstUserMedia { get; set; }
         public int UnreadChatMessages { get; set; }
         public bool HasUnreadChatMessages { get => UnreadChatMessages > 0; }
@@ -52,7 +53,7 @@ namespace Model
         #region constructors
         public Profile()
         {
-            UserMedia = new List<Uri>();
+            UserMedia = new ObservableCollection<Uri>();
         }
         #endregion
 
