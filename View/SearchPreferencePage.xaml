@@ -13,7 +13,7 @@
         <vm:SearchPreferencePageViewModel x:Key="vm"/>
     </Page.Resources>
 
-    <Grid Background="{StaticResource BackgroundSecundary}" DataContext="{StaticResource vm}">
+    <Grid DataContext="{StaticResource vm}">
         <Grid.RowDefinitions>
             <RowDefinition Height="10*" MaxHeight="60"/>
             <RowDefinition Height="80*"/>

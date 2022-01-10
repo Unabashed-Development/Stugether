@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Model;
-using NuGet.Frameworks;
+﻿using Model;
 using NUnit.Framework;
 
 namespace Gateway.Test
 {
-    class Gateway_searchPreferenceDataAccess
+    class Gateway_SearchPreferenceDataAccess
     {
         [Test]
         public void GetPreferenceData_ObjSame_ThrowExeption()

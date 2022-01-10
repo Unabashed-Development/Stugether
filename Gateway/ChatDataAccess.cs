@@ -1,9 +1,7 @@
 ﻿using Dapper;
 using Model;
-using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Text;
 
 namespace Gateway
 {
@@ -37,14 +35,32 @@ namespace Gateway
         }
 
         /// <summary>
+        /// Loads all the chat messages from everyone sent to a certain own user ID.
+        /// </summary>
+        /// <param name="OwnUserId">The user the messages have been sent to.</param>
+        /// <returns>A List with all ChatMessages</returns>
+        public static List<ChatMessage> LoadChatMessages(int OwnUserId)
+        {
+            using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
+            List<ChatMessage> result = new List<ChatMessage>();
+            result = connection.Query<ChatMessage>(
+                @"SELECT * FROM ChatMessage
+                  WHERE ToUserId = @own
+                  AND Seen = 0
+                  ORDER BY SentTime",
+                new { own = OwnUserId }
+                ).AsList();
+            return result;
+        }
+
+        /// <summary>
         /// Gets the amount of unread messages between this profile and given user id
         /// </summary>
         /// <param name="profile">The profile on the other end</param>
         /// <param name="ownUserId">The person viewing the chat</param>
-        /// <returns>The amount of unread messages in this chat</returns>
-        public static int GetUnreadMessages(this Profile profile, int ownUserId)
+        public static void UpdateUnreadMessages(this Profile profile, int ownUserId)
         {
-            return GetUnreadMessages(profile.UserID, ownUserId);
+            profile.UnreadChatMessages = GetUnreadMessages(ownUserId, profile.UserID);
         }
 
         /// <summary>
@@ -56,7 +72,19 @@ namespace Gateway
         public static int GetUnreadMessages(int ownUserId, int otherUserId)
         {
             using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
-            return connection.QuerySingle<int>("SELECT COUNT(Seen) FROM ChatMessage WHERE FromUserId=@other AND ToUserId=@own AND Seen=1", new { own = ownUserId, other = otherUserId });
+            return connection.QuerySingle<int>("SELECT COUNT(Seen) FROM ChatMessage WHERE FromUserId=@other AND ToUserId=@own AND Seen=0", new { own = ownUserId, other = otherUserId });
+        }
+
+        /// <summary>
+        /// Set the seen status on a specified message
+        /// </summary>
+        /// <param name="ownUserId">The user viewing the chat</param>
+        /// <param name="senderUserId">The user on the other end of the chat</param>
+        /// <param name="messageId">The id of the message to be updated</param>
+        public static void SetMessageSeen(int ownUserId, int senderUserId, int messageId)
+        {
+            using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
+            connection.Query("UPDATE ChatMessage SET Seen = 1 WHERE FromUserId = @from AND ToUserId = @to AND MessageId = @msg", new { from = senderUserId, to = ownUserId, msg = messageId });
         }
 
         /// <summary>

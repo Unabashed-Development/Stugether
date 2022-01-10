@@ -1,5 +1,4 @@
-﻿using System;
-using ViewModel.Commands;
+﻿using ViewModel.Commands;
 using ViewModel.Stores;
 
 namespace ViewModel

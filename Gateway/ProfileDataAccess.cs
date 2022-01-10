@@ -80,7 +80,7 @@ namespace Gateway
                 //studentData.QAData = qaData;
                 MoralsData moralsData = LoadMoralsData(id);
                 studentData.MoralsData = moralsData;
-                studentData.UserMedia = new List<Uri>(MediaDataAccess.GetUserMediaUris(id));
+                studentData.UserMedia = new System.Collections.ObjectModel.ObservableCollection<Uri>(MediaDataAccess.GetUserMediaUris(id));
                 studentData.FirstUserMedia = studentData.UserMedia?.FirstOrDefault();
                 studentData.MatchRelationType = LoadRelationshipTypeMatch(studentData.UserID);
                 return studentData;

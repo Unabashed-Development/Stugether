@@ -67,7 +67,7 @@ namespace ViewModel
         /// <summary>
         /// Gives the list with media on the users profile
         /// </summary>
-        public List<Uri> Images
+        public ObservableCollection<Uri> Images
         {
             get
             {
@@ -77,7 +77,7 @@ namespace ViewModel
                 }
                 else
                 {
-                    List<Uri> UriListDummy = new List<Uri>();
+                    ObservableCollection<Uri> UriListDummy = new ObservableCollection<Uri>();
                     Uri UriDummy = new Uri("http://www.stugether.wafoe.nl/media/671f79ae-57c3-4c21-bca2-27cee35da745.png") ;
                     UriListDummy.Add(UriDummy);
                     return UriListDummy;

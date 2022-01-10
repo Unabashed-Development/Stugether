@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Content\birthday_cake.png" />
     <None Remove="stugether_logo.ico" />
   </ItemGroup>
 
@@ -23,7 +24,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Content\birthday_cake.png" />
     <EmbeddedResource Include="stugether_logo.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WPFBootstrapUI" Version="1.0.0.8" />
   </ItemGroup>
 
   <ItemGroup>

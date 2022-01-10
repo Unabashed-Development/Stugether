@@ -7,6 +7,8 @@
         xmlns:vm="clr-namespace:ViewModel;assembly=ViewModel"
         xmlns:vmc="clr-namespace:ViewModel.Commands;assembly=ViewModel"
         xmlns:converters="clr-namespace:View.Converters"
+        xmlns:bootstrap="http://schemas.rpj.com/WPFBootstrapUI"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource {x:Type Window}}"
@@ -20,10 +22,10 @@
             <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="35"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Grid Height="{Binding ActualHeight, ElementName=tbContentTitle, Mode=OneWay}" Background="{StaticResource BackgroundSecundary}">
+        <Grid Height="{Binding ActualHeight, ElementName=tbContentTitle, Mode=OneWay}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />
@@ -60,7 +62,7 @@
                     </ItemContainerTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-        <TextBlock x:Name="tbContentTitle" Grid.Column="1" FontSize="22" FontWeight="Bold" Text="{Binding Content.Title, ElementName=frContent}"/>
+        <TextBlock x:Name="tbContentTitle" Grid.Column="1" FontSize="{StaticResource Font.Size.Title}" FontWeight="Bold" Text="{Binding Content.Title, ElementName=frContent}"/>
         <ScrollViewer Grid.Column="1" Grid.Row="1" VerticalScrollBarVisibility="Auto" >
             <Frame x:Name="frContent" Grid.Column="1" Grid.Row="1"  NavigationUIVisibility="Hidden" Source="{Binding MainWindowPage, Mode=TwoWay}"/>
         </ScrollViewer>
