@@ -25,14 +25,15 @@
             <ColumnDefinition Width="25*"/>
         </Grid.ColumnDefinitions>
         <StackPanel DataContext="{StaticResource vm}" Grid.Column="1" Grid.Row="1">
+            <Label Content="Geef hier aan naar wat voor soort relatietypen je op zoek bent!"/>
             <ToggleButton x:Name = "cb1" Content = "Vrienden"
-                          Margin = "5" Width = "100" HorizontalAlignment = "Left" IsChecked="{Binding Friend}" />
-            <ToggleButton x:Name = "cb2" Content = "zakelijk"
-                          Margin = "5" Width = "100" HorizontalAlignment = "Left" IsChecked="{Binding Business}"/>
+                          Margin = "5" Width = "130" HorizontalAlignment = "Left" IsChecked="{Binding Friend}" />
+            <ToggleButton x:Name = "cb2" Content = "Zakelijk"
+                          Margin = "5" Width = "130" HorizontalAlignment = "Left" IsChecked="{Binding Business}"/>
             <ToggleButton x:Name = "cb3" Content = "Liefde"
-                          Margin = "5" Width = "100" HorizontalAlignment = "Left" IsChecked="{Binding Love}"/>
-            <ToggleButton x:Name = "cb4" Content = "studymaatje"
-                          Margin = "5" Width = "100" HorizontalAlignment = "Left" IsChecked="{Binding StudyBuddy}"/>
+                          Margin = "5" Width = "130" HorizontalAlignment = "Left" IsChecked="{Binding Love}"/>
+            <ToggleButton x:Name = "cb4" Content = "StudieMaatje"
+                          Margin = "5" Width = "130" HorizontalAlignment = "Left" IsChecked="{Binding StudyBuddy}"/>
 
         </StackPanel>
         <Button Grid.Column="3" Content="Opslaan" Command="{Binding SaveCommand}"  HorizontalAlignment="Right" Grid.Row="1" VerticalAlignment="Bottom" MinHeight="50" MinWidth="150" Margin="10"/>
