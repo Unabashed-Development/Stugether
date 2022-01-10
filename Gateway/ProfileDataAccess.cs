@@ -156,9 +156,8 @@ namespace Gateway
             try
             {
                 using IDbConnection connection = new System.Data.SqlClient.SqlConnection(FiddleHelper.GetConnectionStringSql("StudentMatcherDB"));
-                string sql = $"SELECT m.moralID, mt.moralName, m.percentage FROM Morals m JOIN MoralType mt ON mt.moralID = m.moralID WHERE UserID = {id};";
+                string sql = $"SELECT m.moralID, mt.moralName, m.percentage FROM Morals m JOIN MoralType mt ON mt.moralID = m.moralID WHERE UserID = {id} ORDER BY m.moralID ASC;";
                 List<Moral> result = (List<Moral>)connection.Query<Moral>(sql);
-                result.OrderBy(moral => moral.MoralID);
                 MoralsData moralsData = new MoralsData(id, result);
                 return moralsData;
             }
@@ -304,6 +303,7 @@ namespace Gateway
             {
                 return true;
             }
+            morals.OrderBy(m => m.MoralID);
 
             //creates a string with all the values like: (UserID, MoralID, MoralPercentage), (UserID, MoralID, MoralPercentage)
             morals.ForEach(moral =>
