@@ -34,7 +34,7 @@ namespace ViewModel.Helpers.Decisiontree.Methodes
         /// <returns>true or false</returns>
         private static bool CheckAge(Profile pf, Profile liupf)
         {
-            if (String.IsNullOrEmpty(pf.Age))
+            if (String.IsNullOrEmpty(pf.Age) || String.IsNullOrEmpty(liupf.Age))
             {
                 return false;
             }
