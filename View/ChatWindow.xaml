@@ -1,0 +1,109 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:View"
+        xmlns:vm="clr-namespace:ViewModel;assembly=ViewModel"
+        xmlns:model="clr-namespace:Model;assembly=Model"
+        xmlns:Converters="clr-namespace:View.Converters" x:Class="View.ChatWindow"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Style="{StaticResource {x:Type Window}}"
+        Title="{Binding Title}" Height="450" Width="400" MinWidth="200" MinHeight="200"
+        Icon="{Binding Receiver.FirstUserMedia}"
+        FocusManager.FocusedElement="{Binding ElementName=ChatMessageInput}"
+        Deactivated="OnLostFocus" Activated="OnGotFocus">
+    <Window.Resources>
+        <Converters:UtcToLocalDateTimeConverter x:Key="UtcToLocalDateTimeConverter"/>
+        <Converters:MessageDirectionToHorizontalAlignment x:Key="MessageDirectionToHorizontalAlignment"/>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </Window.Resources>
+    <d:Window.DataContext>
+        <vm:ChatWindowViewModel>
+            <vm:ChatWindowViewModel.Receiver>
+                <model:Profile FirstName="Julian" LastName="Rill"
+                               FirstUserMedia="http://www.stugether.wafoe.nl/media/4fc89750-c893-4b05-b5f9-58e21d5cf58e.jpg"
+                               Age="25"/>
+            </vm:ChatWindowViewModel.Receiver>
+        </vm:ChatWindowViewModel>
+    </d:Window.DataContext>
+    <DockPanel LastChildFill="True">
+        <Grid DockPanel.Dock="Top" Margin="5" Background="{StaticResource PrimarySolidColorBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Ellipse Width="50" Height="50" Margin="5">
+                <Ellipse.Fill>
+                    <ImageBrush ImageSource="{Binding Receiver.FirstUserMedia}" Stretch="UniformToFill"/>
+                </Ellipse.Fill>
+            </Ellipse>
+            <StackPanel Margin="5" Grid.Column="1" VerticalAlignment="Center">
+                <TextBlock Grid.Column="1" Foreground="{StaticResource WhiteSolidColorBrush}"><Run Text="{Binding Receiver.FirstName}"/><Run Text=" "/><Run Text="{Binding Receiver.LastName}"/></TextBlock>
+                <StackPanel Orientation="Horizontal" Visibility="{Binding Receiver.Birthday, Converter={StaticResource BoolToVis}}">
+                    <TextBlock Foreground="{StaticResource WhiteSolidColorBrush}"><Run Text="Vandaag "/><Run Text="{Binding Receiver.Age}"/><Run Text=" geworden!"/></TextBlock>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        <Grid DockPanel.Dock="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="ChatMessageInput" Text="{Binding SendMessageContent, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Grid.Column="1" Content=":)" Click="Emoji_Click"/>
+            <Button Grid.Column="2" Content="Send" Command="{Binding SendChatMessageCommand, Mode=OneWay}" IsDefault="True"/>
+        </Grid>
+        <ScrollViewer x:Name="ChatScrollViewer" BorderBrush="Black" BorderThickness="2,2,2,2" CanContentScroll="True" ScrollChanged="ChatScrollViewer_ScrollChanged">
+            <ItemsControl VerticalAlignment="Bottom" ItemsSource="{Binding ChatMessages,Mode=TwoWay}">
+                <!-- Sample data -->
+                <d:ItemsControl.ItemsSource>
+                    <x:Array Type="{x:Type model:ChatMessage}">
+                        <model:ChatMessage Content="Hallo" SentTime="12:16:33 2021-12-23" Seen="True"/>
+                        <model:ChatMessage Content="Hallo Bas" SentTime="15:00:33 2021-12-23" Direction="Received"/>
+                    </x:Array>
+                </d:ItemsControl.ItemsSource>
+                <!-- End of sample data-->
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel IsItemsHost="True" Background="Transparent"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type model:ChatMessage}">
+                        <Grid Margin="5" HorizontalAlignment="{Binding Direction, Converter={StaticResource MessageDirectionToHorizontalAlignment}}">
+                            <Border Margin="10" Background="#4C000000">
+                                <WrapPanel Margin="10">
+                                    <TextBlock Text="{Binding Content}" Margin="5" FontSize="14" TextWrapping="Wrap"/>
+                                    <StackPanel Background="Transparent" Orientation="Horizontal" VerticalAlignment="Bottom">
+                                        <Path VerticalAlignment="Center" Opacity="0.5" Stroke="Black" StrokeThickness="1.5">
+                                            <Path.Style>
+                                                <Style TargetType="Path">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Seen}" Value="False">
+                                                            <DataTrigger.Setters>
+                                                                <Setter Property="Data" Value="M 0,5 3,10 7,0"/>
+                                                            </DataTrigger.Setters>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Seen}" Value="True">
+                                                            <DataTrigger.Setters>
+                                                                <Setter Property="Data" Value="M 0,5 3,10 7,0 M 6,5 9,10 13,0"/>
+                                                            </DataTrigger.Setters>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Path.Style>
+                                        </Path>
+                                        <TextBlock Text="{Binding SentTime, Converter={StaticResource UtcToLocalDateTimeConverter}, StringFormat=t}" VerticalAlignment="Center" FontSize="12" Opacity="0.5"/>
+                                    </StackPanel>
+                                </WrapPanel>
+                            </Border>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </DockPanel>
+</Window>

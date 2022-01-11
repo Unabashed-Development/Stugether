@@ -1,7 +1,6 @@
 using System;
 using NUnit.Framework;
 using System.Collections.Generic;
-using Model;
 using System.Linq;
 
 namespace Gateway.Test

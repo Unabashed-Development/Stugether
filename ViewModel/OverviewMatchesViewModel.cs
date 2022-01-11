@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using ViewModel.Commands;
 using ViewModel.Helpers;
+using ViewModel.Mediators;
 
 namespace ViewModel
 {
@@ -11,6 +12,7 @@ namespace ViewModel
     {
         #region Fields
         private ObservableCollection<Profile> _matches;
+        private ObservableCollection<Profile> _likes;
         #endregion
 
         #region Properties
@@ -23,10 +25,26 @@ namespace ViewModel
                 RaisePropertyChanged("Matches");
             }
         }
+
+        public ObservableCollection<Profile> Likes
+        {
+            get => _likes;
+            set
+            {
+                _likes = value;
+                RaisePropertyChanged("Likes");
+            }
+        }
         #endregion
 
         #region Construction
-        public OverviewMatchesViewModel() => GetMatches();
+        public OverviewMatchesViewModel()
+        {
+            ViewModelMediators.MatchesChanged += GetMatches;
+            ViewModelMediators.LikesChanged += GetLikes;
+            GetMatches();
+            GetLikes();
+        }
         #endregion
 
         #region Commands
@@ -35,22 +53,30 @@ namespace ViewModel
 
         #region Methods
         /// <summary>
-        /// Unmatch the given userID from the logged in user and update the ObservableCollection.
+        /// Unmatch the given userID from the logged in user, adds the given userId to the blocklist and update the ObservableCollection.
         /// </summary>
         /// <param name="userID">The ID of the user that needs to be unmatched from the logged in user.</param>
         private void UnmatchParameterUserID(int userID)
         {
             MatchDataAccess.RemoveMatchFromUser(Account.UserID.Value, userID);
-            GetMatches();
+            BlockedDataAccess.BlockUserID(Account.UserID.Value, userID, BlockReason.Unmatched);
+            ViewModelMediators.Matches = MatchHelper.LoadProfilesOfMatches(Account.UserID.Value); // Reload the profiles of the matches 
         }
 
         /// <summary>
-        /// Gets the matches from the database for the logged in user and sets the ObservableCollection.
+        /// Sets the ObservableCollection for Matches.
         /// </summary>
         private void GetMatches()
         {
-            Account.Matches = MatchHelper.LoadProfilesOfMatches(Account.UserID.Value);
             Matches = new ObservableCollection<Profile>(Account.Matches);
+        }
+
+        /// <summary>
+        /// Sets the ObservableCollection for Likes.
+        /// </summary>
+        private void GetLikes()
+        {
+            Likes = new ObservableCollection<Profile>(Account.Likes);
         }
         #endregion
     }

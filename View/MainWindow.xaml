@@ -6,7 +6,11 @@
         xmlns:local="clr-namespace:View"
         xmlns:vm="clr-namespace:ViewModel;assembly=ViewModel"
         xmlns:vmc="clr-namespace:ViewModel.Commands;assembly=ViewModel"
+        xmlns:converters="clr-namespace:View.Converters"
+        xmlns:bootstrap="http://schemas.rpj.com/WPFBootstrapUI"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Style="{StaticResource {x:Type Window}}"
         Title="Stugether" Height="450" Width="800">
     <Window.DataContext>
@@ -15,10 +19,10 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition MaxWidth="150"/>
-            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="35"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <Grid Height="{Binding ActualHeight, ElementName=tbContentTitle, Mode=OneWay}">
@@ -26,11 +30,14 @@
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
-            <Button x:Name="btPreviousButton" Content="&lt;" Margin="5,5,5,5" Click="NavigationNextPreviousButton_Click"/>
-            <Button x:Name="btNextButton" Content="&gt;" Grid.Column="1" Margin="5" Click="NavigationNextPreviousButton_Click"/>
+            <Button x:Name="btPreviousButton" Margin="5,5,5,5" Command="NavigationCommands.BrowseBack" CommandTarget="{Binding ElementName=frContent}">
+                <Path Margin="0,0,2,0" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 4 0 L 0 4 L 4 8 Z" Fill="#FF444444"/>
+            </Button>
+            <Button x:Name="btNextButton" Grid.Column="1" Margin="5" Command="NavigationCommands.BrowseForward" CommandTarget="{Binding ElementName=frContent}">
+                <Path Margin="0,0,2,0" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 0 8 Z" Fill="#FF444444"/>
+            </Button>
         </Grid>
         <!-- The Stackpanel doesn't allow a binding for its children, so we use a ItemsControl instead -->
-        <StackPanel Grid.Row="1"> <!-- TEMPORARY for login button -->
             <ItemsControl x:Name="icMenuItems" Grid.Row="1" ItemsSource="{Binding MainNavigationItems}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -55,9 +62,7 @@
                     </ItemContainerTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <local:MainWindowNavigationItem Content="Login" ExtraNavigationInformation="" Click="Login_Click"/>
-        </StackPanel>
-        <TextBlock x:Name="tbContentTitle" Grid.Column="1" FontSize="22" FontWeight="Bold" Text="{Binding Title}"/>
+        <TextBlock x:Name="tbContentTitle" Grid.Column="1" FontSize="{StaticResource Font.Size.Title}" FontWeight="Bold" Text="{Binding Content.Title, ElementName=frContent}"/>
         <ScrollViewer Grid.Column="1" Grid.Row="1" VerticalScrollBarVisibility="Auto" >
             <Frame x:Name="frContent" Grid.Column="1" Grid.Row="1"  NavigationUIVisibility="Hidden" Source="{Binding MainWindowPage, Mode=TwoWay}"/>
         </ScrollViewer>

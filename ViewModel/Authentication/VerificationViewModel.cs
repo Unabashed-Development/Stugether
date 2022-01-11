@@ -1,5 +1,4 @@
 ﻿using Gateway;
-using Model;
 using System.Windows.Input;
 using ViewModel.Commands;
 using ViewModel.Stores;

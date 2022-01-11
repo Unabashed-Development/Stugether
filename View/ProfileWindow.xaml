@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewmodels="clr-namespace:ViewModel;assembly=ViewModel" xmlns:view="clr-namespace:View" d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Title="Profiel van je match" Height="600" Width="800">
-    <Grid>
+    <ScrollViewer>
         <Frame Content="{Binding CurrentViewModel}" NavigationUIVisibility="Hidden" x:Name="ProfileWindowFrame" x:FieldModifier="public"/>
-    </Grid>
+    </ScrollViewer>
 </Window>

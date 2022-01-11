@@ -4,8 +4,9 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using ViewModel.Commands;
 using ViewModel.Mediators;
-using System.Linq;
 using Model;
+using ViewModel.Helpers;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace ViewModel
 {
@@ -24,17 +25,24 @@ namespace ViewModel
         /// </summary>
         public MainPageViewModel()
         {
-            SSHService.Initialize(); // Initialize SSH for the database connection and logging in
-            MainNavigationItems = SetObservableCollection(false); // Initialize the default page list
+            // Initialize the default page list
+            MainNavigationItems = SetObservableCollection(false);
+
+            try
+            {
+                SSHService.Initialize(); // Initialize SSH for the database connection and logging in
+            }
+            catch (Exception)
+            {
+                MainWindowPage = "ServerError.xaml";
+            }
+
+            // Subscribe a bunch of events to make certain other functions work
             ViewModelMediators.AuthenticationStateChanged += OnAuthenticationStateChanged;
             ViewModelMediators.MainWindowPageChanged += OnMainWindowPageChanged;
+            ViewModelMediators.AuthenticationStateChanged += NotificationHelper.InitializeAllNotifications;
+            ToastNotificationManagerCompat.OnActivated += OnNotificationOpened;
         }
-
-        /// <summary>
-        /// On basis of the authentication state, change the Home page view that needs to be displayed.
-        /// </summary>
-        private void OnAuthenticationStateChanged() => MainNavigationItems = Account.Authenticated ? SetObservableCollection(true) : SetObservableCollection(false);
-
         #endregion
 
         #region Properties
@@ -103,11 +111,12 @@ namespace ViewModel
                 MainWindowPage = @"HomePages\HomePageBeforeLogin.xaml";
                 collection.Add(new MainMenuNavigationItemData("Home", MainWindowPage, null));
             }
-            collection.Add(new MainMenuNavigationItemData("Profiel", "ProfilePage.xaml", null));
-            collection.Add(new MainMenuNavigationItemData("Zoeken naar matches", "MatchingProfilePage.xaml", null));
+            collection.Add(new MainMenuNavigationItemData("Mijn profiel", "ProfilePage.xaml", null));
+            collection.Add(new MainMenuNavigationItemData("Matches zoeken", "MatchingProfilePage.xaml", null));
             collection.Add(new MainMenuNavigationItemData("Mijn matches", "OverviewMatches.xaml", null));
             collection.Add(new MainMenuNavigationItemData("Zoekvoorkeuren", "SearchPreferencePage.xaml", null));
-            collection.Add(new MainMenuNavigationItemData("Instellingen", "ProfileSettings.xaml", null));
+            collection.Add(new MainMenuNavigationItemData("Profiel bewerken", "ProfileSettings.xaml", null));
+            collection.Add(new MainMenuNavigationItemData("Notificaties", "NotificationSettings.xaml", null));
 
             return collection;
         }
@@ -116,6 +125,20 @@ namespace ViewModel
         {
             RaisePropertyChanged("MainWindowPage");
         }
+
+        private void OnNotificationOpened(ToastNotificationActivatedEventArgsCompat toastArgs)
+        {
+            string[] toastArgumentArray = toastArgs.Argument.Split('=');
+            if (toastArgumentArray[0] == "MatchOrLike")
+            {
+                MainWindowPage = ToastArguments.Parse(toastArgumentArray[1]).ToString();
+            }
+        }
+
+        /// <summary>
+        /// On basis of the authentication state, change the Home page view that needs to be displayed.
+        /// </summary>
+        private void OnAuthenticationStateChanged() => MainNavigationItems = Account.Authenticated ? SetObservableCollection(true) : SetObservableCollection(false);
         #endregion
 
         #region MainMenuNavigationItemData

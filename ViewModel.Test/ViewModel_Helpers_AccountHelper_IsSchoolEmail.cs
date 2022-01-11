@@ -1,4 +1,7 @@
+using Gateway;
+using Model;
 using NUnit.Framework;
+using System.Collections.Generic;
 using ViewModel.Helpers;
 
 namespace ViewModel.Test
@@ -11,13 +14,18 @@ namespace ViewModel.Test
         [TestCase("a@a")]
         [TestCase("a@a.nl")]
         [TestCase("hello@welcome.com")]
+        [TestCase("@windesheim.com")]
         [TestCase("@windesheim")]
         [TestCase("hello@welcome.a.b.c.d.e.f.g")]
         [TestCase("hello-com.test@welcome.a.b.c.d.e.f.g")]
         public void IsSchoolEmail_NoSchoolMail_ReturnsFalse(string email)
         {
+            // Arrange
+            IEnumerable<AllowedSchool> allowedSchools = AllowedSchoolsDataAccess.APICallAllowedSchools();
+            List<string> allowedSchoolRootDomains = AccountHelper.RetrieveAllDomainNamesFromAllowedSchools(allowedSchools);
+
             // Act
-            bool schoolMail = AccountHelper.IsSchoolEmail(email);
+            bool schoolMail = AccountHelper.IsSchoolEmail(email, allowedSchoolRootDomains);
 
             // Assert
             Assert.IsFalse(schoolMail);
@@ -27,11 +35,17 @@ namespace ViewModel.Test
         [TestCase("test@student.windesheim.nl")]
         [TestCase("@student.windesheim.nl")]
         [TestCase("@windesheim.nl")]
-        [TestCase("@windesheim.com")]
+        [TestCase("@uva.nl")]
+        [TestCase("@abcdefg.uva.nl")]
+        [TestCase("@hku.nl")]
         public void IsSchoolEmail_IsSchoolMail_ReturnsTrue(string email)
         {
+            // Arrange
+            IEnumerable<AllowedSchool> allowedSchools = AllowedSchoolsDataAccess.APICallAllowedSchools();
+            List<string> allowedSchoolRootDomains = AccountHelper.RetrieveAllDomainNamesFromAllowedSchools(allowedSchools);
+
             // Act
-            bool schoolMail = AccountHelper.IsSchoolEmail(email);
+            bool schoolMail = AccountHelper.IsSchoolEmail(email, allowedSchoolRootDomains);
 
             // Assert
             Assert.IsTrue(schoolMail);

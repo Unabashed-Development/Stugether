@@ -13,19 +13,7 @@ namespace ViewModel
 {
     public class SearchPreferencePageViewModel : INotifyPropertyChanged
     {
-
         #region Property
-        public bool Business
-        {
-            get { return RelationType.Business; }
-            set
-            {
-                RelationType.Business = value;
-                OnPropertyChanged("Business");
-                
-            }
-        }
-
         public bool Love
         {
             get { return RelationType.Love; }
@@ -36,7 +24,27 @@ namespace ViewModel
             }
         }
 
-       
+        public bool Business
+        {
+            get { return RelationType.Business; }
+            set
+            {
+                RelationType.Business = value;
+                OnPropertyChanged("Business");
+                
+            }
+        }
+        
+        public bool StudyBuddy
+        {
+            get { return RelationType.StudyBuddy; }
+            set
+            {
+                RelationType.StudyBuddy = value;
+                OnPropertyChanged("StudyBuddy");
+            }
+        }      
+
 
         public bool Friend
         {
@@ -49,15 +57,7 @@ namespace ViewModel
             }
         }
 
-        public bool StudyBuddy
-        {
-            get { return RelationType.StudyBuddy; }
-            set
-            {
-                RelationType.StudyBuddy = value;
-                OnPropertyChanged("StudyBuddy");
-            }
-        }
+        
 
 
         private RelationType _relationType;
@@ -80,10 +80,6 @@ namespace ViewModel
         {
             SearchPreferenceDataAccess.SaveRelationPreference(RelationType,(int)Account.UserID);
         }, ()=>true);
-        
-
-        
-
 
         public SearchPreferencePageViewModel()
         {

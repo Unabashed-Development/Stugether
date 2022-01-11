@@ -1,4 +1,12 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Reflection;
+using System.Windows.Navigation;
+using ViewModel.Mediators;
+using Microsoft.Toolkit.Uwp.Notifications;
+using ViewModel;
 
 namespace View
 {
@@ -7,53 +15,102 @@ namespace View
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly NotifyIcon ni = new NotifyIcon
+        {
+            Icon = new Icon(Assembly.GetExecutingAssembly().GetManifestResourceStream("View.stugether_logo.ico")),
+            BalloonTipTitle = "Stugether is nu geminimaliseerd",
+            BalloonTipText = "Druk op het icoontje om mij weer te openen!",
+            Text = "Stugether",
+        };
+
         public MainWindow()
         {
             InitializeComponent();
+
+            ni.DoubleClick +=
+                delegate (object sender, EventArgs args)
+                {
+                    Show();
+                    WindowState = WindowState.Normal;
+                    ni.Visible = false;
+                };
+
+            // Clear navigation history once the authentication has finished
+            ViewModelMediators.AuthenticationStateChanged += ClearPagesHistory;
+
+            // Subscribe for the opening of a chat window once a chat notification is clicked
+            ToastNotificationManagerCompat.OnActivated += Chat_Notification;
+
+            // Clear all windows once the authentication has finished
+            ViewModelMediators.AuthenticationStateChanged += CloseOpenProfileAndChatWindows;
         }
 
+        protected override void OnStateChanged(EventArgs e)
+        {
+            if (WindowState == WindowState.Minimized)
+            {
+                Hide();
+                ni.Visible = true;
+                ni.ShowBalloonTip(5000);
+            }
+
+            base.OnStateChanged(e);
+        }
 
         /// <summary>
-        /// Occurs when the back/forward buttons are clicked
+        /// Clears the history of the frContent frame located on the main page.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The event data.</param>
-        private void NavigationNextPreviousButton_Click(object sender, RoutedEventArgs e)
+        private void ClearPagesHistory()
         {
-            if ((Button)sender == btPreviousButton)
+            if (!frContent.CanGoBack && !frContent.CanGoForward)
             {
-                frContent.GoBack();
+                return;
             }
-            else if ((Button)sender == btNextButton)
+
+            JournalEntry entry = frContent.RemoveBackEntry();
+            while (entry != null)
             {
-                frContent.GoForward();
+                entry = frContent.RemoveBackEntry();
             }
         }
 
         /// <summary>
-        /// Occurs when navigation happened in the frame
+        /// Opens a new chat window when a chat notification is pressed.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The event data.</param>
-        private void frContent_Navigated(object sender, NavigationEventArgs e)
+        /// <param name="toastArgs">Argument with the user ID of the chat window.</param>
+        private void Chat_Notification(ToastNotificationActivatedEventArgsCompat toastArgs)
         {
-            btPreviousButton.IsEnabled = ((Frame)sender).CanGoBack;
-            btNextButton.IsEnabled = ((Frame)sender).CanGoForward;
-            if (((Frame)sender).Content.GetType() == typeof(Page)) 
+            string[] toastArgumentArray = toastArgs.Argument.Split('='); // Split the arguments in key and value (array)
+            if (toastArgumentArray[0] == "Chat")
             {
-                tbContentTitle.Text = ((Page)((Frame)sender).Content).Title;
+                int toastArgumentUserID = int.Parse(toastArgumentArray[1]);
+                if (!OverviewMatches.FocusOpenedWindow<ChatWindow>(toastArgumentUserID))
+                {
+                    System.Windows.Application.Current.Dispatcher.Invoke(delegate // Dispatcher delegate for threads
+                    {
+                        // If there have been no ChatWindows found for the sending user, open a new window
+                        ChatWindow chatWindow = new ChatWindow
+                        {
+                            DataContext = new ChatWindowViewModel(toastArgumentUserID)
+                        };
+                        OverviewMatches.Chat_Base(chatWindow);
+                    });
+                }
             }
         }
 
-        private void MainWindowNavigationItem_Checked(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Closes all open chat and profile windows.
+        /// </summary>
+        private void CloseOpenProfileAndChatWindows()
         {
-
-        }
-
-        private void Login_Click(object sender, RoutedEventArgs e)
-        {
-            AuthenticationWindow authenticationWindow = new AuthenticationWindow();
-            authenticationWindow.Show();
+            foreach (Window w in System.Windows.Application.Current.Windows)
+            {
+                if (w.GetType() == typeof(ChatWindow) || w.GetType() == typeof(ProfileWindow))
+                {
+                    w.Close();
+                }
+            }
         }
     }
 }

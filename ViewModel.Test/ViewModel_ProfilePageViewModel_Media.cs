@@ -3,7 +3,7 @@ using Model;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Collections.ObjectModel;
 
 namespace ViewModel.Test
 {
@@ -17,20 +17,20 @@ namespace ViewModel.Test
         [TestCase(3)]
         public void ProfilePageViewModel_PhotoNavigation(int listid)
         {
-            List<Uri> usermedia;
+            ObservableCollection<Uri> usermedia;
             Uri shouldNextResult, shouldPrevResult;
             switch (listid)
             {
                 case 0:
                 default:
-                    usermedia = new List<Uri>()
+                    usermedia = new ObservableCollection<Uri>()
                     {
                     };
                     shouldNextResult = null;
                     shouldPrevResult = null;
                     break;
                 case 1:
-                    usermedia = new List<Uri>()
+                    usermedia = new ObservableCollection<Uri>()
                     {
                         new Uri("aa", UriKind.RelativeOrAbsolute)
                     };
@@ -38,7 +38,7 @@ namespace ViewModel.Test
                     shouldNextResult = new Uri("aa", UriKind.RelativeOrAbsolute);
                     break;
                 case 2:
-                    usermedia = new List<Uri>() 
+                    usermedia = new ObservableCollection<Uri>() 
                     {
                         new Uri("aa", UriKind.RelativeOrAbsolute),
                         new Uri("bb", UriKind.RelativeOrAbsolute)
@@ -47,7 +47,7 @@ namespace ViewModel.Test
                     shouldPrevResult = new Uri("bb", UriKind.RelativeOrAbsolute);
                     break;
                 case 3:
-                    usermedia = new List<Uri>()
+                    usermedia = new ObservableCollection<Uri>()
                     {
                         new Uri("aa", UriKind.RelativeOrAbsolute),
                         new Uri("bb", UriKind.RelativeOrAbsolute),

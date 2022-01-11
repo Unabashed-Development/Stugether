@@ -8,7 +8,7 @@
       Title="LoginView">
 
     <Grid>
-        <Border Background="{StaticResource BackgroundPrimary}" CornerRadius="10" Margin="10">
+        <Border CornerRadius="10" Margin="10">
             <StackPanel Margin="10">
                 <Label Content="E-mailadres van je schoolaccount" FontSize="14"/>
                 <TextBox Margin="5 0" FontSize="14" Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}">
@@ -24,13 +24,13 @@
                     </components:BindablePasswordBox.InputBindings>
                 </components:BindablePasswordBox>
 
-                <Button Content="Inloggen" Margin="100 10" Background="{StaticResource BackgroundTertiary}" Foreground="White" FontSize="14" Command="{Binding LoginCommand}"/>
+                <Button Content="Inloggen" Margin="100 10" Foreground="White" FontSize="14" Command="{Binding LoginCommand}"/>
 
                 <Separator/>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Label Content="Nog geen account?" FontSize="14" HorizontalAlignment="Center"/>
-                    <Button Content="Registreer je!" FontSize="14" Background="{StaticResource BackgroundTertiary}" Foreground="White" Command="{Binding NavigateToRegisterCommand}"/>
+                    <Button Content="Registreer je!" FontSize="14" Foreground="White" Command="{Binding NavigateToRegisterCommand}"/>
                 </StackPanel>
 
                 <Label Content="{Binding ErrorMessage}" Foreground="Red" FontSize="14" HorizontalAlignment="Center"/>

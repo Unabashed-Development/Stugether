@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace Gateway.Test
 {
@@ -16,7 +13,7 @@ namespace Gateway.Test
         [Test]
         public void GetListBasedOnIntrest_GetNotNull_ThrowExeption()
         {
-            Assert.NotNull(SearchProfileDataAccess.GetProfileBasedOnIntrest(3));
+            Assert.NotNull(SearchProfileDataAccess.GetProfileBasedOnInterest(3));
         }
     }
 }

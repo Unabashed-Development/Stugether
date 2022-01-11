@@ -14,9 +14,21 @@ namespace ViewModel.Helpers
         /// <returns>A list of matched profiles.</returns>
         public static List<Profile> LoadProfilesOfMatches(int userID)
         {
+            List<Profile> matchesList = new List<Profile>();
             List<int> matchedIDs = MatchDataAccess.GetAllMatchesFromUser(userID, MatchOrLike.Matched);
-            return (from int id in matchedIDs
-                    select ProfileDataAccess.LoadProfile(id)).ToList();
+            matchesList = (from int id in matchedIDs
+                           select ProfileDataAccess.LoadProfile(id)).ToList();
+            matchesList = matchesList.Select((p) => { p.UpdateUnreadMessages(userID); return p; }).ToList(); ;
+            return NotificationHelper.FixBirthdayPreferences(matchesList);
+        }
+
+        public static List<Profile> LoadProfilesOfLikes(int userID)
+        {
+            List<Profile> likesList = new List<Profile>();
+            List<int> likedIDs = MatchDataAccess.GetReceivedLikesFromUser(userID);
+            likesList = (from int id in likedIDs
+                         select ProfileDataAccess.LoadProfile(id)).ToList();
+            return NotificationHelper.FixBirthdayPreferences(likesList);
         }
 
         /// <summary>
@@ -35,7 +47,43 @@ namespace ViewModel.Helpers
             {
                 MatchDataAccess.AddLikeToUserIDs(userID, likedUserID, relationshipTypeID);
             }
-
         }
+
+        public static bool CheckForExistingLike(int userID, int likedUserID)
+        {
+            bool liked = MatchDataAccess.CheckIfUserLiked(userID, likedUserID);
+            return liked;
+        }
+
+        public static List<int> RelationshipHandler(int userID, int likedUserID)
+        {
+            List<int> EqualRT = new List<int>();
+            if (!CheckForExistingLike(userID, likedUserID))
+            {
+                RelationType RT1 = SearchPreferenceDataAccess.GetRelationType(userID);
+                RelationType RT2 = SearchPreferenceDataAccess.GetRelationType(likedUserID);                
+                if (RT1.Love == true && RT2.Love == true)
+                {
+                    EqualRT.Add(1);
+                }
+                if (RT1.Business == true && RT2.Business == true)
+                {
+                    EqualRT.Add(2);
+                }
+                if (RT1.StudyBuddy == true && RT2.StudyBuddy == true)
+                {
+                    EqualRT.Add(3);
+                }
+                if (RT1.Friend == true && RT2.Friend == true)
+                {
+                    EqualRT.Add(4);
+                }
+            }
+            else
+            {
+                EqualRT.Add(0);
+            }
+            return EqualRT;
+        } 
     }
 }
