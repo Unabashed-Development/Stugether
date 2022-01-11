@@ -53,18 +53,9 @@ namespace ViewModel.Helpers
             }
             if (set)
             {
-                if (Account.NotificationSettings.Matches)
-                {
-                    Account.BackgroundThreads[keyArray[0]] = new Timer(MatchOrLikeNotification, MatchOrLike.Matched, 0, 5000);
-                }
-                if (Account.NotificationSettings.Likes)
-                {
-                    Account.BackgroundThreads[keyArray[1]] = new Timer(MatchOrLikeNotification, MatchOrLike.Liked, 0, 5000);
-                }
-                if (Account.NotificationSettings.Chat)
-                {
-                    Account.BackgroundThreads[keyArray[2]] = new Timer(ChatNotifications, null, 0, 1000);
-                }
+                Account.BackgroundThreads[keyArray[0]] = new Timer(MatchOrLikeNotification, MatchOrLike.Matched, 0, 5000);
+                Account.BackgroundThreads[keyArray[1]] = new Timer(MatchOrLikeNotification, MatchOrLike.Liked, 0, 5000);
+                Account.BackgroundThreads[keyArray[2]] = new Timer(ChatNotifications, null, 0, 1000);
             }
         }
 
@@ -125,18 +116,21 @@ namespace ViewModel.Helpers
             // If the amounts are different OR there is at least 1 new user...
             if (current.Count != previous.Count || current.Count > 0)
             {
+                bool notificationsOn;
                 // ...reload the profiles
                 if ((MatchOrLike)matchOrLike == MatchOrLike.Matched)
                 {
                     ViewModelMediators.Matches = MatchHelper.LoadProfilesOfMatches(Account.UserID.Value);
+                    notificationsOn = Account.NotificationSettings.Matches;
                 }
                 else
                 {
                     ViewModelMediators.Likes = MatchHelper.LoadProfilesOfLikes(Account.UserID.Value);
+                    notificationsOn = Account.NotificationSettings.Likes;
                 }
 
-                // If the current amount are more (so there is a new user instead of an user who removed you)...
-                if (current.Count > 0)
+                // If the current amount are more (so there is a new user instead of an user who removed you) and notifications are turned on...
+                if (notificationsOn && current.Count > 0)
                 {
                     // Throw new notification with amount of new matches or likes
                     ThrowMatchOrLikeNotification((MatchOrLike)matchOrLike, current.Count);
@@ -185,18 +179,22 @@ namespace ViewModel.Helpers
                     ViewModelMediators.Matches = MatchHelper.LoadProfilesOfMatches(Account.UserID.Value);
                 }
 
-                // Throw notifications for every new chat message
-                foreach (ChatMessage c in unreadChatMessages)
+                // Throw notifications for every new chat message if notifications are on
+                if (Account.NotificationSettings.Chat)
                 {
-                    Profile chatProfile = Account.Matches.FirstOrDefault(p => p.UserID == c.FromUserId);
-                    ThrowChatMessageNotification(chatProfile.FirstName,
-                                                 chatProfile.LastName,
-                                                 chatProfile.FirstUserMedia,
-                                                 c.Content,
-                                                 chatProfile.UserID);
-                    c.Seen = true;
+                    foreach (ChatMessage c in unreadChatMessages)
+                    {
+                        Profile chatProfile = Account.Matches.FirstOrDefault(p => p.UserID == c.FromUserId);
+                        ThrowChatMessageNotification(chatProfile.FirstName,
+                                                     chatProfile.LastName,
+                                                     chatProfile.FirstUserMedia,
+                                                     c.Content,
+                                                     chatProfile.UserID);
+                        c.Seen = true;
+                    }
                 }
 
+                // Set the NotifiedChatMessages to the newly obtained chat messages list
                 Account.NotifiedChatMessages = newChatMessages;
             }
         }

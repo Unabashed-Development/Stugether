@@ -40,6 +40,9 @@ namespace View
 
             // Subscribe for the opening of a chat window once a chat notification is clicked
             ToastNotificationManagerCompat.OnActivated += Chat_Notification;
+
+            // Clear all windows once the authentication has finished
+            ViewModelMediators.AuthenticationStateChanged += CloseOpenProfileAndChatWindows;
         }
 
         protected override void OnStateChanged(EventArgs e)
@@ -92,6 +95,20 @@ namespace View
                         };
                         OverviewMatches.Chat_Base(chatWindow);
                     });
+                }
+            }
+        }
+
+        /// <summary>
+        /// Closes all open chat and profile windows.
+        /// </summary>
+        private void CloseOpenProfileAndChatWindows()
+        {
+            foreach (Window w in System.Windows.Application.Current.Windows)
+            {
+                if (w.GetType() == typeof(ChatWindow) || w.GetType() == typeof(ProfileWindow))
+                {
+                    w.Close();
                 }
             }
         }

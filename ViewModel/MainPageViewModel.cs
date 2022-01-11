@@ -25,8 +25,17 @@ namespace ViewModel
         /// </summary>
         public MainPageViewModel()
         {
-            SSHService.Initialize(); // Initialize SSH for the database connection and logging in
-            MainNavigationItems = SetObservableCollection(false); // Initialize the default page list
+            // Initialize the default page list
+            MainNavigationItems = SetObservableCollection(false);
+
+            try
+            {
+                SSHService.Initialize(); // Initialize SSH for the database connection and logging in
+            }
+            catch (Exception)
+            {
+                MainWindowPage = "ServerError.xaml";
+            }
 
             // Subscribe a bunch of events to make certain other functions work
             ViewModelMediators.AuthenticationStateChanged += OnAuthenticationStateChanged;
