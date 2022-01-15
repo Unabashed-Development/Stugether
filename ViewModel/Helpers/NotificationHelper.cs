@@ -93,15 +93,19 @@ namespace ViewModel.Helpers
             List<Profile> profileList;
 
             // Prepares data depending on the match or like handling
-            if ((MatchOrLike)matchOrLike == MatchOrLike.Matched)
+            if ((MatchOrLike)matchOrLike == MatchOrLike.Matched && Account.UserID != null)
             {
                 current = new HashSet<int>(MatchDataAccess.GetAllMatchesFromUser(Account.UserID.Value, MatchOrLike.Matched));
                 profileList = ViewModelMediators.Matches;
             }
-            else
+            else if ((MatchOrLike)matchOrLike == MatchOrLike.Liked && Account.UserID != null)
             {
                 current = new HashSet<int>(MatchDataAccess.GetReceivedLikesFromUser(Account.UserID.Value));
                 profileList = ViewModelMediators.Likes;
+            }
+            else
+            {
+                throw new Exception("Match or like notification MatchOrLike enum not set correctly");
             }
 
             // Add the user ID's to the HashSet
@@ -120,7 +124,10 @@ namespace ViewModel.Helpers
                 // ...reload the profiles
                 if ((MatchOrLike)matchOrLike == MatchOrLike.Matched)
                 {
-                    ViewModelMediators.Matches = MatchHelper.LoadProfilesOfMatches(Account.UserID.Value);
+                    if (Account.UserID != null)
+                    {
+                        ViewModelMediators.Matches = MatchHelper.LoadProfilesOfMatches(Account.UserID.Value);
+                    }
                     if (Account.NotificationSettings != null)
                     {
                         notificationsOn = Account.NotificationSettings.Matches;
@@ -128,7 +135,10 @@ namespace ViewModel.Helpers
                 }
                 else
                 {
-                    ViewModelMediators.Likes = MatchHelper.LoadProfilesOfLikes(Account.UserID.Value);
+                    if (Account.UserID != null)
+                    {
+                        ViewModelMediators.Likes = MatchHelper.LoadProfilesOfLikes(Account.UserID.Value);
+                    }
                     if (Account.NotificationSettings != null)
                     {
                         notificationsOn = Account.NotificationSettings.Likes;
