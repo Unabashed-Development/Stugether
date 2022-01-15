@@ -7,13 +7,14 @@
 	<UseWindowsForms>true</UseWindowsForms>
     <ApplicationIcon>stugether_logo.ico</ApplicationIcon>
     <AssemblyName>Stugether</AssemblyName>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Authors>Unabashed Development</Authors>
     <Company>Unabashed Development</Company>
     <Description>Your student matching application!</Description>
     <Copyright>Unabashed Development</Copyright>
     <PackageProjectUrl></PackageProjectUrl>
     <RepositoryUrl>https://github.com/Unabashed-Development/Stugether</RepositoryUrl>
+    <AssemblyVersion>1.0.2.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
