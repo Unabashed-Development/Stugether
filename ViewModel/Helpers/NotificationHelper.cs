@@ -190,7 +190,8 @@ namespace ViewModel.Helpers
                     {
                         foreach (ChatMessage c in unreadChatMessages)
                         {
-                            if (!ViewModelMediators.ChatWindowFocus[c.FromUserId])
+                            bool dictionaryContainsUser = ViewModelMediators.ChatWindowFocus.ContainsKey(c.FromUserId);
+                            if ((dictionaryContainsUser && !ViewModelMediators.ChatWindowFocus[c.FromUserId]) || !dictionaryContainsUser)
                             {
                                 Profile chatProfile = Account.Matches.FirstOrDefault(p => p.UserID == c.FromUserId);
                                 ThrowChatMessageNotification(chatProfile.FirstName,
