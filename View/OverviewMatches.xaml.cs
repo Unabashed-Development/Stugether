@@ -21,13 +21,12 @@ namespace View
         /// </summary>
         private void Profile_Click(object sender, RoutedEventArgs e)
         {
-            Profile profile = ((Button)sender).DataContext as Profile;
-            if (!FocusOpenedWindow<ProfileWindow>(profile))
+            if (((Button)sender).DataContext is Profile profile && !FocusOpenedWindow<ProfileWindow>(profile))
             {
                 ProfileWindow profileWindow = new ProfileWindow();
                 profileWindow.ProfileWindowFrame.Content = new ProfilePage(new ProfilePageViewModel(profile));
 
-                profileWindow.Show(); // Show the authentication window
+                profileWindow.Show();
             }
         }
 
@@ -39,13 +38,12 @@ namespace View
             ProfileWindow profileWindow = new ProfileWindow();
             profileWindow.ProfileWindowFrame.Content = new MatchingProfilePage(new MatchingProfilePageViewModel(((Button)sender).DataContext as Profile));
 
-            profileWindow.Show(); // Show the authentication window
+            profileWindow.Show();
         }
 
         private void Chat_Click(object sender, RoutedEventArgs e)
         {
-            Profile profile = ((Button)sender).DataContext as Profile;
-            if (!FocusOpenedWindow<ChatWindow>(profile))
+            if (((Button)sender).DataContext is Profile profile && !FocusOpenedWindow<ChatWindow>(profile))
             {
                 ChatWindow chatWindow = new ChatWindow
                 {
@@ -72,10 +70,10 @@ namespace View
         public static bool FocusOpenedWindow<T>(int userID) where T : Window
         {
             bool success = false;
-            System.Windows.Application.Current.Dispatcher.Invoke(delegate // Dispatcher delegate for threads
+            Application.Current.Dispatcher.Invoke(delegate // Dispatcher delegate for threads
             {
                 // Check if a window is already open for the user, and if so, focus it instead of opening a new window
-                foreach (T t in System.Windows.Application.Current.Windows.OfType<T>())
+                foreach (T t in Application.Current.Windows.OfType<T>())
                 {
                     if (typeof(T) == typeof(ChatWindow))
                     {

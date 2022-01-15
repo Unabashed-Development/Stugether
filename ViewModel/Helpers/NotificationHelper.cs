@@ -190,12 +190,15 @@ namespace ViewModel.Helpers
                     {
                         foreach (ChatMessage c in unreadChatMessages)
                         {
-                            Profile chatProfile = Account.Matches.FirstOrDefault(p => p.UserID == c.FromUserId);
-                            ThrowChatMessageNotification(chatProfile.FirstName,
-                                                         chatProfile.LastName,
-                                                         chatProfile.FirstUserMedia,
-                                                         c.Content,
-                                                         chatProfile.UserID);
+                            if (!ViewModelMediators.ChatWindowFocus[c.FromUserId])
+                            {
+                                Profile chatProfile = Account.Matches.FirstOrDefault(p => p.UserID == c.FromUserId);
+                                ThrowChatMessageNotification(chatProfile.FirstName,
+                                                             chatProfile.LastName,
+                                                             chatProfile.FirstUserMedia,
+                                                             c.Content,
+                                                             chatProfile.UserID);
+                            }
                             c.Seen = true;
                         }
                     }
