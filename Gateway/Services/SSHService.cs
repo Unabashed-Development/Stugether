@@ -70,8 +70,7 @@ namespace Gateway
             sshClient.Connect();
 
             // Forward a local port to the database server and port, using the SSH server
-            //ForwardedPortLocal forwardedPort = new ForwardedPortLocal("127.0.0.1", databaseServer, (uint)databasePort); // Uses a random port
-            ForwardedPortLocal forwardedPort = new ForwardedPortLocal("127.0.0.1", (uint)databasePort, databaseServer, (uint)databasePort); // Makes port same as database port
+            ForwardedPortLocal forwardedPort = new ForwardedPortLocal("127.0.0.1", databaseServer, (uint)databasePort); // Uses a random port
             sshClient.AddForwardedPort(forwardedPort);
             forwardedPort.Start();
 

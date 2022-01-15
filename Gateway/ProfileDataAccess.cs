@@ -80,7 +80,7 @@ namespace Gateway
                 MoralsData moralsData = LoadMoralsData(id);
                 studentData.MoralsData = moralsData;
                 studentData.UserMedia = new System.Collections.ObjectModel.ObservableCollection<Uri>(MediaDataAccess.GetUserMediaUris(id));
-                studentData.FirstUserMedia = studentData.UserMedia?.FirstOrDefault();
+                studentData.FirstUserMedia = studentData.UserMedia?.DefaultIfEmpty(new Uri("http://www.stugether.wafoe.nl/media/blank_profile_stugether.png")).First();
                 studentData.MatchRelationType = LoadRelationshipTypeMatch(studentData.UserID);
                 return studentData;
             }

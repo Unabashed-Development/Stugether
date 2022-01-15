@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Input;
 using ViewModel.Commands;
+using ViewModel.Mediators;
 
 namespace ViewModel
 {
@@ -175,18 +176,21 @@ namespace ViewModel
             }
         }
 
-        public bool ChatWindowHasFocus { internal get; set; }
+        public bool ChatWindowHasFocus
+        {
+            get
+            {
+                if (!ViewModelMediators.ChatWindowFocus.ContainsKey(Receiver.UserID))
+                {
+                    ViewModelMediators.ChatWindowFocus.Add(Receiver.UserID, true);
+                }
+                return ViewModelMediators.ChatWindowFocus[Receiver.UserID];
+            }
+            set => ViewModelMediators.ChatWindowFocus[Receiver.UserID] = value;
+        }
         #endregion
 
         #region Construction and destruction
-        /// <summary>
-        /// Creates an empty conversation
-        /// </summary>
-        public ChatWindowViewModel()
-        {
-
-        }
-
         /// <summary>
         /// Creates a conversationViewModel with given userId
         /// </summary>
@@ -207,10 +211,11 @@ namespace ViewModel
         }
 
         /// <summary>
-        /// Destructs ChatWindowViewModel, and so stops the background timer for updating chats
+        /// Destructs ChatWindowViewModel, and so stops the background timer for updating chats and cleans up ChatWindowFocus
         /// </summary>
         ~ChatWindowViewModel()
         {
+            ViewModelMediators.ChatWindowFocus.Remove(Receiver.UserID);
             Account.BackgroundThreads[backgroundThreadName].Dispose();
             Account.BackgroundThreads.Remove(backgroundThreadName);
         }

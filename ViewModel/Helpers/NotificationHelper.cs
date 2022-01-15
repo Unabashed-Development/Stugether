@@ -116,17 +116,23 @@ namespace ViewModel.Helpers
             // If the amounts are different OR there is at least 1 new user...
             if (current.Count != previous.Count || current.Count > 0)
             {
-                bool notificationsOn;
+                bool notificationsOn = false;
                 // ...reload the profiles
                 if ((MatchOrLike)matchOrLike == MatchOrLike.Matched)
                 {
                     ViewModelMediators.Matches = MatchHelper.LoadProfilesOfMatches(Account.UserID.Value);
-                    notificationsOn = Account.NotificationSettings.Matches;
+                    if (Account.NotificationSettings != null)
+                    {
+                        notificationsOn = Account.NotificationSettings.Matches;
+                    }
                 }
                 else
                 {
                     ViewModelMediators.Likes = MatchHelper.LoadProfilesOfLikes(Account.UserID.Value);
-                    notificationsOn = Account.NotificationSettings.Likes;
+                    if (Account.NotificationSettings != null)
+                    {
+                        notificationsOn = Account.NotificationSettings.Likes;
+                    }
                 }
 
                 // If the current amount are more (so there is a new user instead of an user who removed you) and notifications are turned on...
@@ -172,30 +178,31 @@ namespace ViewModel.Helpers
                         unreadChatMessages.Add(c);
                     }
                 }
+                Account.NotifiedChatMessages = newChatMessages; // Set the NotifiedChatMessages to the newly obtained chat messages list
 
                 // Reload the profiles of matches if there have been new unread chat messages (for chat notification indicator)
                 if (unreadChatMessages.Count > 0)
                 {
                     ViewModelMediators.Matches = MatchHelper.LoadProfilesOfMatches(Account.UserID.Value);
-                }
 
-                // Throw notifications for every new chat message if notifications are on
-                if (Account.NotificationSettings.Chat)
-                {
-                    foreach (ChatMessage c in unreadChatMessages)
+                    // Throw notifications for every new chat message if notifications are on
+                    if (Account.NotificationSettings != null && Account.NotificationSettings.Chat)
                     {
-                        Profile chatProfile = Account.Matches.FirstOrDefault(p => p.UserID == c.FromUserId);
-                        ThrowChatMessageNotification(chatProfile.FirstName,
-                                                     chatProfile.LastName,
-                                                     chatProfile.FirstUserMedia,
-                                                     c.Content,
-                                                     chatProfile.UserID);
-                        c.Seen = true;
+                        foreach (ChatMessage c in unreadChatMessages)
+                        {
+                            if (!ViewModelMediators.ChatWindowFocus[c.FromUserId])
+                            {
+                                Profile chatProfile = Account.Matches.FirstOrDefault(p => p.UserID == c.FromUserId);
+                                ThrowChatMessageNotification(chatProfile.FirstName,
+                                                             chatProfile.LastName,
+                                                             chatProfile.FirstUserMedia,
+                                                             c.Content,
+                                                             chatProfile.UserID);
+                            }
+                            c.Seen = true;
+                        }
                     }
                 }
-
-                // Set the NotifiedChatMessages to the newly obtained chat messages list
-                Account.NotifiedChatMessages = newChatMessages;
             }
         }
         #endregion
