@@ -116,17 +116,23 @@ namespace ViewModel.Helpers
             // If the amounts are different OR there is at least 1 new user...
             if (current.Count != previous.Count || current.Count > 0)
             {
-                bool notificationsOn;
+                bool notificationsOn = false;
                 // ...reload the profiles
                 if ((MatchOrLike)matchOrLike == MatchOrLike.Matched)
                 {
                     ViewModelMediators.Matches = MatchHelper.LoadProfilesOfMatches(Account.UserID.Value);
-                    notificationsOn = Account.NotificationSettings.Matches;
+                    if (Account.NotificationSettings != null)
+                    {
+                        notificationsOn = Account.NotificationSettings.Matches;
+                    }
                 }
                 else
                 {
                     ViewModelMediators.Likes = MatchHelper.LoadProfilesOfLikes(Account.UserID.Value);
-                    notificationsOn = Account.NotificationSettings.Likes;
+                    if (Account.NotificationSettings != null)
+                    {
+                        notificationsOn = Account.NotificationSettings.Likes;
+                    }
                 }
 
                 // If the current amount are more (so there is a new user instead of an user who removed you) and notifications are turned on...
