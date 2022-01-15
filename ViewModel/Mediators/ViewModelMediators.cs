@@ -57,6 +57,8 @@ namespace ViewModel.Mediators
                 LikesChanged?.Invoke();
             }
         }
+
+        public static Dictionary<int, bool> ChatWindowFocus { get; set; } = new Dictionary<int, bool>();
         #endregion
     }
 }

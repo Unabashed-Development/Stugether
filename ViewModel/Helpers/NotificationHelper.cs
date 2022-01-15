@@ -93,15 +93,19 @@ namespace ViewModel.Helpers
             List<Profile> profileList;
 
             // Prepares data depending on the match or like handling
-            if ((MatchOrLike)matchOrLike == MatchOrLike.Matched)
+            if ((MatchOrLike)matchOrLike == MatchOrLike.Matched && Account.UserID != null)
             {
                 current = new HashSet<int>(MatchDataAccess.GetAllMatchesFromUser(Account.UserID.Value, MatchOrLike.Matched));
                 profileList = ViewModelMediators.Matches;
             }
-            else
+            else if ((MatchOrLike)matchOrLike == MatchOrLike.Liked && Account.UserID != null)
             {
                 current = new HashSet<int>(MatchDataAccess.GetReceivedLikesFromUser(Account.UserID.Value));
                 profileList = ViewModelMediators.Likes;
+            }
+            else
+            {
+                throw new Exception("Match or like notification MatchOrLike enum not set correctly");
             }
 
             // Add the user ID's to the HashSet
@@ -116,17 +120,29 @@ namespace ViewModel.Helpers
             // If the amounts are different OR there is at least 1 new user...
             if (current.Count != previous.Count || current.Count > 0)
             {
-                bool notificationsOn;
+                bool notificationsOn = false;
                 // ...reload the profiles
                 if ((MatchOrLike)matchOrLike == MatchOrLike.Matched)
                 {
-                    ViewModelMediators.Matches = MatchHelper.LoadProfilesOfMatches(Account.UserID.Value);
-                    notificationsOn = Account.NotificationSettings.Matches;
+                    if (Account.UserID != null)
+                    {
+                        ViewModelMediators.Matches = MatchHelper.LoadProfilesOfMatches(Account.UserID.Value);
+                    }
+                    if (Account.NotificationSettings != null)
+                    {
+                        notificationsOn = Account.NotificationSettings.Matches;
+                    }
                 }
                 else
                 {
-                    ViewModelMediators.Likes = MatchHelper.LoadProfilesOfLikes(Account.UserID.Value);
-                    notificationsOn = Account.NotificationSettings.Likes;
+                    if (Account.UserID != null)
+                    {
+                        ViewModelMediators.Likes = MatchHelper.LoadProfilesOfLikes(Account.UserID.Value);
+                    }
+                    if (Account.NotificationSettings != null)
+                    {
+                        notificationsOn = Account.NotificationSettings.Likes;
+                    }
                 }
 
                 // If the current amount are more (so there is a new user instead of an user who removed you) and notifications are turned on...
@@ -172,30 +188,32 @@ namespace ViewModel.Helpers
                         unreadChatMessages.Add(c);
                     }
                 }
+                Account.NotifiedChatMessages = newChatMessages; // Set the NotifiedChatMessages to the newly obtained chat messages list
 
                 // Reload the profiles of matches if there have been new unread chat messages (for chat notification indicator)
                 if (unreadChatMessages.Count > 0)
                 {
                     ViewModelMediators.Matches = MatchHelper.LoadProfilesOfMatches(Account.UserID.Value);
-                }
 
-                // Throw notifications for every new chat message if notifications are on
-                if (Account.NotificationSettings.Chat)
-                {
-                    foreach (ChatMessage c in unreadChatMessages)
+                    // Throw notifications for every new chat message if notifications are on
+                    if (Account.NotificationSettings != null && Account.NotificationSettings.Chat)
                     {
-                        Profile chatProfile = Account.Matches.FirstOrDefault(p => p.UserID == c.FromUserId);
-                        ThrowChatMessageNotification(chatProfile.FirstName,
-                                                     chatProfile.LastName,
-                                                     chatProfile.FirstUserMedia,
-                                                     c.Content,
-                                                     chatProfile.UserID);
-                        c.Seen = true;
+                        foreach (ChatMessage c in unreadChatMessages)
+                        {
+                            bool dictionaryContainsUser = ViewModelMediators.ChatWindowFocus.ContainsKey(c.FromUserId);
+                            if ((dictionaryContainsUser && !ViewModelMediators.ChatWindowFocus[c.FromUserId]) || !dictionaryContainsUser)
+                            {
+                                Profile chatProfile = Account.Matches.FirstOrDefault(p => p.UserID == c.FromUserId);
+                                ThrowChatMessageNotification(chatProfile.FirstName,
+                                                             chatProfile.LastName,
+                                                             chatProfile.FirstUserMedia,
+                                                             c.Content,
+                                                             chatProfile.UserID);
+                            }
+                            c.Seen = true;
+                        }
                     }
                 }
-
-                // Set the NotifiedChatMessages to the newly obtained chat messages list
-                Account.NotifiedChatMessages = newChatMessages;
             }
         }
         #endregion
