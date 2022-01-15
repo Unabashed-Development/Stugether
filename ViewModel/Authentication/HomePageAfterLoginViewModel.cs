@@ -16,6 +16,7 @@ namespace ViewModel.HomePages
         {
             Account.Email = null;
             Account.UserID = null;
+            Account.NotifiedChatMessages = null;
             ViewModelMediators.Authenticated = false;
         }
 
