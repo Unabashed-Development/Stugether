@@ -12,7 +12,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource {x:Type Window}}"
-        Title="Stugether" Height="450" Width="800">
+        Title="Stugether" Height="563" Width="1000">
     <Window.DataContext>
         <vm:MainPageViewModel/>
     </Window.DataContext>
